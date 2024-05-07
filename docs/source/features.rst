@@ -9,49 +9,49 @@ MATLAB/GNU Octave/Python
 Any data
 ^^^^^^^^
 * Supports any data that uses ray-tracing
-  * Only the source and detector coordinates need to be input
-  * Source and/or detector can be inside the FOV
+ * Only the source and detector coordinates need to be input
+ * Source and/or detector can be inside the FOV
 * Supported projectors include:
-  * Improved Siddon's ray tracer
-    * Also multi-ray version available
-  * Interpolation-based ray tracer
-  * Volume of intersection ray tracer
-  * Supports hybrid projectors
-  * All projectors have 100% GPU support
+ * Improved Siddon's ray tracer
+  * Also multi-ray version available
+ * Interpolation-based ray tracer
+ * Volume of intersection ray tracer
+ * Supports hybrid projectors
+ * All projectors have 100% GPU support
 * Use custom algorithms by using the built-in projectors
-  * A class object can be created which can be used to compute the forward and/or backward projections
-  * Available in MATLAB, GNU Octave and Python
+ * A class object can be created which can be used to compute the forward and/or backward projections
+ * Available in MATLAB, GNU Octave and Python
 * Wide range of algorithms supported:
  * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI and OSL
-    * PDHG supports L1, L2 and Kullback-Leibler optimization
-    * FDK/FBP supports several different windowing methods: Hamming, Hann, Blackman, Nuttal, Gaussian, Shepp-Logan, cosine, Parzen (de la Vallée Poussin) or none (ramp)
+  * PDHG supports L1, L2 and Kullback-Leibler optimization
+  * FDK/FBP supports several different windowing methods: Hamming, Hann, Blackman, Nuttal, Gaussian, Shepp-Logan, cosine, Parzen (de la Vallée Poussin) or none (ramp)
 * Wide range of regularization techniques/priors:
  * Quadratic prior, Huber, MRP, Weighted mean, TV, NLM, RDP, APLS, (proximal) TGV, proximal TV and hyperbolic prior
-    * Several different non-local variations
-    * TV, NLM and APLS support anatomic/prior image weighting
+ * Several different non-local variations
+ * TV, NLM and APLS support anatomic/prior image weighting
 * Supports time-varying dynamic data
-  * Reconstruct dynamic data with static algorithms
+ * Reconstruct dynamic data with static algorithms
 * OpenCL and CUDA support (single precision only)
 * Point spread function blurring
-  * Optional deblurring available
+ * Optional deblurring available
 * Save the last iteration or specific iterations
 * Supports subsets
-  * Several different ways to select subsets
-  * Non-PET/Non-CT/Non-SPECT data or list-mode PET data supports three subset selection methods
-    * Divide the data into N segments
-    * Take every Nth measurement
-    * Randomly sample the measurement data
+ * Several different ways to select subsets
+ * Non-PET/Non-CT/Non-SPECT data or list-mode PET data supports three subset selection methods
+  * Divide the data into N segments
+  * Take every Nth measurement
+  * Randomly sample the measurement data
 * Seven image-based preconditioners
-  * Diagonal preconditioner
-  * EM-preconditioner
-  * IEM-preconditioner
-  * Momentum-based preconditioner
-  * Gradient-based preconditioner
-  * Filtering-based preconditioner
-  * Curvature-based preconditioner
+ * Diagonal preconditioner
+ * EM-preconditioner
+ * IEM-preconditioner
+ * Momentum-based preconditioner
+ * Gradient-based preconditioner
+ * Filtering-based preconditioner
+ * Curvature-based preconditioner
 * Two measurement-based preconditioners
-  * Diagonal preconditioner
-  * Filtering-based preconditioner
+ * Diagonal preconditioner
+ * Filtering-based preconditioner
 * Both filtering-based preconditioners support the same windowing functions as FDK/FBP
 * Filtering-based preconditioner can optionally be used for N iterations/subiterations only
 * Supports positivity enforcement for non-Poisson algorithms
@@ -59,18 +59,18 @@ Any data
 * Allows the storage and output of the intermediate forward projections
 * Insert scatter and/or randoms correction data into the reconstruction with supported algorithms (Poisson-based algorithms)
 * Allows input of object offsets
-  * If the object is not centered on the origin
+ * If the object is not centered on the origin
 * Use 2D masks to limit forward projection and/or backprojection
-  * 2D mask in measurement space can be used to ignore certain measurements (values that are set at 0 are ignored)
-  * Similarly in backprojection the 2D mask can be used to specify the voxels to reconstruct (likewise values that are 0 are not reconstructed)
+ * 2D mask in measurement space can be used to ignore certain measurements (values that are set at 0 are ignored)
+ * Similarly in backprojection the 2D mask can be used to specify the voxels to reconstruct (likewise values that are 0 are not reconstructed)
 * Supports multi-resolution reconstruction
-  * Extended FOV can have reduced resolution
-  * Resolution can be manually set
-  * Can be set only for axial, only for transaxial or for both directions
-  * Should work with all non-SPECT data
+ * Extended FOV can have reduced resolution
+ * Resolution can be manually set
+ * Can be set only for axial, only for transaxial or for both directions
+ * Should work with all non-SPECT data
 * Allows the use of extended FOV without multi-resolution as well
-  * Priors/regularization computed only in the main volume
-  * Automatic cropping of the image
+ * Priors/regularization computed only in the main volume
+ * Automatic cropping of the image
 
 PET features
 ^^^^^^^^^^^^
@@ -144,8 +144,8 @@ MATLAB/GNU Octave only
 * Load GATE ASCII and LMF (LMF support has bee deprecated) data for cylindrical/ECAT PET systems
 * Load Inveon PET list-mode data 
 * Load Siemens Biograph mCT and Vision list-mode data
-  * Supports both binned 32-bit list-mode data as well as 64-bit
-  * Supports also .ptd-files
+ * Supports both binned 32-bit list-mode data as well as 64-bit
+ * Supports also .ptd-files
 * Automatically convert any of the above PET data into sinograms
 * Obtain a ground truth image from GATE ASCII or LMF data (LMF support has bee deprecated)
 * Several different "implementations" available that perform the computations either on the CPU or the GPU
