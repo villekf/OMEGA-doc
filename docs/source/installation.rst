@@ -7,10 +7,10 @@ Installation
 
 The general steps to install OMEGA are as follows:
 
-. Install a C++-compiler if one is not already installed
-. (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
-. Obtain OMEGA and add the necessary folders to the MATLAB/Octave path or PYTHONPATH with Python
-. Run `install_mex` in MATLAB or Octave or compile.py with Python
+* Install a C++-compiler if one is not already installed
+* (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
+* Obtain OMEGA and add the necessary folders to the MATLAB/Octave path or PYTHONPATH with Python
+* Run ``install_mex`` in MATLAB or Octave or compile.py with Python
 
 Windows
 -------
@@ -48,7 +48,7 @@ C++ Compiler
 
 Compiled binaries are provided, but they might not work on all systems/configurations. In case they do not work, you'll need to compile the code yourself.
 
-You need a C++11 compiler to compile the necessary MEX-files on MATLAB/Octave or dll/so-files for Python. For a list of supported compilers for each version of MATLAB, see https://www.mathworks.com/support/requirements/previous-releases.html[here]. On Octave the built-in compiler is sufficient (implementation 2 is not supported, unless you build it manually yourself).
+You need a C++11 compiler to compile the necessary MEX-files on MATLAB/Octave or dll/so-files for Python. For a list of supported compilers for each version of MATLAB, see https://www.mathworks.com/support/requirements/previous-releases.html. On Octave the built-in compiler is sufficient (implementation 2 is not supported, unless you build it manually yourself).
 
 On MATLAB and Python, however, `Visual Studio <https://visualstudio.microsoft.com/downloads/>`_ is highly recommended. Depending on your MATLAB version, you might need an `older version <https://visualstudio.microsoft.com/vs/older-downloads/>`_. To configure the C++ MEX-compiler you can use the command ``mex -setup C++`` which will show the currently selected compiler, list all available compilers and show the necessary commands to switch the compiler. 
 

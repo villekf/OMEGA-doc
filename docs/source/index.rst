@@ -19,4 +19,3 @@ Contents
    installation
    usage
    features
-   api
