@@ -208,27 +208,27 @@ In case you have trouble compiling the mex-files or the library-files, you can a
 
 If you are using MATLAB R2017b or EARLIER, you will most likely encounter problems when running the mex-files. The same can also happen if you use the latest gcc/g++ with MATLAB 2020a or earlier. One alternative is to install the supported compiler of the MATLAB version in use (see `here <https://www.mathworks.com/support/requirements/previous-releases.html>`_) and then re-run ``install_mex`` (the supported compiler is used if available). Alternatively, you can try one of solutions presented `here <https://www.mathworks.com/matlabcentral/answers/329796-issue-with-libstdc-so-6>`_ or try the precompiled mex-files from `releases <https://github.com/villekf/OMEGA/releases>`_. In short there are mainly three possibilities:
 
-1) Install the compiler that MATLAB supports. If you are using, for example, Ubuntu 20, you can install older g++ as outlined `here <https://askubuntu.com/questions/1229774/how-to-use-an-older-version-of-gcc>`_. Note that you need to install g++ (e.g. ``sudo apt install g++-6``). If you are using R2017b or earlier, see `here <https://askubuntu.com/questions/1036108/install-gcc-4-9-at-ubuntu-18-04>`_. Then simply re-run ``install_mex``.
+1. Install the compiler that MATLAB supports. If you are using, for example, Ubuntu 20, you can install older g++ as outlined `here <https://askubuntu.com/questions/1229774/how-to-use-an-older-version-of-gcc>`_. Note that you need to install g++ (e.g. ``sudo apt install g++-6``). If you are using R2017b or earlier, see `here <https://askubuntu.com/questions/1036108/install-gcc-4-9-at-ubuntu-18-04>`_. Then simply re-run ``install_mex``.
 
-2) Locate the system version of libstdc++.so.6 and create an alias in .bashrc for MATLAB to use this one, for example:
+2. Locate the system version of libstdc++.so.6 and create an alias in .bashrc for MATLAB to use this one, for example:
 ``alias matlab='LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 /path/to/MATLAB/bin/matlab -desktop'``. Or simply run MATLAB with the same ``LD_PRELOAD``.
 
-3) Rename the libstdc++.so.6 file that ships with MATLAB, located in ``/path/to/MATLAB/sys/os/glnxa64/``
+3. Rename the libstdc++.so.6 file that ships with MATLAB, located in ``/path/to/MATLAB/sys/os/glnxa64/``
 e.g. ``sudo mv /path/to/MATLAB/sys/os/glnxa64/libstdc++.so.6 /path/to/MATLAB/sys/os/glnxa64/libstdc++.so.6.old``. 
 
 *ROOT support*
 
 When importing ROOT data, you might run into errors (the crashes with R2018b and earlier can be fixed by running MATLAB with ``matlab -nojvm``, however, errors can still occur after this). These occur if you are using ROOT 6.16 or later and are using MATLAB (Octave and Python are unaffected). R2020b (and probably newer ones later) is unaffected. These errors can be fixed by similar methods as above with two additional possibilities: 
 
-1) Locate the ROOT version of libtbb.so.2 and create an alias in .bashrc for MATLAB to use this one, for example:
+1. Locate the ROOT version of libtbb.so.2 and create an alias in .bashrc for MATLAB to use this one, for example:
 ``alias matlab='LD_PRELOAD=/opt/root/lib/libtbb.so.2 /path/to/MATLAB/bin/matlab -desktop'``. Or simply run MATLAB with the same ``LD_PRELOAD``.
 
-2) Rename the libtbb.so.2 file that ships with MATLAB, located in ``/path/to/MATLAB/bin/glnxa64/``
+2. Rename the libtbb.so.2 file that ships with MATLAB, located in ``/path/to/MATLAB/bin/glnxa64/``
 e.g. ``sudo mv /path/to/MATLAB/bin/glnxa64/libtbb.so.2 /path/to/MATLAB/bin/glnxa64/libtbb.so.2.old``. This is not recommended if the system is used by other users who use the same MATLAB.
 
-3) Install ROOT 6.14 or earlier.
+3. Install ROOT 6.14 or earlier.
 
-4) Use Octave or Python for ROOT data import.
+4. Use Octave or Python for ROOT data import.
 
 Mac
 ---
