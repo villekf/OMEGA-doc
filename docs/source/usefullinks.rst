@@ -76,6 +76,9 @@ Reconstruction software
 * NiftyRec: https://github.com/TomographyLab/NiftyRec
  * GPU(CUDA)-based image reconstruction toolkit for tomographic imaging
  
+* MR-Hub: https://ismrm.github.io/mrhub/
+ * Collection of various open-source MRI software, including reconstruction software
+ 
 Data analysis software
 ----------------------
 
@@ -90,6 +93,9 @@ Data analysis software
  
 * CARIMAS: https://carimas.fi/
  * Data analysis tool for PET images
+ 
+* MR-Hub: https://ismrm.github.io/mrhub/
+ * Collection of various open-source MRI software, including data analysis software
  
 Programming and languages
 -------------------------
