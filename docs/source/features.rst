@@ -77,21 +77,21 @@ PET features
 
 * Optimized for PET
 * Load GATE ROOT data for cylindrical/ECAT PET systems
-  * Automatically convert the PET data into sinograms
-  * Export trues, prompts, randoms and scatter sinograms
-    * Rayleigh or Compton scatter in the detector and/or phantom can be separately selected
-  * Form and reconstruct dynamic sinograms
-  * Obtain a ground truth image from the GATE ROOT data
+ * Automatically convert the PET data into sinograms
+ * Export trues, prompts, randoms and scatter sinograms
+  * Rayleigh or Compton scatter in the detector and/or phantom can be separately selected
+ * Form and reconstruct dynamic sinograms
+ * Obtain a ground truth image from the GATE ROOT data
 * Supports orthogonal distance-based ray tracer
 * All projectors automatically use probabilities rather than the length of the line of intersection
 * Automatically compute detector/source coordinates for cylindrical PET data (both GATE and non-GATE data)
 * Several other subset selection methods
-  * Use every Nth column sinogram bin
-  * Use every Nth sinogram row
-  * Use every Nth sinogram column
-  * Use every Nth sinogram
-  * Randomly sample the sinograms
-  * Select the sinograms based on prime factors
+ * Use every Nth column sinogram bin
+ * Use every Nth sinogram row
+ * Use every Nth sinogram column
+ * Use every Nth sinogram
+ * Randomly sample the sinograms
+ * Select the sinograms based on prime factors
 * Supports attenuation correction during reconstruction, either image-based or sinogram-based
 * Supports normalization correction during reconstruction
 * Supports any manual sinogram-based correction
@@ -108,27 +108,27 @@ CT data
 * Automatically load image-based projections (e.g. tiff-images)
 * Load GATE CT projections images
 * Automatically compute source/detector coordinates for CBCT systems
-  * Allows input of source and/or detector offsets
-  * Supports multi-bed (step-and-shoot) data
+ * Allows input of source and/or detector offsets
+ * Supports multi-bed (step-and-shoot) data
 * Supports GPU-optimized projectors
-  * Voxel-based backprojector as well as the previously mentioned forward projectors
-  * Branchless distance-driven projector, both for forward and backward projections
-    * Allows subtraction of the DC-component
-  * Supports hybrid projectors
+ * Voxel-based backprojector as well as the previously mentioned forward projectors
+ * Branchless distance-driven projector, both for forward and backward projections
+  * Allows subtraction of the DC-component
+ * Supports hybrid projectors
 * Supports projection image extrapolation
-  * Automatically extrapolate and weight projections to fix out-of-FOV artifacts
+ * Automatically extrapolate and weight projections to fix out-of-FOV artifacts
 * Supports offset correction
-  * Offset weights can be automatically computed
-  * Each projection has their own weight
+ * Offset weights can be automatically computed
+ * Each projection has their own weight
 * Several other subset selection methods
-  * Use every Nth column of the projection image
-  * Use every Nth projection image row
-  * Use every Nth projection image column
-  * Use every Nth projection image
-  * Randomly sample the projection images
-  * Select the projection images based on prime factors
+ * Use every Nth column of the projection image
+ * Use every Nth projection image row
+ * Use every Nth projection image column
+ * Use every Nth projection image
+ * Randomly sample the projection images
+ * Select the projection images based on prime factors
 * Most of the Poisson-based algorithms are supported with transmission-based (i.e. Lambert-Beer law) data as well
-  * These include PKMA, MBSREM, RAMLA, ROSEM, OSEM, MLEM and BSREM
+ * These include PKMA, MBSREM, RAMLA, ROSEM, OSEM, MLEM and BSREM
 
 SPECT data
 ^^^^^^^^^^
@@ -149,38 +149,38 @@ MATLAB/GNU Octave only
 * Automatically convert any of the above PET data into sinograms
 * Obtain a ground truth image from GATE ASCII or LMF data (LMF support has bee deprecated)
 * Several different "implementations" available that perform the computations either on the CPU or the GPU
-   * Implementation 1 forms a sparse system matrix that is used in computations
-     * Double precision only
-     * System matrix can be extracted
-     * System matrix can be created for only a subset of data
-     * Supports all features except hyperbolic prior
-   * Implementation 2 uses OpenCL or CUDA for the reconstructions
-     * Supports all features
-     * Single precision only
-   * Implementation 3 uses OpenCL for the reconstructions
-     * Supports only MLEM/OSEM
-     * Single precision only
-   * Implementation 4 is a parallel matrix-free CPU implementation
-     * Uses OpenMP
-     * Supports all features except hyperbolic prior
-     * Single (default) or double precision
-   * Implementation 5 is similar to implementation 4, except that forward and backward projections are performed using OpenCL
-     * All other computations are done in MATLAB/GNU Octave
-     * Supports all features except hyperbolic prior
-     * Single precision only
+ * Implementation 1 forms a sparse system matrix that is used in computations
+  * Double precision only
+  * System matrix can be extracted
+  * System matrix can be created for only a subset of data
+  * Supports all features except hyperbolic prior
+ * Implementation 2 uses OpenCL or CUDA for the reconstructions
+  * Supports all features
+  * Single precision only
+ * Implementation 3 uses OpenCL for the reconstructions
+  * Supports only MLEM/OSEM
+  * Single precision only
+ * Implementation 4 is a parallel matrix-free CPU implementation
+  * Uses OpenMP
+  * Supports all features except hyperbolic prior
+  * Single (default) or double precision
+ * Implementation 5 is similar to implementation 4, except that forward and backward projections are performed using OpenCL
+  * All other computations are done in MATLAB/GNU Octave
+  * Supports all features except hyperbolic prior
+  * Single precision only
 * Supports custom algorithms with the use of OpenCL or CPU
-   * A class object needs to be created first
-   * Forward and/or backward projections are transferred to host (CPU) first if using OpenCL
-   * Simply using `y = A*x` computes the forward projection when A is the class object
-   * Similarly, `x = A' * y` computes the backprojection
-   * Supports the system matrix approach, OpenCL or OpenMP (CPU)
-   * For SPECT, only OpenMP version is available
+ * A class object needs to be created first
+ * Forward and/or backward projections are transferred to host (CPU) first if using OpenCL
+ * Simply using ``y = A * x`` computes the forward projection when A is the class object
+ * Similarly, ``x = A' * y`` computes the backprojection
+ * Supports the system matrix approach, OpenCL or OpenMP (CPU)
+ * For SPECT, only OpenMP version is available
 * Visualization function that does not require any toolboxes
 * Supports arc correction for PET (MATLAB only)
 * Supports randoms/scatter smoothing
 * Supports randoms variance reduction (PET only)
 * Supports computation of the normalization coefficients from a normalization measurement (PET only)
-   * Component-based
+ * Component-based
 * Supports increasing the sampling (i.e. interpolation) of PET sinograms
 * Supports sinogram gap filling
 * Supports scaling of CT-based attenuation coefficient to 511 keV attenuation coefficients
@@ -188,14 +188,14 @@ MATLAB/GNU Octave only
 * Allows to automatically crop voxelized phantoms/sources for MC simulations
 * Individual functions to load MetaImage or Interfile data
 * Few additional priors
-   * FMH and L-filter
+ * FMH and L-filter
 
 Python only
 -----------
 
 * Supports custom algorithms with the use of OpenCL or CUDA
-  * All computations can be performed on the GPU without the need to transfer the data to host first
-  * `y = A * x` computes the forward projection
-  * `x = A.T() * y` computes the backprojection
-  * Allows the seamless use of Arrayfire arrays for easy implementation of custom, user-made, algorithms without the need for GPU coding knowledge
-  * Same code can be used for either OpenCL or CUDA
+ * All computations can be performed on the GPU without the need to transfer the data to host first
+ * ``y = A * x`` computes the forward projection
+ * ``x = A.T() * y`` computes the backprojection
+ * Allows the seamless use of Arrayfire arrays for easy implementation of custom, user-made, algorithms without the need for GPU coding knowledge
+ * Same code can be used for either OpenCL or CUDA
