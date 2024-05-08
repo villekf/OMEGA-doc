@@ -140,7 +140,7 @@ Programming and languages
 Datasets
 --------
 
-* Finnish Inverse Problem Society datasets: https://zenodo.org/communities/fips/
+* Finnish Inverse Problems Society datasets: https://zenodo.org/communities/fips/
  * Datasets for, for example, CBCT, electrical impedance tomography and PET
  
 * fastMRI dataset: https://fastmri.med.nyu.edu/
