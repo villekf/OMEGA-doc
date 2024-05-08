@@ -11,7 +11,7 @@ Simulation software
 
 * GATE: http://www.opengatecollaboration.org/
  * Geant4-based simulation toolkit for PET, SPECT, CT, optimal imaging (bioluminescence and fluorescence) and radiotherapy
- * Note recommended for CBCT simulations
+ * Not recommended for CBCT simulations
  
 * SIMIND: https://simind.blogg.lu.se/
  * Monte Carlo simulation toolkit for SPECT
