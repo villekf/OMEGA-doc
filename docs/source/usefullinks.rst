@@ -1,13 +1,16 @@
 Useful links
 ============
 
-Here is a collection of links to various potentially useful resources such as software or datasets.
+Here is a collection of links to various potentially useful resources such as software or datasets. These are, mainly, open-source. This list will be, hopefully, updated over time.
 
 Simulation software
 -------------------
 
+* Geant4: https://geant4.web.cern.ch/
+ * Particle physics simulator
+
 * GATE: http://www.opengatecollaboration.org/
- * Simulation toolkit for PET, SPECT, CT, optimal imaging (bioluminescence and fluorescence) and radiotherapy
+ * Geant4-based simulation toolkit for PET, SPECT, CT, optimal imaging (bioluminescence and fluorescence) and radiotherapy
  * Note recommended for CBCT simulations
  
 * SIMIND: https://simind.blogg.lu.se/
@@ -19,7 +22,7 @@ Simulation software
  * Mammography and PET simulators also available
  
 * GGEMS: https://github.com/GGEMS/ggems
- * GPU(OpenCL)-based Monte Carlo simulation toolkit for CT imaging
+ * Geant4-based GPU(OpenCL)-based Monte Carlo simulation toolkit for CT imaging
  * Can be unreliable with higher-dimensional scanners
  
 * DukeSim: https://cvit.duke.edu/resource/dukesim-v1-2/
@@ -40,6 +43,10 @@ Simulation software
  
 Reconstruction software
 -----------------------
+
+* OMEGA: https://github.com/villekf/OMEGA
+ * This software, in case someone ends up here through some other means
+ * Open-source multi-dimensional tomographic reconstruction software
 
 * HELMET, High-dimensional Kalman filter toolbox: https://github.com/villekf/HELMET
  * My own Kalman filter toolbox for MATLAB for linear dynamic problems, especially higher-dimensional ones
@@ -93,9 +100,16 @@ Data analysis software
  
 * CARIMAS: https://carimas.fi/
  * Data analysis tool for PET images
+ * Commercial software
  
 * MR-Hub: https://ismrm.github.io/mrhub/
  * Collection of various open-source MRI software, including data analysis software
+ 
+* ImageJ: https://imagej.net/ij/
+ * Potentially useful visualization and analysis tool for medical images
+ 
+* AMIDE: https://amide.sourceforge.net/
+ * A bit similar to ImageJ, i.e. a visualization and analysis tool for medical images
  
 Programming and languages
 -------------------------
