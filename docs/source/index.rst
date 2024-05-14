@@ -19,5 +19,7 @@ Contents
    installation
    usage
    selectingprojector
+   implementation
+   openclcuda
    features
    usefullinks

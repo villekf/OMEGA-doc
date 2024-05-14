@@ -51,3 +51,5 @@ Other data
 
 Projector type 1 is recommended. It is the most robust and flexible method and should work in all voxel-based ray-tracing cases. Projector type 3 might also work, but this depends on the data. See PET data above for details 
 on projector type 3.
+
+If your data is similar to that of CT data, then using CT projectors should be fine. In such a case, see CT data above.
