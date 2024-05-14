@@ -110,6 +110,8 @@ CT data
 * Automatically compute source/detector coordinates for CBCT systems
  * Allows input of source and/or detector offsets
  * Supports multi-bed (step-and-shoot) data
+* Supports detector panel rotation in all three dimensions
+* Allows easy offset values for the source and/or detector location
 * Supports GPU-optimized projectors
  * Voxel-based backprojector as well as the previously mentioned forward projectors
  * Branchless distance-driven projector, both for forward and backward projections
@@ -134,6 +136,7 @@ SPECT data
 ^^^^^^^^^^
 * Optimized for parallel hole SPECT data
 * Load GATE SPECT projections images
+* Load Interfile SPECT projection images
 * Automatically compute detector response function for hexagonal or round holes
 * Supports rotation-based projector
 * Supports same subset selection methods as CT
@@ -197,5 +200,7 @@ Python only
  * All computations can be performed on the GPU without the need to transfer the data to host first
  * ``y = A * x`` computes the forward projection
  * ``x = A.T() * y`` computes the backprojection
- * Allows the seamless use of Arrayfire arrays for easy implementation of custom, user-made, algorithms without the need for GPU coding knowledge
- * Same code can be used for either OpenCL or CUDA
+ * Interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, PyCUDA and PyTorch with PyCUDA
+  * You can, for example, input a PyTorch CUDA tensor into OMEGA forward and/or backward projection
+  * On OpenCL, you can use Arrayfire for fast GPU-based computations by simply inputting an Arrayfire array into forward and/or backward projection
+ * Any package that supports PyOpenCL or PyCUDA can be combined with OMEGA
