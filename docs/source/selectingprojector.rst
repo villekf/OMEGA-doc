@@ -45,3 +45,9 @@ SPECT data
 ----------
 
 Only projector type 6 is recommended at this point. This is a rotation-based projector, meaning it rotates the images to simulate parallel beam reconstruction. Detector response can be included as well to enable PSF blurring.
+
+Other data
+----------
+
+Projector type 1 is recommended. It is the most robust and flexible method and should work in all voxel-based ray-tracing cases. Projector type 3 might also work, but this depends on the data. See PET data above for details 
+on projector type 3.
