@@ -64,7 +64,7 @@ For CT, it is also possible to input your own custom detector coordinates. Howev
 voxel-based backprojection of projector type 4. This means that aliasing artifacts can appear. In this case, again, you can ignore all parameters
 except for FOV size and the number of voxels per axis.
 
-.. figure:: OMEGA_ct_coordinateXY.png
+.. figure:: OMEGA_ct_coordinateXY.svg
    :scale: 100 %
    :alt: CT/SPECT geometry (transaxial)
 
@@ -96,6 +96,6 @@ Any data
 
 Any data can also be used, if you input your own custom detector coordinates, or source-detector pairs, depending on the setup. In such a case,
 you only need to input the FOV sizes and the number of voxels per axis in the final image. Optionally also the object offsets (for example 
-``options.oOffsetX``) if you wish to move the image volume from the origin. ``options.x`` should include the source coordinates for the X, Y and Z
-directions, and the detector coordinates for X, Y and Z, for EACH measurement. This means that a total of 6 coordinates are needed per ONE measurement.
-For Python, these need to be Fortran-ordered (column major).
+``options.oOffsetX``) if you wish to move the image volume from the origin (the volume is always by default centered on the origin). 
+``options.x`` should include the source coordinates for the X, Y and Z directions, and the detector coordinates for X, Y and Z, for EACH measurement. 
+This means that a total of 6 coordinates are needed per ONE measurement. For Python, these need to be Fortran-ordered (column major).
