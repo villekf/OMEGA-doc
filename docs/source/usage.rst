@@ -11,15 +11,22 @@ See :doc:`installation` for install help.
 General Information
 -------------------
 
-Most OMEGA features are built around m-file scripts referred to as "main-files". In these main files, a struct variable, called options, is filled and contains all the parameters that are needed for any of the operations selected. PET and CT have quite different main-file compositions due to different properties of these imaging modalities. CT, for example, has much less adjustable parameters due to lack of corrections. Reconstruction parameters, however, are unchanged between different modalities. It is not necessary to use these main-files and not every variable present in the main-files is necessary. Many of the included functions can be used without the options struct, but some core functions, such as loading GATE data, require its use. In MATLAB you can run individual section easily when using the GUI, but in Octave you will need to run the entire m-file or select the required text to be run (due to the large size of the m-files, this is not recommended). Due to this, there are parameters that allow only the load of PET data (options.only_sinos) when the file is run, or only performing the image reconstruction (options.only_reconstructions).
+Most OMEGA features are built around m-file scripts referred to as "main-files". In these main files, a struct variable, called options, is filled and contains all the parameters that are needed for any of the operations selected. 
+PET, CT and SPECT have quite different main-file compositions due to different properties of these imaging modalities. CT, for example, has much less adjustable parameters due to lack of corrections. Reconstruction parameters, however, 
+are unchanged between different modalities. It is not necessary to use these main-files and not every variable present in the main-files is necessary. 
 
-Most of the functions included are simple m-files, however, some of the more demanding work is done in MEX/OCT-files. These include, for example, sinogram creation and image reconstruction/system matrix creation.
+Examples for MATLAB/Octave are contained in the main-files folders. For Python these are in /path/to/OMEGA/source/Python. 
 
 Examples
 --------
 
 PET data
 ^^^^^^^^
+
+Several PET examples are available. For GATE data, there are three examples for MATLAB/Octave and two for Python. ``PET_main_gateExample.m`` is a generic GATE example while ``PET_main_gateExampleSimple.m`` is a simplified
+version such that the number of adjustable parameters have been greatly reduced. For Python there is ``gate_PET.py`` and ``gate_PET_TOF.py``.
+
+A more "generic" PET example, using Siemens Inveon PET data, is available in ``PET_main_genericExample.m`` and ``PET_main_genericExample.py``.
 
 GATE users should use the gate_main.m file to reconstruct GATE PET data. For other PET data, the file you should start with is main_PET.m. For computing the forward and/or backward projections use forward_backward_projections_example.m. For custom (gradient-based) priors, use custom_prior_test_main.m. A more simplified main-file for GATE data (simple OSEM reconstruction) is available in gate_main_simple.m. Inveon users should use Inveon_PET_main.m while Biograph mCT data can be used with Biograph_mCT_main.m and Biograph Vision with Biograph_Vision_main.m.
 
@@ -29,23 +36,23 @@ exampleGATE also contains macros for normalization.
 
 When using GATE data, all the output files of the specified format will be read in the specified folder. E.g. if you select ASCII data, all .dat-files with Coincidences in the file name will be loaded from the specified folder, with LMF all .ccs files and with ROOT all .root files.
 
-Example MAT-files for non-GATE situation (created from GATE data) can be found from: .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.3522199.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3522199.svg
-:target: https://doi.org/10.5281/zenodo.3522199
+Example MAT-files for non-GATE situation (created from GATE data) can be found from: 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3522199.svg
+   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3522199.svg
+   :target: https://doi.org/10.5281/zenodo.3522199
 
-These files are based on the above GATE-example. Raw data obtained from the GATE macros mentioned above (not normalization) can be found from: .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.3526859.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3526859.svg
-:target: https://doi.org/10.5281/zenodo.3526859
+These files are based on the above GATE-example. Raw data obtained from the GATE macros mentioned above (not normalization) can be found from: 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3526859.svg
+   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3526859.svg
+   :target: https://doi.org/10.5281/zenodo.3526859
 
-Example Inveon data is available from: .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.3528056.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3528056.svg
-:target: https://doi.org/10.5281/zenodo.3528056 or .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.4646897.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.4646897.svg
-:target: https://doi.org/10.5281/zenodo.4646897. The Inveon_PET_main.m file can be used automatically for this data.
+Example Inveon data is available from: 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3528056.svg
+   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3528056.svg
+   :target: https://doi.org/10.5281/zenodo.3528056 or 
+   .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4646897.svg
+   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.4646897.svg
+   :target: https://doi.org/10.5281/zenodo.4646897. The PET_main_genericExample.m/py file can be used automatically for this data.
 
 CT data
 ^^^^^^^
@@ -82,5 +89,4 @@ Currently it is recommended to ask questions in GitHub discussions_.
 
 However, if you prefer using e-mail for contact, use the following address:
 
-.. image::
-https://github.com/villekf/OMEGA/blob/master/doc/contact.png
+.. image:: https://github.com/villekf/OMEGA/blob/master/doc/contact.png

@@ -6,7 +6,7 @@ This page explains the details on the different implementations and their differ
 In short, use implementation 2. This is the only one available when using Python as well. For details, see below. If you cannot use implementation 2, use implementation 5 if you have a discrete GPU. If not, use implementation 4.
 
 Implementation 1 is a CPU-only implementation. It computes and stores the actual (sparse) system matrix for the selected geometry. It supports only projector types 1-3 and their hybrid versions. In general,
-this implementation is not recommended. For custom algorithms, it can sometimes, however, be beneficial to obtain the system matrix for a 2D case. In such cases, implementation 1 can be useful. However,
+this implementation is not recommended. For custom algorithms, it can sometimes, however, be beneficial to obtain the system matrix for a 2D case. In such cases, implementation 1 can be useful, and fast. However,
 in short implementation 1 is NOT recommended. Implementation 1 is the only implementation that uses double-precision (64-bit floats) by default and also cannot use single precision values.
 
 Implementation 2 is OpenCL-, CUDA-, or CPU-based implementation. Default is OpenCL, but CUDA can be selected by setting ``options.useCUDA = True`` in Python or ``options.use_CUDA = true`` in MATLAB/Octave. 
