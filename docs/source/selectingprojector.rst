@@ -16,13 +16,16 @@ The fastest methods are projector_type = 1 or projector_type = 4. The first one 
 projector, similar to Joseph's method, i.e. it linearly interpolates values after a pre-determined step-size. This step-size can be adjusted with ``options.dL`` and is the relative size of one voxel. I.e. ``options.dL = 1``
 would use the length of one voxel as the interpolation length. Multi-ray version is also available though recommended only for projector_type = 1. Number of transaxial rays can be adjusted with ``options.n_rays_transaxial`` and 
 axial with ``options.n_rays_axial``. While projector_types 1 and 4 are the fastest, they produce lower quality images than projector types 2 and 3. However, you can offset this somewhat by using PSF blurring. This can be enabled
-by setting ``options.use_psf`` to true. The FWHM can be adjusted with ``options.FWHM`` and must include value for all three dimensions.
+by setting ``options.use_psf`` to true. The FWHM can be adjusted with ``options.FWHM`` and must include value for all three dimensions. Note that projector type 4 is OpenCL/CUDA only! This means that only implementations 2, 3 and 5 
+support it.
 
 Note that you can also use hybrid methods if you wish, such as ``projector_type = 13``, but these are not recommended with PET data. The first value corresponds to the forward projection (1 in this case) and the second to the
 backprojection (3 in this case).
 
 CT data
 -------
+
+All optimal CT projectors are OpenCL/CUDA only! This means that only implementations 2, 3 and 5 support them and the CPU version of implementation 2 does not!
 
 For CT data, generally the most optimal choice is the branchless distance-driven (BDD) projector, i.e. projector_type = 5. However, this method is slow and can be practically useless in certain cases. It has reduced usefulness when
 using regularization. BDD is the branchless version of the distance-driven projector. In general, the DD methods compute the area of the intersection. For forward projection, we project rays from the source to the four corners of
@@ -35,7 +38,8 @@ would use the length of one voxel as the interpolation length. The backprojectio
 This projector is not exactly adjoint, but the difference is generally less than 1%. Using longer interpolation length leads to faster computation, but too large values lead to loss of accurace. Generally, value of 0.5 or 1 is
 a good choice.
 
-Projector types 1, 2 and 3 are not recommended for CT data.
+Projector types 1, 2 and 3 are not recommended for CT data, but they work with implementation 4, i.e. they support CPU reconstruction outside of OpenCL. Projector type 1 also works with implementation 1, if you need the actual 
+system matrix.
 
 Hybrid projectors are recommended. For example ``projector_type = 14`` is an alternative method where the forward projection uses an improved version of the Siddon's ray-tracer. This means that the exact intersection length
 is computed. Alternatively, the BDD can be combined with either, e.g. ``projector_type = 45``. Note that generally it is not recommended to use hybrid projectors where BDD is the forward projector, such as ``projector_type = 54``.

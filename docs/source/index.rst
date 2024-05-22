@@ -18,6 +18,7 @@ Contents
 
    installation
    usage
+   geometry
    selectingprojector
    implementation
    openclcuda
