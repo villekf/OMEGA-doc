@@ -24,7 +24,7 @@ doesn't correspond to a cylindrical block-based PET scanner, you'll need to inpu
 support for cylindrical PET scanners is simply more efficient than inputting the coordinates manually, when it is applicable. 
 Again, there are no restrictions to the geometry if you input your own coordinates.
 
-.. figure:: OMEGA_pet_coordinateXY.png
+.. figure:: OMEGA_pet_coordinateXY.svg
    :scale: 100 %
    :alt: PET geometry (transaxial)
 
@@ -42,7 +42,7 @@ if blocks would have ``options.cryst_per_block_axial = 20`` then ``options.ringG
 Again, if you use your own coordinates you only need to input them. None of the above are needed when using custom detector coordinates.
 
 
-.. figure:: OMEGA_pet_coordinateXZ.png
+.. figure:: OMEGA_pet_coordinateXZ.svg
    :scale: 100 %
    :alt: PET geometry (axial)
 
@@ -73,7 +73,7 @@ except for FOV size and the number of voxels per axis.
 For CT, it is also possible that the panel is rotated in the transaxial plane with respect to the center of the panel. The figure below outlines 
 such a case. You can take this into account by inputting α as the first column of ``options.pitchRoll``. It can be either a scalar or a vector.
 
-.. figure:: OMEGA_ct_coordinateXY_rot.png
+.. figure:: OMEGA_ct_coordinateXY_rot.svg
    :scale: 100 %
    :alt: CT/SPECT geometry (transaxial)
 
@@ -84,7 +84,7 @@ Axial
 
 Again, CT and SPECT geometries don't differ here except that CT supports panel rotation along the angle β, as outlined in the below figure.
 
-.. figure:: OMEGA_ct_coordinateXZ.png
+.. figure:: OMEGA_ct_coordinateXZ.svg
    :scale: 100 %
    :alt: CT/SPECT geometry (axial)
 
