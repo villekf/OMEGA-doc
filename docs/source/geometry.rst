@@ -83,6 +83,8 @@ Axial
 ^^^^^
 
 Again, CT and SPECT geometries don't differ here except that CT supports panel rotation along the angle β, as outlined in the below figure.
+You can include this angle as the second column of ``options.pitchRoll``. Note that, if you have non-zero α but zero β, then the second column
+of ``options.pitchRoll`` has to be zeros. Same applies the other way around.
 
 .. figure:: OMEGA_ct_coordinateXZ.svg
    :scale: 100 %

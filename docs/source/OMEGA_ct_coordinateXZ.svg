@@ -48,7 +48,7 @@
   </font>
  </defs>
  <defs class="TextShapeIndex">
-  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8 id9 id10 id11"/>
+  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8 id9 id10 id11 id12"/>
  </defs>
  <defs class="EmbeddedBulletChars">
   <g id="bullet-char-template-57356" transform="scale(0.00048828125,-0.00048828125)">
@@ -95,9 +95,9 @@
      <g class="Page">
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id3">
-        <rect class="BoundingBox" stroke="none" fill="none" x="814" y="6125" width="10066" height="10047"/>
-        <path fill="rgb(114,159,207)" stroke="none" d="M 4699,15018 L 815,13867 3109,6126 10878,8429 8583,16170 4699,15018 Z"/>
-        <path fill="none" stroke="rgb(52,101,164)" d="M 4699,15018 L 815,13867 3109,6126 10878,8429 8583,16170 4699,15018 Z"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="889" y="6197" width="9917" height="9898"/>
+        <path fill="rgb(114,159,207)" stroke="none" d="M 4802,15044 L 890,13996 2979,6198 10804,8295 8715,16093 4802,15044 Z"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 4802,15044 L 890,13996 2979,6198 10804,8295 8715,16093 4802,15044 Z"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.LineShape">
@@ -112,20 +112,14 @@
         <path fill="none" stroke="rgb(52,101,164)" d="M 16141,11204 L 5854,11204"/>
        </g>
       </g>
-      <g class="com.sun.star.drawing.EllipseShape">
-       <g id="id6">
-        <rect class="BoundingBox" stroke="none" fill="none" x="5860" y="10517" width="659" height="685"/>
-        <path fill="none" stroke="rgb(52,101,164)" d="M 5861,10518 C 5967,10525 6071,10556 6164,10609 6271,10670 6360,10757 6422,10863 6483,10966 6515,11082 6517,11200"/>
-       </g>
-      </g>
       <g class="TextShape">
-       <g id="id7">
-        <rect class="BoundingBox" stroke="none" fill="none" x="6323" y="9854" width="892" height="955"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Times New Roman, serif" font-size="635px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="6573" y="10546"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">β</tspan></tspan></tspan></text>
+       <g id="id6">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5992" y="8769" width="892" height="955"/>
+        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Times New Roman, serif" font-size="635px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="6242" y="9461"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">β</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.LineShape">
-       <g id="id8">
+       <g id="id7">
         <rect class="BoundingBox" stroke="none" fill="none" x="681" y="14172" width="7872" height="2410"/>
         <path fill="none" stroke="rgb(52,101,164)" d="M 1093,14311 L 8140,16442"/>
         <path fill="rgb(52,101,164)" stroke="none" d="M 681,14186 L 1068,14460 1155,14173 681,14186 Z"/>
@@ -133,21 +127,33 @@
        </g>
       </g>
       <g class="TextShape">
-       <g id="id9">
+       <g id="id8">
         <rect class="BoundingBox" stroke="none" fill="none" x="1586" y="16055" width="5363" height="887"/>
         <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Consolas, monospace" font-size="635px" font-weight="400"><tspan class="TextPosition" x="1836" y="16650"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">options.nColsD</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
-       <g id="id10">
+       <g id="id9">
         <rect class="BoundingBox" stroke="none" fill="none" x="16021" y="10744" width="2786" height="955"/>
         <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Times New Roman, serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="16271" y="11436"><tspan font-style="italic" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Z </tspan><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">(axial)</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
-       <g id="id11">
+       <g id="id10">
         <rect class="BoundingBox" stroke="none" fill="none" x="5482" y="31" width="4013" height="955"/>
         <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Times New Roman, serif" font-size="635px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="5732" y="723"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">X</tspan></tspan></tspan></text>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.LineShape">
+       <g id="id11">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5855" y="9869" width="361" height="1338"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 6214,9870 L 5856,11205"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.EllipseShape">
+       <g id="id12">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5857" y="9603" width="367" height="271"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 5858,9628 C 5890,9614 5924,9606 5960,9604 6004,9602 6048,9609 6087,9626 6127,9643 6160,9669 6183,9701 6207,9733 6220,9769 6222,9807 6223,9829 6220,9851 6213,9872"/>
        </g>
       </g>
      </g>
