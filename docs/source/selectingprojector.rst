@@ -43,7 +43,7 @@ system matrix.
 
 Hybrid projectors are recommended. For example ``projector_type = 14`` is an alternative method where the forward projection uses an improved version of the Siddon's ray-tracer. This means that the exact intersection length
 is computed. Alternatively, the BDD can be combined with either, e.g. ``projector_type = 45``. Note that generally it is not recommended to use hybrid projectors where BDD is the forward projector, such as ``projector_type = 54``.
-A good combination of quality and speed is to use ``projector_type == 45``, or ``projector_type == 15``. 
+A good combination of quality and speed is to use ``projector_type = 45``, or ``projector_type = 15``. 
 
 SPECT data
 ----------

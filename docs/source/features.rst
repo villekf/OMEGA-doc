@@ -200,7 +200,7 @@ Python only
  * All computations can be performed on the GPU without the need to transfer the data to host first
  * ``y = A * x`` computes the forward projection
  * ``x = A.T() * y`` computes the backprojection
- * Interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, PyCUDA and PyTorch with PyCUDA
+ * Interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, CuPy and PyTorch with CuPy
   * You can, for example, input a PyTorch CUDA tensor into OMEGA forward and/or backward projection
   * On OpenCL, you can use Arrayfire for fast GPU-based computations by simply inputting an Arrayfire array into forward and/or backward projection
- * Any package that supports PyOpenCL or PyCUDA can be combined with OMEGA
+ * Any package that supports PyOpenCL or CuPy can be combined with OMEGA

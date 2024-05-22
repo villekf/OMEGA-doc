@@ -10,7 +10,7 @@ The general steps to install OMEGA are as follows:
 * Install a C++-compiler if one is not already installed
 * (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
 * Obtain OMEGA and add the necessary folders to the MATLAB/Octave path or PYTHONPATH with Python
-* Run ``install_mex`` in MATLAB or Octave or compile.py with Python
+* Run ``install_mex`` in MATLAB or Octave or ``compile.py`` with Python
 
 Windows
 -------
@@ -90,9 +90,9 @@ Python
 If you want Python support, you'll need to install Python. Any version from 3.8 and up should work, though most likely earlier versions work also. You can install Python from the Windows app store or from https://www.python.org/downloads/.
 
 You'll need to add ``C:\path\to\OMEGA\source\Python`` to PYTHONPATH. Furthermore, the following packages are required (at the moment they are not automatically installed):
-``scikit-image``, ``pymatreader``, ``SimpleITK``, ``numpy``
+``scikit-image``, ``pymatreader``, ``SimpleITK``, ``numpy``. ``arrayfire`` is highly recommended.
 
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire``, ``pyopencl`` and/or ``pycuda``. All packages can be installed through ``pip`` or ``conda``.
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
 
 OMEGA
 ^^^^^
@@ -105,7 +105,7 @@ To build all the necessary mex-files, simply run ``install_mex``.
 
 In case you have trouble compiling the mex-files, you can also try using the precompiled files on the `releases <https://github.com/villekf/OMEGA/releases>`_ page.
 
-For Python, it is highly recommended to use Visual Studio as the C++ compiler! You can compile the necessary files by using "x64 Native Tools Command Prompt for VS 2022" (or 2019 or any other Visual studio version) from the Windows start menu. In the command prompt, navigate to ``C:\path\to\OMEGA\source\Python`` and then run ``python3 compile.py`` or ``python compile.py``. If ArrayFire was installed somewhere other than Program files, you'll need to specify its location with ``python3 compile.py -A C:\path\to\Arrayfire\v3``.
+For Python, it is highly recommended to use Visual Studio as the C++ compiler! You can compile the necessary files by using "x64 Native Tools Command Prompt for VS 2022" (or 2019 or any other Visual studio version) from the Windows start menu. In the command prompt, navigate to ``C:\path\to\OMEGA\source\Python`` and then run ``python3 compile.py`` or ``python compile.py``. If ArrayFire was installed somewhere other than Program files, you'll need to specify its location with ``python3 compile.py -A C:\path\to\Arrayfire\v3``. For ROOT, similarly with ``python3 compile.py -R C:\path\to\root``
 
 Linux
 -----
@@ -185,9 +185,9 @@ Python
 You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
 
 You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. Furthermore, the following packages are required (at the moment they are not automatically installed):
-``scikit-image``, ``pymatreader``, ``SimpleITK``, ``numpy``
+``scikit-image``, ``pymatreader``, ``SimpleITK``, ``numpy``. ``arrayfire`` is highly recommended.
 
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire``, ``pyopencl`` and/or ``pycuda``. All packages can be installed through ``pip`` or ``conda``.
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
 
 OMEGA
 ^^^^^
