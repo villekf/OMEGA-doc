@@ -97,6 +97,8 @@ Furthermore, if you want to use the custom algorithm reconstruction, you'll need
 
 Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the PET examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
 
+If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
+
 OMEGA
 ^^^^^
 
@@ -194,6 +196,8 @@ required to load MetaImage-files, this is again mainly for PET such as GATE atte
 Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
 
 Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the PET examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
+
+If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
 
 OMEGA
 ^^^^^
