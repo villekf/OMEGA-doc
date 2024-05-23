@@ -16,7 +16,7 @@ if you have sub-blocks in one block, you'll need set this to ``options.transaxia
 has two sub-blocks, but it is still considered as one single block. However, in this case ``options.transaxial_multip = 2``. If you 
 don't have sub-blocks, you only need the total number of blocks per ring. Ring means the transaxial view in this. For example, the figure
 below has 3 blocks. When inputting your own sinograms, the row axis should have the radial distance and the column axis the angles.
-This means that you should get horizontal "sine" curve. For Python, take note that the data needs to use Fourier data ordering, i.e. column 
+This means that you should get horizontal "sine" curve. For Python, take note that the data needs to use Fortran data ordering, i.e. column 
 major ordering.
 
 If you input your own detector coordinates, you don't need to specify these. You can use any geometry you wish, but if the system
@@ -57,7 +57,7 @@ Transaxial
 
 CT and SPECT geometries don't differ from each other. The rotation angle is denoted with θ and the rotation is generally assumed to be clockwise.
 What is important is that when you visualize the projection images, the rotation directed downwards. This applies to both MATLAB/Octave and Python.
-For Python, take note that the data needs to use Fourier data ordering, i.e. column major ordering. ``options.nRowsD`` should contain the number of 
+For Python, take note that the data needs to use Fortran data ordering, i.e. column major ordering. ``options.nRowsD`` should contain the number of 
 rows in each projection.
 
 For CT, it is also possible to input your own custom detector coordinates. However, in this case you won't be able to use projector type 5 or the
