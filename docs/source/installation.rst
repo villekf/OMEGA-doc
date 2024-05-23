@@ -89,10 +89,13 @@ Python
 
 If you want Python support, you'll need to install Python. Any version from 3.8 and up should work, though most likely earlier versions work also. You can install Python from the Windows app store or from https://www.python.org/downloads/.
 
-You'll need to add ``C:\path\to\OMEGA\source\Python`` to PYTHONPATH. Furthermore, the following packages are required (at the moment they are not automatically installed):
-``scikit-image``, ``pymatreader``, ``SimpleITK``, ``numpy``. ``arrayfire`` is highly recommended.
+You'll need to add ``C:\path\to\OMEGA\source\Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+``pymatreader`` is required in order to load mat-files, this is mainly for PET, but can affect CT or SPECT as well if you load anatomical reference images for priors, for example, from mat-files. ``SimpleITK`` is 
+required to load MetaImage-files, this is again mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info.
 
 Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
+
+Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the PET examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
 
 OMEGA
 ^^^^^
@@ -184,10 +187,13 @@ Python
 
 You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
 
-You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. Furthermore, the following packages are required (at the moment they are not automatically installed):
-``scikit-image``, ``pymatreader``, ``SimpleITK``, ``numpy``. ``arrayfire`` is highly recommended.
+You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+``pymatreader`` is required in order to load mat-files, this is mainly for PET, but can affect CT or SPECT as well if you load anatomical reference images for priors, for example, from mat-files. ``SimpleITK`` is 
+required to load MetaImage-files, this is again mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info.
 
 Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
+
+Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the PET examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
 
 OMEGA
 ^^^^^
