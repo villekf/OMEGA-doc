@@ -23,69 +23,56 @@ Examples
 PET data
 ^^^^^^^^
 
-Several PET examples are available. For GATE data, there are three examples for MATLAB/Octave and two for Python. ``PET_main_gateExample.m`` is a generic GATE example while ``PET_main_gateExampleSimple.m`` is a simplified
-version such that the number of adjustable parameters have been greatly reduced. For Python there is ``gate_PET.py`` and ``gate_PET_TOF.py``.
+Several PET examples are available. For GATE data, there are three examples for MATLAB/Octave and Python. ``PET_main_gateExample.m`` is a generic GATE example, ``PET_main_gateTOFExample.m`` is a TOF example, 
+while ``PET_main_gateExampleSimple.m`` is a simplified version such that the number of adjustable parameters have been greatly reduced. For Python there is ``gate_PET.py`` and ``gate_PET_TOF.py`` and ``gate_PET_simpleExample.py``.
 
-A more "generic" PET example, using Siemens Inveon PET data, is available in ``PET_main_genericExample.m`` and ``PET_main_genericExample.py``.
+A more "generic" PET example, using Siemens Inveon PET data, is available in ``PET_main_genericExample.m`` and ``PET_main_genericExample.py``. These showcase the generic use case for a cylindrical PET system.
 
-GATE users should use the gate_main.m file to reconstruct GATE PET data. For other PET data, the file you should start with is main_PET.m. For computing the forward and/or backward projections use forward_backward_projections_example.m. For custom (gradient-based) priors, use custom_prior_test_main.m. A more simplified main-file for GATE data (simple OSEM reconstruction) is available in gate_main_simple.m. Inveon users should use Inveon_PET_main.m while Biograph mCT data can be used with Biograph_mCT_main.m and Biograph Vision with Biograph_Vision_main.m.
+For list-mode data, there is ``Inveon_PET_main_listmode_example``. Note that for list-mode data, there are no restrictions on the geometry of the scanner.
 
-A GATE example with GATE macros is available in exampleGATE-folder. Simply run the GATE macros as a GATE simulation (GATE material database needs to be in the same folder) and then run the gate_main_example-file to reconstruct the data. By default, ASCII data is used in the reconstruction. This example is based on both benchPET and the cylindrical PET example found from https://opengate.readthedocs.io/en/latest/defining_a_system_scanner_ct_pet_spect_optical.html#cylindricalpet
+In case you want to reconstruct PET data from a non-cylindrical scanner, this is also possible. For that you'll need to manually input the detector coordinates and the measurement data. An example of such a case is 
+shown in ``custom_detector_coordinates_example``. In general, you'll need 6 coordinates for one measurement, with the first three being the x/y/z-coordinates of the first detector, and the next three the x/y/z-coordinates 
+of the second detector. In Python, the data has to be Fourier ordered, or in vector format, such that the 6 coordinates are contiguously stored.
 
-exampleGATE also contains macros for normalization.
+The above example files don't contain all the adjustable parameters. For a complete list of adjustable parameters, see ``main_PET_full``.
 
-When using GATE data, all the output files of the specified format will be read in the specified folder. E.g. if you select ASCII data, all .dat-files with Coincidences in the file name will be loaded from the specified folder, with LMF all .ccs files and with ROOT all .root files.
+If you want to use the OMEGA forward and backward projedtion operators to develop, for example, your own reconstruction algorithms, you can use the ``custom_algorithms_example`` files. 
+For MATLAB there is only one example, but Python has two, one for OpenCL using Arrayfire and one for CUDA using PyTorch. They also use different scanners, as the MATLAB one uses the Inveon scanner, while
+the Python one uses the GATE example scanner. However, you can use any scanner you wish or also simply the detector coordinates.
 
-Example MAT-files for non-GATE situation (created from GATE data) can be found from: 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3522199.svg
-   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3522199.svg
-   :target: https://doi.org/10.5281/zenodo.3522199
+Example MAT-files created from GATE data can be found from: https://doi.org/10.5281/zenodo.3522199
 
-These files are based on the above GATE-example. Raw data obtained from the GATE macros mentioned above (not normalization) can be found from: 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3526859.svg
-   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3526859.svg
-   :target: https://doi.org/10.5281/zenodo.3526859
+These files are based on the above GATE-example. Raw ASCII data obtained from the GATE macros mentioned above (not normalization) can be found from: https://doi.org/10.5281/zenodo.3526859
 
-Example Inveon data is available from: 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3528056.svg
-   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.3528056.svg
-   :target: https://doi.org/10.5281/zenodo.3528056 or 
-   .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4646897.svg
-   Image at https://zenodo.org/badge/DOI/10.5281/zenodo.4646897.svg
-   :target: https://doi.org/10.5281/zenodo.4646897. The PET_main_genericExample.m/py file can be used automatically for this data.
+Example Inveon data is available from: https://doi.org/10.5281/zenodo.3528056 or https://doi.org/10.5281/zenodo.4646897. The ``PET_main_genericExample.m/py`` or ``Inveon_PET_main_listmode_example`` 
+files can be used automatically for this data.
 
 CT data
 ^^^^^^^
 
-Several different example scripts for CT data are provided, for different kind of CT-scanners. These include preclinical CT and µCT scanners as well as GATE simulated (imageCT) data. When using CT data, the direction of rotation should be from top to bottom or from bottom to top. If you have data that is rotated from left to right/right to left, you should transpose (permute) it and adjust the xSize and ySize variables according to the final transposed dimensions. Currently also only cone/fan beam CT scanners with flat panel detectors are inherently supported. You can use also other type of scanners, but then you have to input the detector/source coordinates yourself (see e.g. Custom detector coordinates and/or list mode reconstruction_).
+For CT, in general there are three different way to perform the reconstructions. One is largely an automatic version where the source/detector coordinates are computed by OMEGA. You can input offset values for the source and 
+detector coordinates as well as for the FOV origin, but the coordinates themselves are computed by OMEGA. Second is a less automatic version where you can input the source coordinates and the coordinates for the center of the
+detector panel, for each projection. In both cases you can input optional rotation of the detector panel or the direction vectors for each projection. In both cases, the projection angles are required. Third is the least automatic
+where you can input all source/detector coordinates for each measurement, not just each projection, but for all measurements. This is, however, inefficient method and recommended only when other methods are not feasible. In general, 
+you'll need 6 coordinates for one measurement, with the first three being the x/y/z-coordinates of the source, and the next three the x/y/z-coordinates 
+of a single detector pixel. In Python, the data has to be Fourier ordered, or in vector format, such that the 6 coordinates are contiguously stored.
 
-For GATE data, use gate_CT_main.m. An example of µCT (using either .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.4279613.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.4279613.svg
-:target: https://doi.org/10.5281/zenodo.4279613 or .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.4279549.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.4279549.svg
-:target: https://doi.org/10.5281/zenodo.4279549) is provided with the walnut_CT_main.m. A 2D (sinogram) example is shown in walnut2D_CT_main.m (uses .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.1254206.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.1254206.svg
-:target: https://doi.org/10.5281/zenodo.1254206). Lastly, an example script using preclinical Inveon CT is in Inveon_CT_main.m (uses .. image::
-https://zenodo.org/badge/DOI/10.5281/zenodo.4646835.svg
-Image at https://zenodo.org/badge/DOI/10.5281/zenodo.4646835.svg
-:target: https://doi.org/10.5281/zenodo.4646835). In all cases, the examples include both how to do built-in reconstruction or how to use the forward/backward projection class for your own custom algorithms.
-Help
+Several CT examples are available. For a rather generic case, see ``CT_main_generalExample`` which uses TIFF projection images as the input. This example automatically computes the source/detector coordinates 
+and thus is applicable mainly to "typical" CBCT cases.
 
-For a short PET tutorial in image reconstruction in OMEGA see Tutorial. For CT imaging, see CT tutorial.
+For GATE data, use gate_CT_main.m. An example of µCT (using either https://doi.org/10.5281/zenodo.4279613 or https://doi.org/10.5281/zenodo.4279549) is provided with the walnut_CT_main.m. 
+A 2D (sinogram) example is shown in walnut2D_CT_main.m (uses https://doi.org/10.5281/zenodo.1254206). Lastly, an example script using preclinical Inveon CT is in Inveon_CT_main.m (uses https://doi.org/10.5281/zenodo.4646835). 
+In all cases, the examples include both how to do built-in reconstruction or how to use the forward/backward projection class for your own custom algorithms.
 
-For help on using the individual main-files or the various functions see Function help_.
+SPECT data
+^^^^^^^^^^
 
-If you want to extract GATE PET scatter, randoms and/or trues data to MATLAB see Extracting GATE scatter, randoms and trues data_.
-
-For recommendations and things to watch out, see Useful information_.
+A couple of SPECT examples are available. 
 
 Contact
 -------
 
-Currently it is recommended to ask questions in GitHub discussions_.
+Currently it is recommended to ask questions in GitHub `discussions <https://github.com/villekf/OMEGA/discussions>`_.
 
 However, if you prefer using e-mail for contact, use the following address:
 
