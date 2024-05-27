@@ -1,7 +1,7 @@
 Choosing the optimal implementation
 ===================================
 
-This page explains the details on the different implementations and their different advantages.
+This page explains the details on the different implementations and their different advantages. This does not apply to custom reconstructions in Python!
 
 In short, use implementation 2. This is the only one available when using Python as well. For details, see below. If you cannot use implementation 2, use implementation 5 if you have a discrete GPU. If not, use implementation 4.
 
@@ -23,4 +23,4 @@ implementation 4 is not recommended. Can also be used for custom algorithm compu
 
 Implementation 5 is pure OpenCL-based implementation. The difference to implementation 3 is that only the forward and backward projections are computed on the OpenCL device (e.g. GPU). The rest of the computations are performed
 on MATLAB/Octave. Supports branchless distance-driven projector and other GPU-based projectors. It thus supports more features than implementation 3 or 4. However, implementation 5 is only recommended if implementation 2 cannot
-be used. For custom reconstructions, implementation 5 is the recommended method though it is used if implementation 2 or 3 is selected. 
+be used. For custom reconstructions, implementation 5 is the recommended method though it is used even if implementation 2 or 3 is selected. 
