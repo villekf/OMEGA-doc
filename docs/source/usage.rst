@@ -15,7 +15,7 @@ Most OMEGA features are built around m-file scripts referred to as "main-files".
 PET, CT and SPECT have quite different main-file compositions due to different properties of these imaging modalities. CT, for example, has much less adjustable parameters due to lack of corrections. Reconstruction parameters, however, 
 are unchanged between different modalities. It is not necessary to use these main-files and not every variable present in the main-files is necessary. 
 
-Examples for MATLAB/Octave are contained in the main-files folders. For Python these are in /path/to/OMEGA/source/Python. 
+Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in /path/to/OMEGA/source/Python. 
 
 Examples
 --------
@@ -60,14 +60,22 @@ of a single detector pixel. In Python, the data has to be Fourier ordered, or in
 Several CT examples are available. For a rather generic case, see ``CT_main_generalExample`` which uses TIFF projection images as the input. This example automatically computes the source/detector coordinates 
 and thus is applicable mainly to "typical" CBCT cases.
 
-For GATE data, use gate_CT_main.m. An example of µCT (using either https://doi.org/10.5281/zenodo.4279613 or https://doi.org/10.5281/zenodo.4279549) is provided with the walnut_CT_main.m. 
-A 2D (sinogram) example is shown in walnut2D_CT_main.m (uses https://doi.org/10.5281/zenodo.1254206). Lastly, an example script using preclinical Inveon CT is in Inveon_CT_main.m (uses https://doi.org/10.5281/zenodo.4646835). 
-In all cases, the examples include both how to do built-in reconstruction or how to use the forward/backward projection class for your own custom algorithms.
+For a case using source coordinates and the center of the detector panel coordinates for each projection, see ``Planmeca_CT_main_generic`` files. These also highlight a case where the panel also rotates along its own axis (slightly).
+Offset correction cases can also be used with this.
+
+An example of µCT (using either https://doi.org/10.5281/zenodo.4279613 or https://doi.org/10.5281/zenodo.4279549) is provided with the ``walnut_CT_main`` though ``CT_main_generalExample`` works just as well. 
+A 2D (sinogram) example is shown in ``CT2D_fanbeam_mainExample`` (uses https://doi.org/10.5281/zenodo.1254206). Lastly, an example script using preclinical Inveon CT is in ``Inveon_CT_main`` (uses https://doi.org/10.5281/zenodo.4646835). 
+
+For custom algorithms, see ``CT_main_generic_custom_algorithms_example`` or ``Planmeca_CT_main_generic_custom_algorithms``.
+
+Note that in helical CT cases the curvature of the panel is NOT taken into account at the moment.
 
 SPECT data
 ^^^^^^^^^^
 
-A couple of SPECT examples are available. 
+A couple of SPECT examples are available. For SPECT, you'll need the projection angles as well as the radial distance of the panel from the origin. 
+
+``SPECT_main_Siemens_Prospecta`` includes an example for two-head Siemens Pro.specta SPECT scanner. 
 
 Contact
 -------
@@ -76,4 +84,6 @@ Currently it is recommended to ask questions in GitHub `discussions <https://git
 
 However, if you prefer using e-mail for contact, use the following address:
 
-.. image:: https://github.com/villekf/OMEGA/blob/master/doc/contact.png
+.. figure:: contact.png
+   :scale: 100 %
+   :alt: Contact e-mail
