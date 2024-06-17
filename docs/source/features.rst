@@ -109,7 +109,6 @@ PET features
 CT features
 ^^^^^^^
 * Optimized for (CB)CT data
-* Automatically load Planmeca CBCT data
 * Automatically load image-based projections (e.g. tiff-images)
 * Load GATE CT projections images
 * Automatically compute source/detector coordinates for CBCT systems
