@@ -141,6 +141,7 @@ SPECT features
 * Optimized for parallel hole SPECT data
 * Load GATE SPECT projections images
 * Load Interfile SPECT projection images
+* Load Siemens Pro.specta DICOM data (requires aaditional toolboxes or packages)
 * Automatically compute detector response function for hexagonal or round holes
 * Supports rotation-based projector
 * Supports same subset selection methods as CT
@@ -148,7 +149,7 @@ SPECT features
 MATLAB/GNU Octave only
 ----------------------
 
-* Load GATE ASCII and LMF (LMF support has bee deprecated) data for cylindrical/ECAT PET systems
+* Load GATE ASCII and LMF (LMF support has been deprecated) data for cylindrical/ECAT PET systems
 * Load Inveon PET list-mode data 
 * Load Siemens Biograph mCT and Vision list-mode data
  * Supports both binned 32-bit list-mode data as well as 64-bit
@@ -202,9 +203,11 @@ Python only
 
 * Supports custom algorithms with the use of OpenCL or CUDA
  * All computations can be performed on the GPU without the need to transfer the data to host first
- * ``y = A * x`` computes the forward projection
+ * ``y = A * x`` computes the forward projection (``A`` is the class object)
  * ``x = A.T() * y`` computes the backprojection
- * Interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, CuPy and PyTorch with CuPy
+ * Interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, CuPy, and PyTorch with CuPy
   * You can, for example, input a PyTorch CUDA tensor into OMEGA forward and/or backward projection
   * On OpenCL, you can use Arrayfire for fast GPU-based computations by simply inputting an Arrayfire array into forward and/or backward projection
+  * Note that OMEGA is column-major while PyTorch is row-major!
+  * Use Fourier-ordering with CuPy
  * Any package that supports PyOpenCL or CuPy can be combined with OMEGA
