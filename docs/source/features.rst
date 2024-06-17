@@ -1,7 +1,12 @@
 Features
 ========
 
-(Almost) Full list of features for OMEGA v2.0
+(Almost) Full list of features for OMEGA v2.0.
+
+.. note::
+
+   MATLAB/GNU Octave/Python refers that the features under that are available for all three, while some are available only for MATLAB/Octave (MATLAB/GNU Octave only) or Python (Python only).
+   Furthermore, all features listed under Any data are available for any data type, i.e. PET, CT, SPECT or any other data, while those under PET Features are for PET only, CT features only for CT, etc.
 
 MATLAB/GNU Octave/Python
 ------------------------
@@ -101,7 +106,7 @@ PET features
 * Supports pseudo detectors/rings or ring gaps
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
 
-CT data
+CT features
 ^^^^^^^
 * Optimized for (CB)CT data
 * Automatically load Planmeca CBCT data
@@ -132,7 +137,7 @@ CT data
 * Most of the Poisson-based algorithms are supported with transmission-based (i.e. Lambert-Beer law) data as well
  * These include PKMA, MBSREM, RAMLA, ROSEM, OSEM, MLEM and BSREM
 
-SPECT data
+SPECT features
 ^^^^^^^^^^
 * Optimized for parallel hole SPECT data
 * Load GATE SPECT projections images
