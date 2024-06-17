@@ -85,6 +85,9 @@ Reconstruction software
  
 * MR-Hub: https://ismrm.github.io/mrhub/
  * Collection of various open-source MRI software, including reconstruction software
+
+* RTK: https://github.com/RTKConsortium/RTK
+ * The Reconstruction Toolkit
  
 Data analysis software
 ----------------------
@@ -110,6 +113,9 @@ Data analysis software
  
 * AMIDE: https://amide.sourceforge.net/
  * A bit similar to ImageJ, i.e. a visualization and analysis tool for medical images
+ 
+* Insight Toolkit: https://itk.org/
+ * Image analysis toolkit for e.g. segmentation and registration
  
 Programming and languages
 -------------------------
