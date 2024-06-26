@@ -11,6 +11,10 @@ See :doc:`installation` for install help. Check out the :doc:`usage` section for
 
    This project is under active development.
 
+.. note::
+
+   This documentation is for OMEGA v.2.0 and up. For earlier versions, see https://github.com/villekf/OMEGA/wiki
+
 Contents
 --------
 
