@@ -52,12 +52,12 @@ Same as above but for rows. Not recommended method!
 Type 6
 ^^^^^^
 
-This method is based on: https://doi.org/10.1088/0031-9155/55/10/009
-
 Uses N number of angles to form each subset. First the LORs are sorted according to the angle they create with the (positive) x-axis. Then n_angles angles are grouped together to form one subset. E.g. if n_angles = 2 then 
 angles 0 and 1 form one subset, 2 and 3 another, etc. For 2D slices there will be a total of 180°/nangles subsets and 360°/nangles for 3D. 
 
 This method is not recommended!
+
+This method is based on: https://doi.org/10.1088/0031-9155/55/10/009
 
 Type 7
 ^^^^^^
@@ -100,8 +100,11 @@ There are mainly two different types of algorithms: Poisson-based and least-squa
 modality. EM refers to emission tomography as many Poisson-based algorithms have different variations for EM and transmission tomography. For transmission tomography versions, see the technical document (soon to be published).
 
 Recommended algorithms when regularization is not used (PET and SPECT): OSEM, PKMA, PDHG, PDHGKL
+
 Recommended algorithms with regularization (PET and SPECT): PKMA, PDHG, PDHGKL
+
 Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
+
 Recommended algorithms with regularization (CT): PDHG, PKMA
 
 FDK/FBP
@@ -352,11 +355,17 @@ TV is "special" since it actually contains several different variations. See TV 
 First is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no anatomical weighting is used. Type 3 is the hyperbolic prior if no anatomical weighting is used. Type 6 is a weighted TV prior. TV type 4 is the Lange prior.
 
 A complete list and explanation of the TV types:
+
 Type 1: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1007/s10851-017-0749-x
+
 Type 2: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1109/TMI.2016
+
 Type 3: Hyperbolic prior if no anatomical weighting is used, use hyperbolic prior instead in such cases. Type 3 is not recommended! Based on: https://doi.org/10.1088/0031-9155/60/6/2145
+
 Type 4: Modified Lange prior. Does not support anatomical weighting. Based on: https://doi.org/10.1109/TMI.2019.2898271 and https://doi.org/10.1109/42.61759
+
 Type 5: N/A
+
 Type 6: Weighted TV. Does not support anatomical weighting. Based on: https://doi.org/10.1088/0031-9155/57/23/7923
 
 Since this applies to the "gradient"-based TV, the smooting term can be adjusted (``options.TVsmoothing``). This smoothing term should not be zero as it prevents division by zero. Larger values lead to smoother images.
