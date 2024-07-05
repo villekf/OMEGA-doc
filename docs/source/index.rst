@@ -26,5 +26,6 @@ Contents
    selectingprojector
    implementation
    openclcuda
+   algorithms
    features
    usefullinks

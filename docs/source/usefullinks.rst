@@ -117,6 +117,9 @@ Data analysis software
 * Insight Toolkit: https://itk.org/
  * Image analysis toolkit for e.g. segmentation and registration
  
+* (X)MedCon: https://xmedcon.sourceforge.io/
+ * Medical image conversion tool
+ 
 Programming and languages
 -------------------------
 
