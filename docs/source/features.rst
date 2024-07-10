@@ -16,6 +16,10 @@ Any data
 * Supports any data that uses ray-tracing
  * Only the source and detector coordinates need to be input
  * Source and/or detector can be inside the FOV
+* In addition to supporting coordinates for each measurement, supports also index-based reconstruction
+ * Separate 16-bit index-vectors can be input for transaxial and axial dimensions
+ * Each index corresponds to a coordinate in separate coordinate vectors (transaxial and axial)
+ * Useful for symmetric systems
 * Supported projectors include:
  * Improved Siddon's ray tracer
   * Also multi-ray version available
@@ -105,6 +109,7 @@ PET features
 * Supports list-mode data
 * Supports pseudo detectors/rings or ring gaps
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
+* Preliminary support for dual-layer PET
 
 CT features
 ^^^^^^^

@@ -382,3 +382,85 @@ If a mat-file is used, the reference image should be the only variable.
 In the future, Lange will probably the transformed into a separate prior. 
 
 Recommended ones are types 1 or 4.
+
+Anisotropic Diffusion Median Root Prior
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In general this prior is not recommended and is included merely for historical and experimental purposes.
+
+It functions same as median root prior, except that rather than use median filtered image, it uses anisotropic diffusion filtered image.
+
+All the adjustable parameters are from: https://arrayfire.org/docs/group__image__func__anisotropic__diffusion.htm
+
+APLS
+^^^^
+
+Based on: https://doi.org/10.1109/TMI.2016
+
+Using asymmetric parallel level sets requires the use of anatomic prior. Without anatomical prior it functions as TV types 1 and 2.
+
+Regularization parameters for all MAP-methods can be adjusted.
+
+`options.eta` is a scaling parameter in regularized norm (see variable η in the reference).
+
+`options.APLSsmoothing` is a "smoothing" parameter that also prevents zero in square root (it is summed to the square root values). Has the same function as the TVsmoothing parameter (see eq. 9 in the reference).
+
+`options.APLS_reference_image` is the reference image itself OR name of the file containing the anatomical reference images (image size needs to be the same as the reconstructed images). The reference images need to be the only variable in the file.
+
+Hyperbolic prior
+^^^^^^^^^^^^^^^^
+
+Based on: https://doi.org/10.1109/83.551699 and https://doi.org/10.1088/0031-9155/60/6/2145
+
+Modified hyperbolic prior, previously exclusively used as TV type 3. Unlike TV type 3, doesn't support anatomic weighting.
+
+`options.hyperbolicDelta` can be used to adjust the edge emphasing strength.
+
+TGV
+^^^
+
+Based on: https://doi.org/10.1137/090769521
+
+Recommended only for proximal supporting metdos (PDHG and its variants, PKMA).
+
+`options.alpha0TGV` is the first weighting value for the TGV (see parameter α1 in the reference).
+
+`options.alpha1TGV` is the second weighting value for the TGV (see parameter α0 in the reference). Weight for the symmetrized derivative.
+
+RDP
+^^^
+
+Based on: https://doi.org/10.1109/TNS.2002.998681
+
+Adjust the edge weighting value with `options.RDP_gamma`.
+
+GGMRF
+^^^^^
+
+Based on: https://doi.org/10.1118/1.2789499
+
+The original article includes adjustable parameters p, q and c which can be adjusted with `options.GGMRF_p`, `options.GGMRF_q`, and `options.GGMRF_c`.
+
+NLM
+^^^
+
+Based on: https://doi.org/10.1137/040616024
+
+`options.sigma` is the filtering parameter/strength.
+
+The patch radius is controlled with parameters `options.Nlx`, `options.Nly` and `options.Nlz`. The similarity is investigated in this area.
+
+The strength of the Gaussian weighting (standard deviation) can be adjusted with `options.NLM_gauss`.
+
+If `options.NLM_use_anatomical = true` then an anatomical reference image is used in the similarity search of the neighborhood. Normally the original image is used for this. `options.NLM_reference_image` is either the reference image itself OR is the name of the anatomical reference data file. The reference images need to be the only variable in the file.
+
+NLM, by default, uses the original NLM, but it can also use other potential functions in a non-local fashion. Setting any of the below ones to true, uses the corresponding method. Note that from below options, select only one! All
+other NLM options affect the below selections as well.
+
+If you wish to use non-local total variation, set `options.NLTV = true`. 
+
+NLM can also be used like MRP (and MRP-AD) where the median filtered image is replaced with NLM replaced image. This is achieved by setting `options.NLM_MRP = true`. This is computed without normalization ((λ - MNLM)/1).
+
+Non-local relative difference prior can se selected with `options.NLRD = true`. Note that `options.RDP_gamma` affects NLRD as well.
+
+Non-local generalized Gaussian Markov random field prior can be selected with `options.NLGGMRF = true`. As with RDP, the p, q, and c parameters affect this prior as well.
