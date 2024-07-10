@@ -5,6 +5,8 @@ This page describes some details on the algorithms. Mainly the image reconstruct
 
 Note that https://github.com/villekf/OMEGA/wiki/Function-help#reconstruction-algorithms is also largely valid, though lacks newer algorithms.
 
+.. contents:: Table of Contents
+
 Subset types
 ------------
 
@@ -401,11 +403,11 @@ Using asymmetric parallel level sets requires the use of anatomic prior. Without
 
 Regularization parameters for all MAP-methods can be adjusted.
 
-`options.eta` is a scaling parameter in regularized norm (see variable η in the reference).
+``options.eta`` is a scaling parameter in regularized norm (see variable η in the reference).
 
-`options.APLSsmoothing` is a "smoothing" parameter that also prevents zero in square root (it is summed to the square root values). Has the same function as the TVsmoothing parameter (see eq. 9 in the reference).
+``options.APLSsmoothing`` is a "smoothing" parameter that also prevents zero in square root (it is summed to the square root values). Has the same function as the TVsmoothing parameter (see eq. 9 in the reference).
 
-`options.APLS_reference_image` is the reference image itself OR name of the file containing the anatomical reference images (image size needs to be the same as the reconstructed images). The reference images need to be the only variable in the file.
+``options.APLS_reference_image`` is the reference image itself OR name of the file containing the anatomical reference images (image size needs to be the same as the reconstructed images). The reference images need to be the only variable in the file.
 
 Hyperbolic prior
 ^^^^^^^^^^^^^^^^
@@ -414,7 +416,7 @@ Based on: https://doi.org/10.1109/83.551699 and https://doi.org/10.1088/0031-915
 
 Modified hyperbolic prior, previously exclusively used as TV type 3. Unlike TV type 3, doesn't support anatomic weighting.
 
-`options.hyperbolicDelta` can be used to adjust the edge emphasing strength.
+``options.hyperbolicDelta`` can be used to adjust the edge emphasing strength.
 
 TGV
 ^^^
@@ -423,44 +425,44 @@ Based on: https://doi.org/10.1137/090769521
 
 Recommended only for proximal supporting metdos (PDHG and its variants, PKMA).
 
-`options.alpha0TGV` is the first weighting value for the TGV (see parameter α1 in the reference).
+``options.alpha0TGV`` is the first weighting value for the TGV (see parameter α1 in the reference).
 
-`options.alpha1TGV` is the second weighting value for the TGV (see parameter α0 in the reference). Weight for the symmetrized derivative.
+``options.alpha1TGV`` is the second weighting value for the TGV (see parameter α0 in the reference). Weight for the symmetrized derivative.
 
 RDP
 ^^^
 
 Based on: https://doi.org/10.1109/TNS.2002.998681
 
-Adjust the edge weighting value with `options.RDP_gamma`.
+Adjust the edge weighting value with ``options.RDP_gamma``.
 
 GGMRF
 ^^^^^
 
 Based on: https://doi.org/10.1118/1.2789499
 
-The original article includes adjustable parameters p, q and c which can be adjusted with `options.GGMRF_p`, `options.GGMRF_q`, and `options.GGMRF_c`.
+The original article includes adjustable parameters `p`, `q` and `c` which can be adjusted with ``options.GGMRF_p``, ``options.GGMRF_q``, and ``options.GGMRF_c`, respectively.
 
 NLM
 ^^^
 
 Based on: https://doi.org/10.1137/040616024
 
-`options.sigma` is the filtering parameter/strength.
+``options.sigma`` is the filtering parameter/strength.
 
-The patch radius is controlled with parameters `options.Nlx`, `options.Nly` and `options.Nlz`. The similarity is investigated in this area.
+The patch radius is controlled with parameters ``options.Nlx``, ``options.Nly`` and ``options.Nlz``. The similarity is investigated in this area.
 
-The strength of the Gaussian weighting (standard deviation) can be adjusted with `options.NLM_gauss`.
+The strength of the Gaussian weighting (standard deviation) can be adjusted with ``options.NLM_gauss``.
 
-If `options.NLM_use_anatomical = true` then an anatomical reference image is used in the similarity search of the neighborhood. Normally the original image is used for this. `options.NLM_reference_image` is either the reference image itself OR is the name of the anatomical reference data file. The reference images need to be the only variable in the file.
+If ``options.NLM_use_anatomical = true`` then an anatomical reference image is used in the similarity search of the neighborhood. Normally the original image is used for this. `options.NLM_reference_image` is either the reference image itself OR is the name of the anatomical reference data file. The reference images need to be the only variable in the file.
 
 NLM, by default, uses the original NLM, but it can also use other potential functions in a non-local fashion. Setting any of the below ones to true, uses the corresponding method. Note that from below options, select only one! All
 other NLM options affect the below selections as well.
 
-If you wish to use non-local total variation, set `options.NLTV = true`. 
+If you wish to use non-local total variation, set ``options.NLTV = true``. 
 
-NLM can also be used like MRP (and MRP-AD) where the median filtered image is replaced with NLM replaced image. This is achieved by setting `options.NLM_MRP = true`. This is computed without normalization ((λ - MNLM)/1).
+NLM can also be used like MRP (and MRP-AD) where the median filtered image is replaced with NLM replaced image. This is achieved by setting ``options.NLM_MRP = true``. This is computed without normalization ((λ - MNLM)/1).
 
-Non-local relative difference prior can se selected with `options.NLRD = true`. Note that `options.RDP_gamma` affects NLRD as well.
+Non-local relative difference prior can se selected with ``options.NLRD = true``. Note that ``options.RDP_gamma`` affects NLRD as well.
 
-Non-local generalized Gaussian Markov random field prior can be selected with `options.NLGGMRF = true`. As with RDP, the p, q, and c parameters affect this prior as well.
+Non-local generalized Gaussian Markov random field prior can be selected with ``options.NLGGMRF = true``. As with RDP, the `p`, `q`, and `c` parameters affect this prior as well.
