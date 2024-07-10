@@ -102,14 +102,14 @@
       </g>
       <g class="com.sun.star.drawing.LineShape">
        <g id="id4">
-        <rect class="BoundingBox" stroke="none" fill="none" x="5853" y="917" width="3" height="10290"/>
-        <path fill="none" stroke="rgb(52,101,164)" d="M 5854,918 L 5854,11205"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="5853" y="917" width="4" height="10290"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 5854,918 L 5855,11205"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.LineShape">
        <g id="id5">
-        <rect class="BoundingBox" stroke="none" fill="none" x="5853" y="11203" width="10290" height="3"/>
-        <path fill="none" stroke="rgb(52,101,164)" d="M 16141,11204 L 5854,11204"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="5853" y="11203" width="10290" height="4"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 16141,11204 L 5854,11205"/>
        </g>
       </g>
       <g class="TextShape">
@@ -120,10 +120,10 @@
       </g>
       <g class="com.sun.star.drawing.LineShape">
        <g id="id7">
-        <rect class="BoundingBox" stroke="none" fill="none" x="681" y="14172" width="7872" height="2410"/>
-        <path fill="none" stroke="rgb(52,101,164)" d="M 1093,14311 L 8140,16442"/>
-        <path fill="rgb(52,101,164)" stroke="none" d="M 681,14186 L 1068,14460 1155,14173 681,14186 Z"/>
-        <path fill="rgb(52,101,164)" stroke="none" d="M 8552,16567 L 8165,16293 8078,16580 8552,16567 Z"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="745" y="14283" width="7945" height="2188"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 1160,14424 L 8273,16329"/>
+        <path fill="rgb(52,101,164)" stroke="none" d="M 745,14312 L 1141,14574 1218,14284 745,14312 Z"/>
+        <path fill="rgb(52,101,164)" stroke="none" d="M 8688,16441 L 8292,16179 8215,16469 8688,16441 Z"/>
        </g>
       </g>
       <g class="TextShape">
@@ -146,8 +146,8 @@
       </g>
       <g class="com.sun.star.drawing.LineShape">
        <g id="id11">
-        <rect class="BoundingBox" stroke="none" fill="none" x="5855" y="9869" width="361" height="1338"/>
-        <path fill="none" stroke="rgb(52,101,164)" d="M 6214,9870 L 5856,11205"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="5855" y="9869" width="361" height="1339"/>
+        <path fill="none" stroke="rgb(52,101,164)" d="M 6214,9870 L 5856,11206"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.EllipseShape">
