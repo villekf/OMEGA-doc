@@ -119,8 +119,8 @@ MLEM/OSEM
 While only OSEM is selectable, MLEM is enabled if no subsets are used. This method can be used for PET, SPECT or CT data, or any other Poisson-based data. Note that CT uses its own transmission tomography based formula, while
 PET and SPECT use the linear model. Useful algorithm for PET and SPECT, but not particularly recommended for CT. Use OSL_OSEM for regularized version (see below).
 
-EM MLEM based on:  https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
-EM OSEM: https://doi.org/10.1109/42.363108
+| EM MLEM based on:  https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
+| EM OSEM: https://doi.org/10.1109/42.363108
 
 RAMLA
 ^^^^^
@@ -372,7 +372,7 @@ If a mat-file is used, the reference image should be the only variable.
 
 ``options.SATVPhi`` is the adjustable parameter of type 4 (Lange) or the strength of the weighting in type 6.
 
-In the future, Lange will probably the transformed into a separate prior. 
+In the future, Lange will probably be transformed into a separate prior. 
 
 Recommended ones are types 1 or 4.
 
