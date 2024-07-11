@@ -1,19 +1,13 @@
 Selecting the optimal projector
 ===============================
 
-This page outlines which projector is more optimal for specific data types. You can find references to the projector types below:
-
-Type 1: http://cit.fer.hr/index.php/CIT/article/view/2969
-
-Type 2: https://doi.org/10.1118/1.3501884
-
-Type 3: https://doi.org/10.1088/0031-9155/59/3/561
-
-Type 4: https://doi.org/10.1088/0031-9155/56/13/004
-
-Type 5: https://doi.org/10.1109/TCI.2017.2675705
-
-Type 6: https://doi.org/10.1109/23.552756
+| This page outlines which projector is more optimal for specific data types. You can find references to the projector types below:
+| Type 1: http://cit.fer.hr/index.php/CIT/article/view/2969
+| Type 2: https://doi.org/10.1118/1.3501884
+| Type 3: https://doi.org/10.1088/0031-9155/59/3/561
+| Type 4: https://doi.org/10.1088/0031-9155/56/13/004
+| Type 5: https://doi.org/10.1109/TCI.2017.2675705
+| Type 6: https://doi.org/10.1109/23.552756
 
 PET data
 --------

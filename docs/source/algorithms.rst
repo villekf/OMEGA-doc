@@ -101,13 +101,10 @@ Reconstruction algorithms
 There are mainly two different types of algorithms: Poisson-based and least-squares based. Both also have variations that enable regularization. Below is a list of the algorithms and whether they are supported by specific 
 modality. EM refers to emission tomography as many Poisson-based algorithms have different variations for EM and transmission tomography. For transmission tomography versions, see the technical document (soon to be published).
 
-Recommended algorithms when regularization is not used (PET and SPECT): OSEM, PKMA, PDHG, PDHGKL
-
-Recommended algorithms with regularization (PET and SPECT): PKMA, PDHG, PDHGKL
-
-Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
-
-Recommended algorithms with regularization (CT): PDHG, PKMA
+| Recommended algorithms when regularization is not used (PET and SPECT): OSEM, PKMA, PDHG, PDHGKL
+| Recommended algorithms with regularization (PET and SPECT): PKMA, PDHG, PDHGKL
+| Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
+| Recommended algorithms with regularization (CT): PDHG, PKMA
 
 FDK/FBP
 ^^^^^^^
@@ -264,8 +261,8 @@ PDHG refers to the L2 norm least-squares PDHG. Supports subsets, transmission to
 By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES. Supports also adaptive step-size computations, but it is not recomended with multi-resolution
 reconstruction. Supports both proximal priors as well as regular non-linear convex ones.
 
-Based on: https://doi.org/10.1007/s10851-010-0251-1
-Regularized version using non-linear priors: https://doi.org/10.1007/s10957-012-0245-9 and https://doi.org/10.1007/s10444-011-9254-8
+| Based on: https://doi.org/10.1007/s10851-010-0251-1
+| Regularized version using non-linear priors: https://doi.org/10.1007/s10957-012-0245-9 and https://doi.org/10.1007/s10444-011-9254-8
 
 PDHGL1
 ^^^^^^
@@ -307,7 +304,7 @@ Huber prior
 
 Similar to quadratic prior, but can prevent large variations and thus artifacts happening by limiting the values. See HP PROPERTIES for the parameter.
 
-Based on:https://doi.org/10.1002/9780470434697
+Based on: https://doi.org/10.1002/9780470434697
 
 MRP
 ^^^
@@ -352,23 +349,17 @@ Based on: https://doi.org/10.1109/42.61759 and https://doi.org/10.1109/TMI.2002.
 TV
 ^^
 
-TV is "special" since it actually contains several different variations. See TV PROPERTIES for the parameters. Note that for proximal TV, see Proximal TV.
+TV is "special" since it actually contains several different variations. See TV PROPERTIES for the parameters. Note that for proximal TV, see Proximal TV. This is the gradient-based TV.
 
 First is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no anatomical weighting is used. Type 3 is the hyperbolic prior if no anatomical weighting is used. Type 6 is a weighted TV prior. TV type 4 is the Lange prior.
 
-A complete list and explanation of the TV types:
-
-Type 1: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1007/s10851-017-0749-x
-
-Type 2: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1109/TMI.2016
-
-Type 3: Hyperbolic prior if no anatomical weighting is used, use hyperbolic prior instead in such cases. Type 3 is not recommended! Based on: https://doi.org/10.1088/0031-9155/60/6/2145
-
-Type 4: Modified Lange prior. Does not support anatomical weighting. Based on: https://doi.org/10.1109/TMI.2019.2898271 and https://doi.org/10.1109/42.61759
-
-Type 5: N/A
-
-Type 6: Weighted TV. Does not support anatomical weighting. Based on: https://doi.org/10.1088/0031-9155/57/23/7923
+| A complete list and explanation of the TV types:
+| Type 1: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1007/s10851-017-0749-x
+| Type 2: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1109/TMI.2016
+| Type 3: Hyperbolic prior if no anatomical weighting is used, use hyperbolic prior instead in such cases. Type 3 is not recommended! Based on: https://doi.org/10.1088/0031-9155/60/6/2145
+| Type 4: Modified Lange prior. Does not support anatomical weighting. Based on: https://doi.org/10.1109/TMI.2019.2898271 and https://doi.org/10.1109/42.61759
+| Type 5: N/A
+| Type 6: Weighted TV. Does not support anatomical weighting. Based on: https://doi.org/10.1088/0031-9155/57/23/7923
 
 Since this applies to the "gradient"-based TV, the smooting term can be adjusted (``options.TVsmoothing``). This smoothing term should not be zero as it prevents division by zero. Larger values lead to smoother images.
 
@@ -384,6 +375,13 @@ If a mat-file is used, the reference image should be the only variable.
 In the future, Lange will probably the transformed into a separate prior. 
 
 Recommended ones are types 1 or 4.
+
+Proximal TV
+^^^^^^^^^^^
+
+The proximal mapping version of TV. There are no adjustable parameters and this only works with algorithms that support proximal methods (PKMA and PDHG and its variants).
+
+Mathematically more correct version of TV.
 
 Anisotropic Diffusion Median Root Prior
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
