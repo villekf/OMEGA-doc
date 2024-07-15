@@ -34,26 +34,28 @@ reconstruction. One uses the coordinates of each detector for each measurement a
 coordinates.
 
 In case you want to reconstruct PET data from a non-cylindrical scanner, this is also possible. For that you'll need to manually either input the detector coordinates and the measurement data or transaxial and axial indices 
-for each measurement that point to the coordinates, the measurement data as well as the transaxial and axial coordinates corresponding to each index. An example of coordinate-based case is 
+for each measurement that point to the coordinates. An example of coordinate-based case is 
 shown in ``custom_detector_coordinates_example``. For coordinate based reconstruction, in general, you'll need 6 coordinates for one measurement, with the first three being the x/y/z-coordinates of the first detector, and the next three the x/y/z-coordinates 
 of the second detector. In Python, the data has to be Fortran-ordered, or in vector format, such that the 6 coordinates are contiguously stored. For index-based, you'll need two transaxial indices and two axial indices, plus
-the coordinates. Like with coordinates, the data needs to be Fortran-ordered in Python. The indices also need to be zero-based.
+the coordinates. Like with coordinates, the data needs to be Fortran-ordered in Python. The indices also need to be zero-based. The listmode example ``Inveon_PET_main_listmode_example`` shows both methods. Note that the data can be
+in any format, as long as each measurement has the correct coordinates.
 
 The above example files don't contain all the adjustable parameters. For a complete list of adjustable parameters, see ``main_PET_full``.
 
 If you use large datasets, such as TOF data, you may want to limit the amount of measurements transfered to the GPU, when using GPU computing. This can be achieved by setting ``options.loadTOF = false``. In such a case
-only the current subset is transfered to the GPU. This only works with subsets and will most likely slow down the computations.
+only the current subset is transfered to the GPU. This only works with subsets and will most likely slow down the computations. Default value is true, which means that all the measurement data is transfered to the GPU before
+computations.
 
 Note that by default OMEGA assumes the FOV to be centered on the origin. You can, however, move the FOV location with ``options.oOffsetX/Y/Z`` variables (separate ones for each!). If you use your own detector coordinates, be
 sure to take this into account.
 
 If you want to use the OMEGA forward and backward projedtion operators to develop, for example, your own reconstruction algorithms, you can use the ``custom_algorithms_example`` files. 
 For MATLAB/Octave there is only one example, but Python has two, one for OpenCL using Arrayfire and one for CUDA using PyTorch. They also use different scanners, as the MATLAB/Octave one uses the Inveon scanner, while
-the Python one uses the GATE example scanner. However, you can use any scanner you wish or also simply the detector coordinates or indices as outlined above.
+the Python one uses the GATE example scanner. However, you can use any scanner you wish or also simply the detector coordinates or indices as outlined above. For custom coordinates, see ``custom_coordinates_custom_algorithm_example``.
 
-Example MAT-files created from GATE data can be found from: https://doi.org/10.5281/zenodo.3522199
+Example MAT-files created from GATE data can be found from: https://doi.org/10.5281/zenodo.12743218
 
-Raw ASCII data obtained from the GATE macros mentioned above (not normalization) can be found from: https://doi.org/10.5281/zenodo.3526859
+Older raw ASCII data obtained from the GATE simulation (not normalization) can be found from: https://doi.org/10.5281/zenodo.3526859
 
 Example preclinical Inveon data is available from: https://doi.org/10.5281/zenodo.3528056 or https://doi.org/10.5281/zenodo.4646897. The ``PET_main_genericExample.m/py`` or ``Inveon_PET_main_listmode_example`` 
 files can be used automatically for this data.
@@ -71,11 +73,16 @@ of a single detector pixel. In Python, the data has to be Fourier ordered, or in
 Several CT examples are available. For a rather generic case, see ``CT_main_generalExample`` which uses TIFF projection images as the input. This example automatically computes the source/detector coordinates 
 and thus is applicable mainly to "typical" CBCT cases.
 
-For a case using source coordinates and the center of the detector panel coordinates for each projection, see ``Planmeca_CT_main_generic`` files. These also highlight a case where the panel also rotates along its own axis (slightly).
-Offset correction cases can also be used with this.
+For a case using source coordinates and the center of the detector panel coordinates for each projection, see ``CBCT_main_generic`` files. These also highlight a case where the panel also rotates along its own axis (slightly).
+Offset correction cases can also be used with this. Example data can be obtained from: https://doi.org/10.5281/zenodo.12722386
 
 An example of µCT (using either https://doi.org/10.5281/zenodo.4279613 or https://doi.org/10.5281/zenodo.4279549) is provided with the ``walnut_CT_main`` though ``CT_main_generalExample`` works just as well. 
 A 2D (sinogram) example is shown in ``CT2D_fanbeam_mainExample`` (uses https://doi.org/10.5281/zenodo.1254206). Lastly, an example script using preclinical Inveon CT is in ``Inveon_CT_main`` (uses https://doi.org/10.5281/zenodo.4646835). 
+
+For high-dimensional µCT, you can use ``skyscan_CT_main_highDimExample`` or ``nikon_CT_main_highDimExample``. These are useful for datasets that are dozens of gigabytes large. They should also work straight for Skyscan or Nikon
+µCT data. You can reconstruct such datasets at full resolution 
+usin a GPU even if the GPU does not have enough memory to hold all the data. Note that you will need a lot of physical RAM for these as the data is stored in the main memory, while only a subset of the data is stored in the GPU. The 
+features are limited though as only FDK, PKMA and PDHG algorithms work. Regularization can be used, but it is highly unoptimal at the moment. Example SkyScan data can be obtained from: https://doi.org/10.5281/zenodo.12744181
 
 For custom algorithms, see ``CT_main_generic_custom_algorithms_example`` or ``Planmeca_CT_main_generic_custom_algorithms``.
 
