@@ -91,6 +91,8 @@ PET features
   * Rayleigh or Compton scatter in the detector and/or phantom can be separately selected
  * Form and reconstruct dynamic sinograms
  * Obtain a ground truth image from the GATE ROOT data
+* Load Inveon PET list-mode data 
+* Automatically convert any of the above PET data into sinograms
 * Supports orthogonal distance-based ray tracer
 * All projectors automatically use probabilities rather than the length of the line of intersection
 * Automatically compute detector/source coordinates for cylindrical PET data (both GATE and non-GATE data)
@@ -155,7 +157,6 @@ MATLAB/GNU Octave only
 ----------------------
 
 * Load GATE ASCII and LMF (LMF support has been deprecated) data for cylindrical/ECAT PET systems
-* Load Inveon PET list-mode data 
 * Load Siemens Biograph mCT and Vision list-mode data
  * Supports both binned 32-bit list-mode data as well as 64-bit
  * Supports also .ptd-files
@@ -214,5 +215,5 @@ Python only
   * You can, for example, input a PyTorch CUDA tensor into OMEGA forward and/or backward projection
   * On OpenCL, you can use Arrayfire for fast GPU-based computations by simply inputting an Arrayfire array into forward and/or backward projection
   * Note that OMEGA is column-major while PyTorch is row-major!
-  * Use Fourier-ordering with CuPy
+  * Use Fortran-ordering with CuPy
  * Any package that supports PyOpenCL or CuPy can be combined with OMEGA
