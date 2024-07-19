@@ -468,7 +468,7 @@ other NLM options affect the below selections as well.
 
 If you wish to use non-local total variation, set ``options.NLTV = true``. 
 
-NLM can also be used like MRP (and MRP-AD) where the median filtered image is replaced with NLM replaced image. This is achieved by setting ``options.NLM_MRP = true``. This is computed without normalization ((λ - MNLM)/1).
+NLM can also be used like MRP (and MRP-AD) where the median filtered image is replaced with NLM filtered image. This is achieved by setting ``options.NLM_MRP = true``. This is computed without normalization ((λ - MNLM)/1).
 
 Non-local relative difference prior can se selected with ``options.NLRD = true``. Note that ``options.RDP_gamma`` affects NLRD as well.
 
