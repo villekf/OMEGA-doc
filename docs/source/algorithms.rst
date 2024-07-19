@@ -196,16 +196,24 @@ Based on: https://doi.org/10.1007/s10878-019-00453-7
 LSQR
 ^^^^
 
-Least-squares based algorithm. Does not support subsets! Can be used for any data. Does not support regularization. Potentially useful test algorith for CT data.
+Least-squares based algorithm. Does not support subsets! Can be used for any data. Does not support regularization. Potentially useful test algorithm for CT data.
 
 Based on: https://doi.org/10.1145/355984.355989
 
 CGLS
 ^^^^
 
-Least-squares based algorithm. Does not support subsets! Can be used for any data. Does not support regularization. Potentially useful test algorith for CT data.
+Least-squares based algorithm. Does not support subsets! Can be used for any data. Does not support regularization. Potentially useful test algorithm for CT data.
 
 Based on: https://doi.org/10.6028/jres.049.044
+
+SART
+^^^^
+
+Can be used with or without subsets. None of the examples currently include this, but you can enable it with ``options.SART = true`` in MATLAB/Octave and ``options.SART = True`` in Python. 
+Does not support regularization. Potentially useful test algorithm for CT data.
+
+Based on: https://doi.org/10.1016/0161-7346(84)90008-7 and https://content.iospress.com/articles/journal-of-x-ray-science-and-technology/xst00110
 
 OSL-OSEM
 ^^^^^^^^
