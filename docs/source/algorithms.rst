@@ -210,7 +210,8 @@ Based on: https://doi.org/10.6028/jres.049.044
 SART
 ^^^^
 
-Can be used with or without subsets. None of the examples currently include this, but you can enable it with ``options.SART = true`` in MATLAB/Octave and ``options.SART = True`` in Python. 
+Can be used with or without subsets. Uses same relaxation parameter as all the other algorithms using relaxation (i.e. ``options.lambda`` or ``options.lambdaN``). 
+None of the examples currently include this algorithm, but you can enable it with ``options.SART = true`` in MATLAB/Octave and ``options.SART = True`` in Python. 
 Does not support regularization. Potentially useful test algorithm for CT data.
 
 Based on: https://doi.org/10.1016/0161-7346(84)90008-7 and https://content.iospress.com/articles/journal-of-x-ray-science-and-technology/xst00110
