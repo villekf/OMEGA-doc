@@ -448,7 +448,7 @@ GGMRF
 
 Based on: https://doi.org/10.1118/1.2789499
 
-The original article includes adjustable parameters `p`, `q` and `c` which can be adjusted with ``options.GGMRF_p``, ``options.GGMRF_q``, and ``options.GGMRF_c`, respectively.
+The original article includes adjustable parameters `p`, `q` and `c` which can be adjusted with ``options.GGMRF_p``, ``options.GGMRF_q``, and ``options.GGMRF_c``, respectively.
 
 NLM
 ^^^
