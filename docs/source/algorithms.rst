@@ -106,6 +106,8 @@ modality. EM refers to emission tomography as many Poisson-based algorithms have
 | Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
 | Recommended algorithms with regularization (CT): PDHG, PKMA
 
+When in doubt, use PDHG.
+
 FDK/FBP
 ^^^^^^^
 
@@ -294,6 +296,20 @@ Variation of PDHG L2 norm version. Is not as strict with the requirements for pr
 built-in priors. Slightly slower than PDHG but otherwise everything is identical.
 
 Based on: https://doi.org/10.1007/s10957-022-02061-8
+
+ASD-POCS
+^^^^^^^^
+
+Currently not included in any of the examples, but you can enable it with ``options.ASD_POCS = true`` (MATLAB/Octave) or ``options.ASD_POCS = True`` (Python). Adjustable parameters are ``options.POCS_NgradIter`` 
+(number of iterations for the denoising phase), ``options.POCS_alpha``, ``options.POCS_rMax``, ``options.POCS_alphaRed`` and ``options.POCSepps``. Note that ``options.POCSepps`` is the epsilon value in the original article.
+All values have default values which are taken from the original article, except for epsilon value which is 1e-4. Supports subsets, but doesn't support any preconditioners. Note that, like SART, this algorithm requires 
+the relaxation parameters ``options.lambda`` (MATLAB/Octave) or ``options.lambdaN`` (Python). You can use the default value(s) or input your own values.
+
+Unlike the original article, any non-proximal prior can be used here, though the functionality cannot be guaranteed!
+
+Does not support projector type 6 at the moment.
+
+Based on: http://dx.doi.org/10.1088/0031-9155/53/17/021
 
 Priors
 ----------
