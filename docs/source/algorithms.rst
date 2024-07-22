@@ -263,6 +263,10 @@ PKMA
 Similar to MBSREM. Can be used without regularization but also supports regularization. Supports also proximal priors. Supports preconditioners. Transmission tomography support. Requires the relaxation parameter lambda, see RELAXATION PARAMETER. 
 Useful for any Poisson-based data, if regularization is used. Useful also without regularization. The recommended algorithm for Poisson-based reconstructions. Unlike MBSREM, also requires the momentum parameter, see PKMA PROPERTIES.
 
+Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
+until it is of the right magnitude. Too high values will cause quick divergence while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use default values). This should work for
+most CT applications, but it might not be optimal. To fix this, a proper normalization would be required for the backprojection (suggestions are welcome!).
+
 EM version based on: https://doi.org/10.1109/TMI.2019.2898271
 
 PDHG
