@@ -106,12 +106,12 @@ modality. EM refers to emission tomography as many Poisson-based algorithms have
 | Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
 | Recommended algorithms with regularization (CT): PDHG, PKMA
 
-When in doubt, use PDHG.
+When in doubt, use PDHG with measurement-based filtering preconditioner.
 
 FDK/FBP
 ^^^^^^^
 
-Simple filtered backprojection. Scaling is currently incorrect and as such the numerical values are not comparable to iterative methods. However, the image itself looks fine. GPU-based algorithm only. Useful for testing purposes as
+Simple filtered backprojection. Scaling is currently incorrect for PET and SPECT data (CT should be fine) and as such the numerical values are not comparable to iterative methods. However, the image itself looks fine. GPU-based algorithm only. Useful for testing purposes as
 it is a very fast method. Also useful for very high-dimensional µCT data.
 
 
@@ -214,7 +214,7 @@ SART
 
 Can be used with or without subsets. Uses same relaxation parameter as all the other algorithms using relaxation (i.e. ``options.lambda`` or ``options.lambdaN``). 
 None of the examples currently include this algorithm, but you can enable it with ``options.SART = true`` in MATLAB/Octave and ``options.SART = True`` in Python. 
-Does not support regularization. Potentially useful test algorithm for CT data.
+Does not support regularization. Potentially useful test algorithm for CT data. Implementation 2 only!
 
 Based on: https://doi.org/10.1016/0161-7346(84)90008-7 and https://content.iospress.com/articles/journal-of-x-ray-science-and-technology/xst00110
 
@@ -303,7 +303,7 @@ ASD-POCS
 Currently not included in any of the examples, but you can enable it with ``options.ASD_POCS = true`` (MATLAB/Octave) or ``options.ASD_POCS = True`` (Python). Adjustable parameters are ``options.POCS_NgradIter`` 
 (number of iterations for the denoising phase), ``options.POCS_alpha``, ``options.POCS_rMax``, ``options.POCS_alphaRed`` and ``options.POCSepps``. Note that ``options.POCSepps`` is the epsilon value in the original article.
 All values have default values which are taken from the original article, except for epsilon value which is 1e-4. Supports subsets, but doesn't support any preconditioners. Note that, like SART, this algorithm requires 
-the relaxation parameters ``options.lambda`` (MATLAB/Octave) or ``options.lambdaN`` (Python). You can use the default value(s) or input your own values.
+the relaxation parameters ``options.lambda`` (MATLAB/Octave) or ``options.lambdaN`` (Python). You can use the default value(s) or input your own values. Implementation 2 only!
 
 Unlike the original article, any non-proximal prior can be used here, though the functionality cannot be guaranteed!
 
