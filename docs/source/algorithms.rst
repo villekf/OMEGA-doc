@@ -103,6 +103,7 @@ modality. EM refers to emission tomography as many Poisson-based algorithms have
 
 | Recommended algorithms when regularization is not used (PET and SPECT): OSEM, PKMA, PDHG, PDHGKL
 | Recommended algorithms with regularization (PET and SPECT): PKMA, PDHG, PDHGKL
+| Recommended algorithms for listmode PET: OSEM, PKMA
 | Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
 | Recommended algorithms with regularization (CT): PDHG, PKMA
 
@@ -315,6 +316,14 @@ Does not support projector type 6 at the moment.
 
 Based on: http://dx.doi.org/10.1088/0031-9155/53/17/021
 
+FISTA acceleration
+^^^^^^^^^^^^^^^^^^
+
+Not an algorithm but rather an acceleration method for algorithms. You can enable it with ``options.FISTA_acceleration = true``  (MATLAB/Octave) or ``options.FISTA_acceleration = True`` (Python). Can help with convergence speed
+but can also cause artifacts in the reconstructions. Quality might be algorithm dependent, but not recommended with PDHG at least.
+
+Based on: https://doi.org/10.1016/j.ultramic.2018.03.022
+
 Priors
 ----------
 
@@ -378,6 +387,8 @@ Based on: https://doi.org/10.1109/42.61759 and https://doi.org/10.1109/TMI.2002.
 TV
 ^^
 
+TV is not affected by the neighborhood size.
+
 TV is "special" since it actually contains several different variations. See TV PROPERTIES for the parameters. Note that for proximal TV, see Proximal TV. This is the gradient-based TV.
 
 First is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no anatomical weighting is used. Type 3 is the hyperbolic prior if no anatomical weighting is used. Type 6 is a weighted TV prior. TV type 4 is the Lange prior.
@@ -407,6 +418,8 @@ Recommended ones are types 1 or 4.
 
 Proximal TV
 ^^^^^^^^^^^
+
+Proximal TV is not affected by the neighborhood size.
 
 The proximal mapping version of TV. There are no adjustable parameters and this only works with algorithms that support proximal methods (PKMA and PDHG and its variants).
 
@@ -448,6 +461,8 @@ Modified hyperbolic prior, previously exclusively used as TV type 3. Unlike TV t
 TGV
 ^^^
 
+TGV is not affected by the neighborhood size.
+
 Based on: https://doi.org/10.1137/090769521
 
 Recommended only for proximal supporting metdos (PDHG and its variants, PKMA).
@@ -461,7 +476,22 @@ RDP
 
 Based on: https://doi.org/10.1109/TNS.2002.998681
 
-Adjust the edge weighting value with ``options.RDP_gamma``.
+RDP can be a bit confusing prior as there are 2/3 different ways it is computed. First of all, implementation 2 is highly recommended for RDP in MATLAB/Octave (Python only supports implementation 2). Second, with implementation 2
+it is recommended to use the OpenCL or CUDA versions and not the CPU version.
+
+RDP with implementation 2 (OpenCL + CUDA) has two different methods. The default is similar to the original RDP, i.e. only the voxels next to the current voxel are taken into account (voxels that share a side with the current voxel). 
+This means that ``options.Ndx/y/z`` are not used with the default method. 
+Second method is enabled by setting ``options.RDPIncludeCorners = true`` (``options.RDPIncludeCorners = True`` for Python). This changes the functionality of the RDP significantly. First of all, the neighborhood size affects RDP
+as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neigborhoods. Second, same weights are used as with quadratic prior. You can input your own weights into ``options.weights`` or use distance-based weights (the distance from the current voxel to
+the neigborhood voxel) which is the default option. The default version does not use any weighting. Lastly, this second version supports a "reference image" weighting, based on: https://dx.doi.org/10.1109/TMI.2019.2913889. 
+To enable you need to additionally set ``options.RDP_use_anatomical`` and provide the reference image either as mat-file in ``options.RDP_reference_image`` (MATLAB/Octave) or ``options.RDP_referenceImage`` (Python) or as a vector. 
+You need to manually compute the reference image. The reference image weighting itself is computed automatically, i.e. the kappa values.
+
+When using RDP with implementation 2 and CPU, the functionality is the same as the first, default, method. Second method is not available.
+
+When using other implementations, the functionality is closer to the second method. However, no reference image weighting is supported.
+
+In all cases, the edge weight can be adjusted with ``options.RDP_gamma``.
 
 GGMRF
 ^^^^^
@@ -493,3 +523,65 @@ NLM can also be used like MRP (and MRP-AD) where the median filtered image is re
 Non-local relative difference prior can se selected with ``options.NLRD = true``. Note that ``options.RDP_gamma`` affects NLRD as well.
 
 Non-local generalized Gaussian Markov random field prior can be selected with ``options.NLGGMRF = true``. As with RDP, the `p`, `q`, and `c` parameters affect this prior as well.
+
+
+Preconditioners
+===============
+
+Image-based preconditioners
+---------------------------
+
+Diagonal preconditioner
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The diagonal preconditioner is simply the inverse of image-based sensitivity image, i.e. ``1/(A^T1)``.
+
+EM preconditioner
+^^^^^^^^^^^^^^^^^
+
+Similar to above, but the previous estimate ``f`` is included as well ``f/(A^T1)``.
+
+IEM preconditioner
+^^^^^^^^^^^^^^^^^^
+
+Based on: https://doi.org/10.1109/TMI.2019.2898271
+
+Similar to above, but a reference image is needed: ``max(f, fRef, epsilon)/(A^T1)``. epsilon is a small value to prevent too small values. You need to input the reference image beforehand to ``options.referenceImage``. 
+
+Momentum-like preconditioner
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Essentially a subset-based relaxation. Based on: https://doi.org/10.1109/TMI.2022.3181813
+
+You can input the momentum parameters with ``options.alphaPrecond`` or let OMEGA compute parameters with same logic as with PKMA by inputting ``options.rhoPrecond`` and ``options.delta1Precond``. If these values are omitted, the PKMA variables are used
+instead.
+
+Gradient-based preconditioner
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Uses weighted gradient of the current estimate as a preconditioner. Based on: https://doi.org/10.1109/TMI.2022.3181813
+
+You need to specify the iteration were the preconditioner is first computed with ``options.gradInitIter``. It is not recommended to use the first iteration due to blurry estimate. Then you need to specify the last iteration
+where the gradient is computed with ``options.gradLastIter``. The gradient is no longer computed after this iteration, but the last computed gradient is still used in all the remaining iterations.
+
+You also need to specify the lower and upper bound values with ``options.gradV1`` and ``options.gradV2``. See the paper for details.
+
+Can improve convergence if properly configured, but can be difficult and time-consuming to get working properly. Also increases the computation time due to the need to compute the gradient of the estimate.
+
+Filtering-based preconditioner
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TBD.
+
+Measurement-based preconditioners
+---------------------------------
+
+Diagonal preconditioner
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The diagonal preconditioner is simply the inverse of measurement-based sensitivity image, i.e. ``1/(A1)``.
+
+Filtering-based preconditioner
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TBD.

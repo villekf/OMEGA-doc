@@ -13,6 +13,9 @@ MATLAB/GNU Octave/Python
 
 Any data
 ^^^^^^^^
+* OpenCL and CUDA support (single precision only)
+ * Works with AMD, Nvidia or Intel GPUs
+ * Possibly also with mobile device GPUs such as Qualcomm
 * Supports any data that uses ray-tracing
  * Only the source and detector coordinates need to be input
  * Source and/or detector can be inside the FOV
@@ -31,8 +34,9 @@ Any data
  * A class object can be created which can be used to compute the forward and/or backward projections
  * Available in MATLAB, GNU Octave and Python
 * Wide range of algorithms supported:
- * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI and OSL
+ * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, SART, ASD-POCS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI and OSL
   * PDHG supports L1, L2 and Kullback-Leibler optimization
+  * Optional FISTA/Momentum acceleration for all algorithms
   * FDK/FBP supports several different windowing methods: Hamming, Hann, Blackman, Nuttal, Gaussian, Shepp-Logan, cosine, Parzen (de la Vallée Poussin) or none (ramp)
 * Wide range of regularization techniques/priors:
  * Quadratic prior, Huber, MRP, Weighted mean, TV, NLM, RDP, APLS, (proximal) TGV, proximal TV and hyperbolic prior
@@ -40,7 +44,6 @@ Any data
  * TV, NLM and APLS support anatomic/prior image weighting
 * Supports time-varying dynamic data
  * Reconstruct dynamic data with static algorithms
-* OpenCL and CUDA support (single precision only)
 * Point spread function blurring
  * Optional deblurring available
 * Save the last iteration or specific iterations
