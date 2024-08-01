@@ -89,6 +89,9 @@ Reconstruction software
 * RTK: https://github.com/RTKConsortium/RTK
  * The Reconstruction Toolkit
  
+* ODL: https://github.com/odlgroup/odl
+ * Operator Discretization Library for Python
+ 
 Data analysis software
 ----------------------
 
@@ -153,4 +156,6 @@ Datasets
  * Datasets for, for example, CBCT, electrical impedance tomography and PET
  
 * fastMRI dataset: https://fastmri.med.nyu.edu/
+
+* Low dose CT grand challenge dataset: https://www.aapm.org/GrandChallenge/LowDoseCT/
 
