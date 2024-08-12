@@ -78,7 +78,8 @@ Reconstruction software
  * Doesn't seem to be maintained anymore
  
 * MIRT, Michigan Image Reconstruction Toolkit: https://github.com/JeffFessler/mirt
- * Tomographic image reconstruction toolkit, especially for medical imaging
+ * Tomographic image reconstruction toolkit, especially for medical imaging (emission, transmission, MRI)
+ * Julia version: https://github.com/JeffFessler/MIRT.jl
  
 * NiftyRec: https://github.com/TomographyLab/NiftyRec
  * GPU(CUDA)-based image reconstruction toolkit for tomographic imaging
@@ -91,6 +92,9 @@ Reconstruction software
  
 * ODL: https://github.com/odlgroup/odl
  * Operator Discretization Library for Python
+ 
+* LEAP: https://github.com/LLNL/LEAP
+ * LivermorE AI Projector for Computed Tomography
  
 Data analysis software
 ----------------------
@@ -127,7 +131,7 @@ Programming and languages
 -------------------------
 
 * Julia language: https://julialang.org/
- * Modern, Python- and MATLAB-like, language
+ * Modern, Python- and MATLAB-like, language (open-source)
  
 * Flux.jl: https://github.com/FluxML/Flux.jl
  * Julia's machine learning library

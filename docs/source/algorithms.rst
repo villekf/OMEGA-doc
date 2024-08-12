@@ -465,7 +465,7 @@ TGV is not affected by the neighborhood size.
 
 Based on: https://doi.org/10.1137/090769521
 
-Recommended only for proximal supporting metdos (PDHG and its variants, PKMA).
+Recommended only for proximal supporting methods (PDHG and its variants, PKMA).
 
 ``options.alpha0TGV`` is the first weighting value for the TGV (see parameter α1 in the reference).
 
