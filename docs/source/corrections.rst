@@ -42,7 +42,7 @@ and compute the normalization coefficients with OMEGA. For the latter, set ``opt
 components to include (1 means that the component is included, 0 that it is not included). First: Axial geometric correction, Second: Detector efficiency correction, Third: Block profile correction, Fourth: Transaxial geometric 
 correction (NOT recommended when using normalization data that does not encompass the entire FOV). E.g. [1 1 0 0] computes normalization correction for axial geometric effects and detector efficiency. If a cylinder was used for 
 the normalization measurements that is smaller than the FOV, you can input its radius with ``options.normalization_phantom_radius``. This is used for automatic attenuation correction. If you input the radius, you also need to input
-the attenuation coefficient of the material with ``options.normalization_attenuation ``. You can also use automatic scatter correction with ``options.normalization_scatter_correction``. Note that Python does not (yet) support computing of
+the attenuation coefficient of the material with ``options.normalization_attenuation``. You can also use automatic scatter correction with ``options.normalization_scatter_correction``. Note that Python does not (yet) support computing of
 the normalization coefficients.
 
 If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the attenuation data, either input the data into ``options.normalization`` or select it when running the code
