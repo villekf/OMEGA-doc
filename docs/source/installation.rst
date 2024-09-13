@@ -112,6 +112,8 @@ The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` su
 
 If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
 
+If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
+
 OMEGA
 ^^^^^
 
@@ -234,6 +236,8 @@ Note that with ``pymatreader``, you can load measurement data from mat-files, wh
 The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
 
 If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
+
+If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
 
 OMEGA
 ^^^^^
@@ -366,6 +370,8 @@ Note that with ``pymatreader``, you can load measurement data from mat-files, wh
 The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
 
 If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
+
+If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
 
 OMEGA
 ^^^^^
