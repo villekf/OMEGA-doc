@@ -45,7 +45,7 @@ the normalization measurements that is smaller than the FOV, you can input its r
 the attenuation coefficient of the material with ``options.normalization_attenuation``. You can also use automatic scatter correction with ``options.normalization_scatter_correction``. Note that Python does not (yet) support computing of
 the normalization coefficients.
 
-If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the attenuation data, either input the data into ``options.normalization`` or select it when running the code
+If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the normalization coefficient data, either input the data into ``options.normalization`` or select it when running the code
 and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable). Normalization data computed with OMEGA are saved
 to the mat-files folder and loaded automatically if the same measurement dimensions and scanner are used.
 
@@ -75,7 +75,7 @@ regularization is generally only applied to the main FOV and third, you can sele
 reconstruction, enabled with ``options.useMultiResolutionVolumes``. The extended volume is divided into separate volumes, where the amount depends on whether transaxial and/or axial directions are included. If both are included, there
 will be 6 multi-resolution volumes plus the main volume. The multi-resolution volumes can have larger voxel size than the main volume. This can be controlled with ``options.multiResolutionScale``, where the default value of 1/4 means
 that the original size is divided by this value, i.e. the resolution is 1/4 of the original and the voxel size four times larger. The default extended FOV extension length is 40% (0.4) of the original size per side. With 1/4 scale, this is
-essentially reduced to 10%. You can adjust this manually with ``options.eFOVLength``. With multi-resolution volumes, the mask image and regularization are only used for the main volume!
+essentially reduced to 10% increase in voxel count. You can adjust this manually with ``options.eFOVLength``. With multi-resolution volumes, the mask image and regularization are only used for the main volume!
 
 See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution method. Note that the OMEGA implementation may not exactly match the paper.
 
