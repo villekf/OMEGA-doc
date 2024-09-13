@@ -27,5 +27,6 @@ Contents
    implementation
    openclcuda
    algorithms
+   corrections
    features
    usefullinks

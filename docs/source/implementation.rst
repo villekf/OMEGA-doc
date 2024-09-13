@@ -3,7 +3,7 @@ Choosing the optimal implementation
 
 This page explains the details on the different implementations and their different advantages. This does not apply to custom reconstructions in Python!
 
-In short, use implementation 2 with OpenCL as it is the most feature-rich and tested one. This is the only one available when using Python as well. For details, see below. If you cannot use implementation 2, use implementation 5 if you have a discrete GPU. If not, use implementation 4.
+In short, use implementation 2 with OpenCL as it is the most feature-rich and tested one. This is the only implementation available when using Python as well (CUDA and CPU are available too). For details, see below. If you cannot use implementation 2, use implementation 5 if you have a discrete GPU. If not, use implementation 4.
 
 Implementation 1 is a CPU-only implementation. It computes and stores the actual (sparse) system matrix for the selected geometry. It supports only projector types 1-3 and their hybrid versions. In general,
 this implementation is not recommended. For custom algorithms, it can sometimes, however, be beneficial to obtain the system matrix for a 2D case. In such cases, implementation 1 can be useful, and fast. However,

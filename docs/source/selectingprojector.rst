@@ -56,7 +56,13 @@ A good combination of quality and speed is to use ``projector_type = 45``, or ``
 SPECT data
 ----------
 
-Only projector type 6 is recommended at this point. This is a rotation-based projector, meaning it rotates the images to simulate parallel beam reconstruction. Detector response can be included as well to enable PSF blurring.
+Projector types 1 and 6 are the only ones recommended 
+
+Projector type 1 is a ray-based projector and is algorithmically identical to the PET version, i.e. the exact intersection length is computed. However, for SPECT multiple rays per projection pixel can be used and the rays spread
+out as a cone according to the collimator geometry. Usable for any parallel hole collimator. Could be modified for any other type of collimator as well, but currently pinhole, fanbeam or similar do not work optimally. Unlike the
+projector type 6, projector type 1 works with any kind of scanner geometry as long as parallel hole collimator is used.
+
+Projector type 6 is a rotation-based projector, meaning it rotates the images to simulate parallel beam reconstruction. Detector response can be included as well to enable PSF blurring.
 
 Other data
 ----------
