@@ -331,6 +331,14 @@ Many of the priors are dependent on the neighborhood size, i.e. the number of ne
 X and Y should be identical (transaxial dimensions). For example ``options.Ndx = 1``, ``options.Ndy = 1``, ``options.Ndz = 0`` selects all the 8 neighboring transaxial voxels, while with ``options.Ndz = 1`` a total of 27 voxels would
 be included, and so on. The larger the neighborhood, the longer the computation time. If a prior is NOT affected by this, it is specifically mentioned.
 
+Below is another example of the neighborhood. In the below (2D) example we have ``options.Ndx = 2`` and ``options.Ndy = 2``, with the center pixel in white and neighborhood as blue. Note that the NLM patch region works the same way.
+
+.. figure:: neighborhood.png
+   :scale: 100 %
+   :alt: Example neighborhood
+
+   Example neighborhood with ``options.Ndx = 2`` and ``options.Ndy = 2``.
+
 Quadratic
 ^^^^^^^^^
 
@@ -507,7 +515,7 @@ Based on: https://doi.org/10.1137/040616024
 
 ``options.sigma`` is the filtering parameter/strength.
 
-The patch radius is controlled with parameters ``options.Nlx``, ``options.Nly`` and ``options.Nlz``. The similarity is investigated in this area.
+The patch region is controlled with parameters ``options.Nlx``, ``options.Nly`` and ``options.Nlz``. The similarity is investigated in this area and the area is formed just like the neighborhood.
 
 The strength of the Gaussian weighting (standard deviation) can be adjusted with ``options.NLM_gauss``.
 
