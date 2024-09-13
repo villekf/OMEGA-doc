@@ -524,6 +524,9 @@ Non-local relative difference prior can se selected with ``options.NLRD = true``
 
 Non-local generalized Gaussian Markov random field prior can be selected with ``options.NLGGMRF = true``. As with RDP, the `p`, `q`, and `c` parameters affect this prior as well.
 
+All the non-local methods also support an "adaptive" non-local weighting. This is enabled with ``options.NLAdaptive`` and is based on http://dx.doi.org/10.1016/j.compmedimag.2015.02.008. Note that the filter parameter (``options.sigma``)
+is the s value from the paper, while the t value is adjusted with ``options.NLAdaptiveConstant``.
+
 
 Preconditioners
 ===============
