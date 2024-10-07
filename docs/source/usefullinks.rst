@@ -41,6 +41,9 @@ Simulation software
 * MRiLab: https://leoliuf.github.io/MRiLab/
  * MRI simulator
  
+* Fastcat: https://github.com/jerichooconnell/fastcat
+ * Analytical CBCT simulator for Python
+ 
 Reconstruction software
 -----------------------
 
@@ -138,6 +141,8 @@ Programming and languages
  
 * ZLUDA: https://github.com/vosen/ZLUDA
  * Run CUDA applications on AMD GPUs
+ * Note that due to legal issues, the original depository no longer contains the AMD specific ZLUDA
+ * For AMD specific ZLUDA, see for example: https://github.com/lshqqytiger/ZLUDA
  
 * AMD HIP: https://github.com/ROCm/HIP
  * AMD's version of CUDA
@@ -163,3 +168,4 @@ Datasets
 
 * Low dose CT grand challenge dataset: https://www.aapm.org/GrandChallenge/LowDoseCT/
 
+* Stanford University datasets: https://aimi.stanford.edu/shared-datasets
