@@ -18,6 +18,8 @@ and the number of voxels are required.
 
 Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in /path/to/OMEGA/source/Python. 
 
+In general OMEGA uses units millimeter (mm) and seconds (s).
+
 Examples
 --------
 
@@ -38,13 +40,13 @@ for each measurement that point to the coordinates. An example of coordinate-bas
 shown in ``custom_detector_coordinates_example``. For coordinate based reconstruction, in general, you'll need 6 coordinates for one measurement, with the first three being the x/y/z-coordinates of the first detector, and the next three the x/y/z-coordinates 
 of the second detector. In Python, the data has to be Fortran-ordered, or in vector format, such that the 6 coordinates are contiguously stored. For index-based, you'll need two transaxial indices and two axial indices, plus
 the coordinates. Like with coordinates, the data needs to be Fortran-ordered in Python. The indices also need to be zero-based. The listmode example ``Inveon_PET_main_listmode_example`` shows both methods. Note that the data can be
-in any format, as long as each measurement has the correct coordinates.
+in any format (sinogram, listmode, projection image, something else), as long as each measurement has the correct coordinates.
 
 The above example files don't contain all the adjustable parameters. For a complete list of adjustable parameters, see ``main_PET_full``.
 
 If you use large datasets, such as TOF data, you may want to limit the amount of measurements transfered to the GPU, when using GPU computing. This can be achieved by setting ``options.loadTOF = false``. In such a case
 only the current subset is transfered to the GPU. This only works with subsets and will most likely slow down the computations. Default value is true, which means that all the measurement data is transfered to the GPU before
-computations.
+computations. Note that, despite the variable name, this can be applied to any data and not just TOF data.
 
 Note that by default OMEGA assumes the FOV to be centered on the origin. You can, however, move the FOV location with ``options.oOffsetX/Y/Z`` variables (separate ones for each!). If you use your own detector coordinates, be
 sure to take this into account.
@@ -93,7 +95,21 @@ SPECT data
 
 A couple of SPECT examples are available. For SPECT, you'll need the projection angles as well as the radial distance of the panel from the origin. 
 
-``SPECT_main_Siemens_Prospecta`` includes an example for two-head Siemens Pro.specta SPECT scanner. 
+For SPECT, currently only projector types 1 and 6 are supported. Projector type is a ray-based projector similar to the one used by other modalities. It allows setting the number of rays per projection pixel. The rays are distributed 
+evenly for each pixel. Projector type 6, on the other hand, is a rotation-based projector where the image is rotated and then reconstructed as parallel beam case with computed, or manually input, spread function. Both methods require
+collimator parameters such as hole diameter, height/length and the distance from the detector panel. Projector type 1 also requires the septal thickness (thickness of the wall between adjacent holes) and type 6 the intrinsic resolution
+(scanner specific resolution value). 
+
+At the moment, only parallel hole collimators are supported, though pin-hole or coded aperture collimator might be possible with manual adjustment of detector coordinates (contact me if you are interested in trying out 
+pin-hole or coded aperture reconstruction).
+
+``SPECT_main_Siemens_Prospecta`` includes an example for two-head Siemens Pro.specta SPECT scanner (no data available at the moment). ``SPECT_main_simind_voxelbased`` contains a SIMIND-simulated test case with a link to the data.
+There is also ``SPECT_main`` example file, which loads Interfile SPECT data (no data available).
+
+Python version also includes examples for custom algorithm reconstructions. These are, however, based on the Siemens Pro.specta case and as such there is no open data available at the moment. For MATLAB/Octave custom reconstruction
+might be possible with implementation 4 (CPU), but there are no examples at the moment. 
+
+The SPECT examples are, in general, not as refined as the others mainly due to the lack of test data.
 
 Contact
 -------

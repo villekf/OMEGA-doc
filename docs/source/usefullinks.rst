@@ -44,6 +44,9 @@ Simulation software
 * Fastcat: https://github.com/jerichooconnell/fastcat
  * Analytical CBCT simulator for Python
  
+* CTlab: https://github.com/MIPT-Oulu/CTlab
+ * CTlab is virtually implemented medical imaging device, which can be widely used in computed tomography training for all professionals who use radiation in their work
+ 
 Reconstruction software
 -----------------------
 
@@ -99,6 +102,12 @@ Reconstruction software
 * LEAP: https://github.com/LLNL/LEAP
  * LivermorE AI Projector for Computed Tomography
  
+* HelTomo: https://github.com/Diagonalizable/HelTomo
+ * CT reconstruction toolkit for MATLAB based on ASTRA and Spot Linear-Operator toolboxes
+ 
+* OOEIT: https://github.com/PetriKuusela/OOEIT
+ * EIT reconstruction and simulation software
+ 
 Data analysis software
 ----------------------
 
@@ -141,8 +150,7 @@ Programming and languages
  
 * ZLUDA: https://github.com/vosen/ZLUDA
  * Run CUDA applications on AMD GPUs
- * Note that due to legal issues, the original depository no longer contains the AMD specific ZLUDA
- * For AMD specific ZLUDA, see for example: https://github.com/lshqqytiger/ZLUDA
+ * An alternative fork, based on earlier work: https://github.com/lshqqytiger/ZLUDA
  
 * AMD HIP: https://github.com/ROCm/HIP
  * AMD's version of CUDA
@@ -158,6 +166,24 @@ Programming and languages
 * EasyCL: https://github.com/hughperkins/EasyCL
  * Can make running OpenCL kernels easier
  
+* Kokkos: https://github.com/kokkos/kokkos
+ * Implements a programming model in C++ for writing applications targeting all major HPC platforms. Supports CUDA, HIP, SYCL, HPX, OpenMP and C++.
+ 
+Deep learning based denoisers
+-----------------------------
+
+* ADL: https://github.com/mogvision/ADL
+ * Adversarial Distortion Learning for Denoising and Distortion Removal
+ 
+* Low-dose CT denoiser: https://github.com/Ryosaeba8/Medical-Imaging-LOW-DOSE-CT-DENOISING
+ * Implementation of Low Dose CT Image Denoising Using a Generative Adversarial Network with Wasserstein Distance and Perceptual Loss
+ 
+* CoreDiff: https://github.com/qgao21/CoreDiff
+ * Contextual Error-Modulated Generalized Diffusion Model for Low-Dose CT Denoising and Generalization
+ 
+* DU-GAN: https://github.com/Hzzone/DU-GAN
+ * Generative Adversarial Networks with Dual-Domain U-Net Based Discriminators for Low-Dose CT Denoising
+ 
 Datasets
 --------
 
@@ -169,3 +195,6 @@ Datasets
 * Low dose CT grand challenge dataset: https://www.aapm.org/GrandChallenge/LowDoseCT/
 
 * Stanford University datasets: https://aimi.stanford.edu/shared-datasets
+
+* FAME datasets: https://fameflagship.fi/category/output/data/
+ * Datasets for, for example, fMRI and EIT

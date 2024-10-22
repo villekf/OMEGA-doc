@@ -34,6 +34,8 @@ axial directions with ``options.flipAttImageXY`` and ``options.flipAttImageZ``, 
 
 For GATE data, the attenuation images created by MuMap actor can be used.
 
+Note that the units in OMEGA are in millimeters!
+
 Normalization correction
 ------------------------
 

@@ -39,7 +39,7 @@ Any data
   * Optional FISTA/Momentum acceleration for all algorithms
   * FDK/FBP supports several different windowing methods: Hamming, Hann, Blackman, Nuttal, Gaussian, Shepp-Logan, cosine, Parzen (de la Vallée Poussin) or none (ramp)
 * Wide range of regularization techniques/priors:
- * Quadratic prior, Huber, MRP, Weighted mean, TV, NLM, RDP, GGMRF, APLS, (proximal) TGV, proximal TV and hyperbolic prior
+ * Quadratic prior, Huber, MRP, Weighted mean, TV, NLM, RDP, Lange, GGMRF, APLS, (proximal) TGV, proximal TV and hyperbolic prior
  * Several different non-local variations
  * TV, NLM and APLS support anatomic/prior image weighting
 * Supports time-varying dynamic data
@@ -154,7 +154,7 @@ SPECT features
 * Load Siemens Pro.specta DICOM data (requires aaditional toolboxes or packages)
 * Automatically compute detector response function for hexagonal or round holes
 * Supports rotation-based projector and ray-based projector
-* Supports same subset selection methods as CT, though PET ones should work too with ray-based projector
+* Supports same subset selection methods as CT, though PET ones should work with the ray-based projector
 
 MATLAB/GNU Octave only
 ----------------------
