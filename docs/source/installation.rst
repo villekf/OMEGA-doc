@@ -99,7 +99,7 @@ Python
 
 Ignore this section if you intend to only use Octave or MATLAB.
 
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
+You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
 
 You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
 ``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
@@ -224,7 +224,7 @@ Python
 
 Ignore this section if you intend to only use Octave or MATLAB.
 
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
+You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
 
 You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
 ``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
@@ -358,7 +358,7 @@ Python
 
 Ignore this section if you intend to only use Octave or MATLAB.
 
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. 
+You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! 
 
 You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
 ``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
