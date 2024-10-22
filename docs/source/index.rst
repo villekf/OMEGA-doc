@@ -28,5 +28,6 @@ Contents
    openclcuda
    algorithms
    corrections
+   customcoordinates
    features
    usefullinks

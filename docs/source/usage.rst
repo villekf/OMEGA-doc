@@ -20,6 +20,9 @@ Examples for MATLAB/Octave are contained in the main-files folder. For Python th
 
 In general OMEGA uses units millimeter (mm) and seconds (s).
 
+Currently the examples only include PET, CT and SPECT. However, as mentioned elsewhere, other type of data can also be used. The only requirement is that the data can be reconstructed by using ray-tracing methods in a voxel/pixel mesh.
+For cases other than PET, CT or SPECT, I recommend reading :doc:`customcoordinates`.
+
 Examples
 --------
 

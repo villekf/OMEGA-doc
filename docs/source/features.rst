@@ -15,6 +15,7 @@ Any data
 ^^^^^^^^
 * OpenCL and CUDA support (single precision only)
  * Works with AMD, Nvidia or Intel GPUs
+ * Has been tested with GPUs from all three (AMD in Windows, Intel in Linux, Nvidia in Linux)
  * Possibly also with mobile device GPUs such as Qualcomm
 * Supports any data that uses ray-tracing
  * Only the source and detector coordinates need to be input
@@ -30,7 +31,7 @@ Any data
  * Volume of intersection ray tracer
  * Supports hybrid projectors
  * All projectors have 100% GPU support
-* Use custom algorithms by using the built-in projectors
+* Use your own custom algorithms by using the built-in projectors
  * A class object can be created which can be used to compute the forward and/or backward projections
  * Available in MATLAB, GNU Octave and Python
 * Wide range of algorithms supported:
@@ -79,7 +80,7 @@ Any data
  * Extended FOV can have reduced resolution
  * Resolution can be manually set
  * Can be set only for axial, only for transaxial or for both directions
- * Should work with all non-SPECT data
+ * Should work with all non-SPECT data (tested with CT data only)
 * Allows the use of extended FOV without multi-resolution as well
  * Priors/regularization computed only in the main volume
  * Automatic cropping of the image
