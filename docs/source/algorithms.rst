@@ -409,7 +409,7 @@ First is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no an
 | Type 5: N/A
 | Type 6: Weighted TV. Does not support anatomical weighting. Based on: https://doi.org/10.1088/0031-9155/57/23/7923
 
-Since this applies to the "gradient"-based TV, the smooting term can be adjusted (``options.TVsmoothing``). This smoothing term should not be zero as it prevents division by zero. Larger values lead to smoother images.
+Since this applies to the "gradient"-based TV, the smoothing term can be adjusted (``options.TVsmoothing``). This smoothing term should not be zero as it prevents division by zero. Larger values lead to smoother images.
 
 Anatomical weighting can be enabled with ``options.TV_use_anatomical``. Reference image can be either a mat-file or a variable. In the former case, input the name and path to ``options.TV_reference_image``, otherwise the variable.
 If a mat-file is used, the reference image should be the only variable.
