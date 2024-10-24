@@ -122,8 +122,8 @@ MLEM/OSEM
 While only OSEM is selectable, MLEM is enabled if no subsets are used. This method can be used for PET, SPECT or CT data, or any other Poisson-based data. Note that CT uses its own transmission tomography based formula, while
 PET and SPECT use the linear model. Useful algorithm for PET and SPECT, but not particularly recommended for CT. Use OSL_OSEM for regularized version (see below).
 
-| EM MLEM based on:  https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
-| EM OSEM: https://doi.org/10.1109/42.363108
+| Emission tomography (ET) MLEM based on:  https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
+| ET OSEM: https://doi.org/10.1109/42.363108
 
 RAMLA
 ^^^^^
@@ -131,15 +131,15 @@ RAMLA
 Similar to OSEM, but has guaranteed convergence and is dependent on the relaxation parameter lambda (or lambdaN in Python), see RELAXATION PARAMETER. Slower to converge than OSEM. Can be used with or without subsets. 
 Note that the default lambda values might not work with RAMLA. Not recommended for CT but has transmission tomography based version implemented. See BSREM for regularized version.
 
-EM version based on: https://doi.org/10.1109/42.538946
+ET version based on: https://doi.org/10.1109/42.538946
 
 MRAMLA
 ^^^^^^
 
-Unregularized version of the MBSREM. Almost identical to RAMLA, i.e. requires lambda, but supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
+Unregularized version of the MBSREM. Almost identical to RAMLA, i.e. requires lambda, but supports preconditioners. ET preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
 Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is not used.
 
-EM version based on: https://doi.org/10.1109/TMI.2003.812251
+ET version based on: https://doi.org/10.1109/TMI.2003.812251
 
 ROSEM
 ^^^^^
@@ -229,10 +229,10 @@ OSL based on: https://doi.org/10.1109/42.52985
 MBSREM
 ^^^^^^
 
-Regularized version of MRAMLA. Requires relaxation parameter lambda, and supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
+Regularized version of MRAMLA. Requires relaxation parameter lambda, and supports preconditioners. ET preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
 Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is used.
 
-EM version based on: https://doi.org/10.1109/TMI.2003.812251
+ET version based on: https://doi.org/10.1109/TMI.2003.812251
 
 BSREM
 ^^^^^
@@ -240,7 +240,7 @@ BSREM
 Regularized version of RAMLA. However, unlike MBSREM, BSREM handles the regularization differently. While MBSREM computes the regularization after every subset, BSREM does it only after one full iteration (epoch). This can
 sometimes be useful as less regularization steps might be used. Requires relaxation parameter lambda. Also has dedicated transmission tomography version.
 
-EM version based on: https://doi.org/10.1109/42.921477
+ET version based on: https://doi.org/10.1109/42.921477
 
 ROSEM-MAP
 ^^^^^^^^^
@@ -268,7 +268,7 @@ Note that for PET and SPECT data the relaxation parameter can safely begin at 1,
 until it is of the right magnitude. Too high values will cause quick divergence while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use default values). This should work for
 most CT applications, but it might not be optimal. To fix this, a proper normalization would be required for the backprojection (suggestions are welcome!).
 
-EM version based on: https://doi.org/10.1109/TMI.2019.2898271
+ET version based on: https://doi.org/10.1109/TMI.2019.2898271
 
 PDHG
 ^^^^
