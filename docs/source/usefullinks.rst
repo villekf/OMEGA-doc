@@ -142,6 +142,9 @@ Data analysis software
 * (X)MedCon: https://xmedcon.sourceforge.io/
  * Medical image conversion tool
  
+* 3D Slicer: https://www.slicer.org/
+ * 3D Slicer is a free, open source software for visualization, processing, segmentation, registration, and analysis of medical, biomedical, and other 3D images and meshes; and planning and navigating image-guided procedures.
+ 
 Programming and languages
 -------------------------
 
