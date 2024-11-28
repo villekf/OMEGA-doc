@@ -47,9 +47,6 @@ Simulation software
 * CTlab: https://github.com/MIPT-Oulu/CTlab
  * CTlab is virtually implemented medical imaging device, which can be widely used in computed tomography training for all professionals who use radiation in their work
  
-* ToMoBAR: https://github.com/dkazanc/ToMoBAR
- * TOmographic MOdel-BAsed Reconstruction (ToMoBAR) software 
- 
 Reconstruction software
 -----------------------
 
@@ -110,6 +107,9 @@ Reconstruction software
  
 * OOEIT: https://github.com/PetriKuusela/OOEIT
  * EIT reconstruction and simulation software
+ 
+* ToMoBAR: https://github.com/dkazanc/ToMoBAR
+ * TOmographic MOdel-BAsed Reconstruction (ToMoBAR) software 
  
 Data analysis software
 ----------------------
