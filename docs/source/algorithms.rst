@@ -136,7 +136,7 @@ ET version based on: https://doi.org/10.1109/42.538946
 MRAMLA
 ^^^^^^
 
-Unregularized version of the MBSREM. Almost identical to RAMLA, i.e. requires lambda, but supports preconditioners. ET preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
+Unregularized version of the MBSREM. Almost identical to RAMLA, i.e. requires lambda, but supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
 Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is not used.
 
 ET version based on: https://doi.org/10.1109/TMI.2003.812251
@@ -185,7 +185,7 @@ Based on: https://doi.org/10.1088/0031-9155/55/3/003
 FISTA
 ^^^^^
 
-Least-squares based algorithm. Does not support subsets! Can be used for any data. Supports preconditioners. Does not support regularization.
+Least-squares based algorithm. Can be used for any data and with or without subsets. Supports preconditioners. Does not support regularization at the moment (except the below one).
 
 Based on: https://doi.org/10.1137/080716542
 
@@ -217,7 +217,7 @@ Can be used with or without subsets. Uses same relaxation parameter as all the o
 None of the examples currently include this algorithm, but you can enable it with ``options.SART = true`` in MATLAB/Octave and ``options.SART = True`` in Python. 
 Does not support regularization. Potentially useful test algorithm for CT data. Implementation 2 only!
 
-Based on: https://doi.org/10.1016/0161-7346(84)90008-7 and https://content.iospress.com/articles/journal-of-x-ray-science-and-technology/xst00110
+Based on: https://doi.org/10.1016/0161-7346(84)90008-7 and https://content.iospress.com/articles/journal-of-x-ray-science-and-technology/xst00110 and https://doi.org/10.1137/S089547980138705X
 
 OSL-OSEM
 ^^^^^^^^
@@ -229,7 +229,7 @@ OSL based on: https://doi.org/10.1109/42.52985
 MBSREM
 ^^^^^^
 
-Regularized version of MRAMLA. Requires relaxation parameter lambda, and supports preconditioners. ET preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
+Regularized version of MRAMLA. Requires relaxation parameter lambda, and supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
 Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is used.
 
 ET version based on: https://doi.org/10.1109/TMI.2003.812251
@@ -261,7 +261,7 @@ No support for transmission tomography.
 PKMA
 ^^^^
 
-Similar to MBSREM. Can be used without regularization but also supports regularization. Supports also proximal priors. Supports preconditioners. Transmission tomography support. Requires the relaxation parameter lambda, see RELAXATION PARAMETER. 
+Similar to MBSREM. Can be used without regularization but also supports regularization. Supports also proximal priors (TV and TGV). Supports preconditioners. Transmission tomography support. Requires the relaxation parameter lambda, see RELAXATION PARAMETER. 
 Useful for any Poisson-based data, if regularization is used. Useful also without regularization. The recommended algorithm for Poisson-based reconstructions. Unlike MBSREM, also requires the momentum parameter, see PKMA PROPERTIES.
 
 Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
@@ -273,12 +273,12 @@ ET version based on: https://doi.org/10.1109/TMI.2019.2898271
 PDHG
 ^^^^
 
-PDHG refers to the L2 norm least-squares PDHG. Supports subsets, transmission tomography, regularization and preconditioners. Useful for any data. Measurement-based preconditioners are guaranteed to work unlike with PKMA or MBSREM.
+PDHG refers to the L2 norm least-squares PDHG. Supports subsets, linear models, regularization and preconditioners. Useful for any data. Measurement-based preconditioners are guaranteed to work unlike with PKMA or MBSREM.
 By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES. Supports also adaptive step-size computations, but it is not recomended with multi-resolution
-reconstruction. Supports both proximal priors as well as regular non-linear convex ones.
+reconstruction. Supports both proximal priors as well as regular non-linear convex ones (in the latter case it is actually the Condat-Vu algorithm).
 
 | Based on: https://doi.org/10.1007/s10851-010-0251-1
-| Regularized version using non-linear priors: https://doi.org/10.1007/s10957-012-0245-9 and https://doi.org/10.1007/s10444-011-9254-8
+| Regularized version using non-linear convex priors: https://doi.org/10.1007/s10957-012-0245-9 and https://doi.org/10.1007/s10444-011-9254-8
 
 PDHGL1
 ^^^^^^
@@ -320,7 +320,7 @@ FISTA acceleration
 ^^^^^^^^^^^^^^^^^^
 
 Not an algorithm but rather an acceleration method for algorithms. You can enable it with ``options.FISTA_acceleration = true``  (MATLAB/Octave) or ``options.FISTA_acceleration = True`` (Python). Can help with convergence speed
-but can also cause artifacts in the reconstructions. Quality might be algorithm dependent, but not recommended with PDHG at least.
+but can also cause artifacts in the reconstructions. Quality might be algorithm dependent.
 
 Based on: https://doi.org/10.1016/j.ultramic.2018.03.022
 
@@ -490,8 +490,8 @@ it is recommended to use the OpenCL or CUDA versions and not the CPU version.
 RDP with implementation 2 (OpenCL + CUDA) has two different methods. The default is similar to the original RDP, i.e. only the voxels next to the current voxel are taken into account (voxels that share a side with the current voxel). 
 This means that ``options.Ndx/y/z`` are not used with the default method. 
 Second method is enabled by setting ``options.RDPIncludeCorners = true`` (``options.RDPIncludeCorners = True`` for Python). This changes the functionality of the RDP significantly. First of all, the neighborhood size affects RDP
-as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neigborhoods. Second, same weights are used as with quadratic prior. You can input your own weights into ``options.weights`` or use distance-based weights (the distance from the current voxel to
-the neigborhood voxel) which is the default option. The default version does not use any weighting. Lastly, this second version supports a "reference image" weighting, based on: https://dx.doi.org/10.1109/TMI.2019.2913889. 
+as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neigborhoods. Second, same weights are used as with quadratic prior, i.e. distance-based weights. You can input your own weights into ``options.weights`` or use the distance-based weights (the distance from the current voxel to
+the neigborhood voxel) which is the default option. The default version (i.e. when ``options.RDPIncludeCorners = false``) does not use any weighting. Lastly, this second version supports a "reference image" weighting, based on: https://dx.doi.org/10.1109/TMI.2019.2913889. 
 To enable you need to additionally set ``options.RDP_use_anatomical`` and provide the reference image either as mat-file in ``options.RDP_reference_image`` (MATLAB/Octave) or ``options.RDP_referenceImage`` (Python) or as a vector. 
 You need to manually compute the reference image. The reference image weighting itself is computed automatically, i.e. the kappa values.
 
@@ -531,6 +531,8 @@ NLM can also be used like MRP (and MRP-AD) where the median filtered image is re
 Non-local relative difference prior can se selected with ``options.NLRD = true``. Note that ``options.RDP_gamma`` affects NLRD as well.
 
 Non-local generalized Gaussian Markov random field prior can be selected with ``options.NLGGMRF = true``. As with RDP, the `p`, `q`, and `c` parameters affect this prior as well.
+
+Non-local Lange function is enabled with ``options.NLLange``. ``options.SATVPhi`` is the tuning parameter for the Lange function.
 
 All the non-local methods also support an "adaptive" non-local weighting. This is enabled with ``options.NLAdaptive`` and is based on http://dx.doi.org/10.1016/j.compmedimag.2015.02.008. Note that the filter parameter (``options.sigma``)
 is the s value from the paper, while the t value is adjusted with ``options.NLAdaptiveConstant``.
