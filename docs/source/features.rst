@@ -1,7 +1,7 @@
 Features
 ========
 
-(Almost) Full list of features for OMEGA v2.0.
+(Almost) Full list of features for OMEGA v2.1.
 
 .. note::
 
