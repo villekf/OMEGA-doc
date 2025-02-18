@@ -35,13 +35,13 @@ Any data
  * A class object can be created which can be used to compute the forward and/or backward projections
  * Available in MATLAB, GNU Octave and Python
 * Wide range of algorithms supported:
- * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, SART, ASD-POCS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI, and OSL
+ * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, SART, ASD-POCS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI, SAGA, and OSL
   * PDHG supports L1, L2, and Kullback-Leibler optimization
   * Optional FISTA/Momentum acceleration for all algorithms
   * FDK/FBP supports several different windowing methods: Hamming, Hann, Blackman, Nuttal, Gaussian, Shepp-Logan, cosine, Parzen (de la Vallée Poussin) or none (ramp)
 * Wide range of regularization techniques/priors:
  * Quadratic prior, Huber, MRP, Weighted mean, TV, NLM, RDP, Lange, GGMRF, APLS, (proximal) TGV, proximal TV and hyperbolic prior
- * Several different non-local variations such as NLTV
+ * Several different non-local variations such as NLTV and NLRDP
  * TV, NLM and APLS support anatomic/prior image weighting
 * Supports time-varying dynamic data
  * Reconstruct dynamic data with static algorithms
@@ -54,6 +54,7 @@ Any data
   * Divide the data into N segments
   * Take every Nth measurement
   * Randomly sample the measurement data
+* Select subsets optionally stochastically
 * Seven image-based preconditioners
  * Diagonal preconditioner
  * EM-preconditioner
@@ -113,6 +114,7 @@ PET features
 * Supports time-of-flight (TOF) data
 * Supports formation of TOF sinograms from GATE data
 * Supports list-mode data
+* Supports TOF with list-mode data
 * Supports pseudo detectors/rings or ring gaps
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
 * Preliminary support for dual-layer PET
