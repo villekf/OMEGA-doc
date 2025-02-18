@@ -31,3 +31,4 @@ Contents
    customcoordinates
    features
    usefullinks
+   modifyomega
