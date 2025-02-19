@@ -10,7 +10,7 @@ doing custom reconstructions in Python.
 
 `GNU Octave <https://octave.org/>`_
 For the user, only the top layer is exposed. This is achieved in the form of scripts that are referred to as *main-files*. These include, for example, `gate_main.m <https://github.com/villekf/OMEGA/blob/master/main-files/PET_main_gateExample.m>`_,
-`CT_main_full.m <https://github.com/villekf/OMEGA/blob/master/main-files/CT_main_full.m>`_, or `gate_PET.py <https://github.com/villekf/OMEGA/blob/master/source/Python/gate_PET.py>`_.
+`CT_main_full.m <https://github.com/villekf/OMEGA/blob/master/main-files/CT_main_full.m>`_, or `gate_PET.py <`load_data.m <https://github.com/villekf/OMEGA/blob/master/source/Python/gate_PET.py>`_.
 It is from these main-files that the actual functions are called. This
 is achieved by storing all the user selected parameters to a
 MATLAB/Octave/Python struct called ``options`` in the example files (the name can be anything though), which is then input to the
@@ -36,10 +36,10 @@ Data load
 ---------
 
 The corresponding m-files are
-https://github.com/villekf/OMEGA/blob/master/source/load_data.m[``load_data.m``],
-https://github.com/villekf/OMEGA/blob/master/source/load_data_mCT.m[``load_data_mCT.m``]
+`GATE <https://github.com/villekf/OMEGA/blob/master/source/load_data.m>`_,
+`load_data_mCT.m <https://github.com/villekf/OMEGA/blob/master/source/load_data_mCT.m>`_
 and
-https://github.com/villekf/OMEGA/blob/master/source/load_data_Vision.m[``load_data_Vision.m``].
+`load_data_Vision.m <https://github.com/villekf/OMEGA/blob/master/source/load_data_Vision.m>`_.
 
 .. _execution-1:
 
@@ -52,11 +52,11 @@ data and sinogram data.
 GATE data
 ^^^^^^^^^
 
-For http://www.opengatecollaboration.org/[GATE] data, the data import is
+For http://www.opengatecollaboration.org/>`_ data, the data import is
 separate for LMF (not supported anymore), ASCII and ROOT.
 
 In LMF, the data import is done in a C++ file
-(https://github.com/villekf/OMEGA/blob/master/source/gate_lmf_matlab.cpp[``gate_lmf_matlab.cpp``])
+(`gate_lmf_matlab.cpp <https://github.com/villekf/OMEGA/blob/master/source/gate_lmf_matlab.cpp>`_)
 and each binary packet is read sequentially. In LMF, unlike other
 methods, the coincidences are formed manually from the singles. This is
 done by first checking if the time difference between the consecutive
@@ -87,13 +87,13 @@ the data load when using ASCII data.
 
 ROOT data import is handled in a C++ MEX-file. Unlike LMF, ROOT has
 three different MEX-versions. One uses the “traditional” C MEX-interface
-(https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab_C.cpp[``GATE_root_matlab_C.cpp``])
+(`GATE_root_matlab_C.cpp <https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab_C.cpp>`_)
 and is intended for MATLAB version 2018b and earlier, the second uses
 the new C++ MEX-interface
-(https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab.cpp[``GATE_root_matlab.cpp``])
+(`GATE_root_matlab.cpp <https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab.cpp>`_)
 and is for MATLAB 2019a and newer and lastly there is a dedicated
 version for Octave as well
-(https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab_oct.cpp[``GATE_root_matlab_oct.cpp``]).
+(`GATE_root_matlab_oct.cpp <https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab_oct.cpp>`_).
 All the ROOT import functions first open the trees (coincidences and
 delays if selected) and then the desired branches. There are also checks
 in place that first guarantee that a specific branch is available,
@@ -110,7 +110,7 @@ List-mode data
 List-mode data, more specifically Siemens Inveon, Biograph mCT and
 Biograph Vision list-mode data, is loaded in a separate MEX-file. For
 Inveon, the source code is available
-(https://github.com/villekf/OMEGA/blob/master/source/inveon_list2matlab.cpp[``inveon_list2matlab.cpp``]),
+(`inveon_list2matlab.cpp <https://github.com/villekf/OMEGA/blob/master/source/inveon_list2matlab.cpp>`_),
 but for mCT and Vision only the MEX-files themselves are distributed
 (i.e. a closed source release). For Inveon, the code loops through all
 the bit-packets, determines whether they are prompt, delay or time tags
@@ -154,14 +154,14 @@ Forming sinograms
 -----------------
 
 The corresponding m-file is
-https://github.com/villekf/OMEGA/blob/master/source/form_sinograms.m[``form_sinograms.m``].
+`form_sinograms.m <`createSinogramASCII.cpp <https://github.com/villekf/OMEGA/blob/master/source/form_sinograms.m>`_.
 Currently, when data is loaded from GATE or list-mode data the sinograms
 are created through separate MEX-file or OCT-file.
-https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCII.cpp[``createSinogramASCII.cpp``]
+`createSinogramASCII.cpp <https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCII.cpp>`_
 is for the old C-API,
-https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCIICPP.cpp[``createSinogramASCIICPP.cpp``]
+`createSinogramASCIICPP.cpp <https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCIICPP.cpp>`_
 is for the C++-API and
-https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCIIOct.cpp[``createSinogramASCIIOct.cpp``]
+`createSinogramASCIIOct.cpp <https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCIIOct.cpp>`_
 is for Octave.
 
 .. _execution-2:
@@ -191,7 +191,7 @@ an “initial Michelogram”. This is an intermediate step between the raw
 data format and the Michelogram/sinogram format. The raw data is divided
 into vectors that contain the future Michelogram bins. This is performed
 in
-https://github.com/villekf/OMEGA/blob/master/source/initial_michelogram.m[``initial_michelogram.m``].
+`initial_michelogram.m <https://github.com/villekf/OMEGA/blob/master/source/initial_michelogram.m>`_.
 
 Next step is the formation of the Michelograms by selecting the data
 points that are within the predetermined orthogonal distance from the
@@ -252,9 +252,9 @@ perform only corrections. Any sinogram, no matter where created, can be
 corrected like this. However, the data needs to saved as ``raw_SinM`` in
 a mat-file with the same name as the current scanner properties
 (e.g. for non-TOF case
-``[options.machine$$_$$name '$$_$$' options.name '$$_$$sinograms_combined_static$$_$$' num2str(options.Ndist) 'x' num2str(options.Nang) 'x' num2str(options.TotSinos) '$$_$$span' num2str(options.span) '.mat']``
+``[options.machine_name '_' options.name '_sinograms_combined_static_' num2str(options.Ndist) 'x' num2str(options.Nang) 'x' num2str(options.TotSinos) '_span' num2str(options.span) '.mat']``
 for static data and
-``[options.machine$$_$$name '$$_$$' options.name '$$_$$sinograms$$_$$combined$$_$$' num2str(options.partitions) 'timepoints$$_$$for$$_$$total$$_$$of$$_$$ ' num2str(options.tot$$_$$time) 's$$_$$' num2str(options.Ndist) 'x' num2str(options.Nang) 'x' num2str(options.TotSinos) '$$_$$span' num2str(options.span) '.mat']``
+``[options.machine_name '_' options.name '_sinograms_combined_' num2str(options.partitions) 'timepoints_for_total_of_ ' num2str(options.tot_time) 's_' num2str(options.Ndist) 'x' num2str(options.Nang) 'x' num2str(options.TotSinos) '_span' num2str(options.span) '.mat']``
 for dynamic).
 
 *Saving:*
@@ -304,9 +304,9 @@ densities to 511 keV attenuation coefficients.
 
 mCT and Vision attenuation correction uses CT-based attenuation
 correction. The attenuation images for PET are computed with
-https://github.com/villekf/OMEGA/blob/master/source/create_atten_matrix_CT.m[create_atten_matrix_CT.m]
+`create_atten_matrix_CT.m <https://github.com/villekf/OMEGA/blob/master/source/create_atten_matrix_CT.m>`_
 and
-https://github.com/villekf/OMEGA/blob/master/source/attenuationCT_to_511.m[attenuationCT_to_511.m].
+`attenuationCT_to_511.m <https://github.com/villekf/OMEGA/blob/master/source/attenuationCT_to_511.m>`_.
 The CT images are first scaled to 511 keV by using trilinear
 interpolation.
 
@@ -314,7 +314,7 @@ Normalization correction
 ------------------------
 
 Normalization coefficients are computed by
-https://github.com/villekf/OMEGA/blob/master/source/normalization_coefficients.m[normalization_coefficients.m].
+`normalization_coefficients.m <https://github.com/villekf/OMEGA/blob/master/source/normalization_coefficients.m>`_.
 
 Image reconstruction
 --------------------
