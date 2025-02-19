@@ -56,7 +56,7 @@ A good combination of quality and speed is to use ``projector_type = 45``, or ``
 SPECT data
 ----------
 
-Projector types 1 and 6 are the only ones recommended.
+Projector types 1 and 6 are the only ones recommended. Projector type 6 in general gives softer/blurrier results while projector type 1 gives much noisier results.
 
 Projector type 1 is a ray-based projector and is algorithmically identical to the PET version, i.e. the exact intersection length is computed. However, for SPECT multiple rays per projection pixel can be used and the rays spread
 out as a cone according to the collimator geometry. Usable for any parallel hole collimator. Could be modified for any other type of collimator as well, but currently pinhole, fanbeam or similar do not work optimally. Unlike the

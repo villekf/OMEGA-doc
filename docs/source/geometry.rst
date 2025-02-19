@@ -8,6 +8,10 @@ This page outlines the geometry used in OMEGA, with focus on PET, SPECT and CT.
 PET geometry
 ------------
 
+All the projectors in OMEGA for PET are ray-based. Since in PET we are computing the probabilities, rather than the just lines of intersection, we need the whole length of the ray as well.
+By default, the probability is computed by using the whole length of the ray from one detector to the other. However, it is possible to instead compute the probability based on the
+length of the ray inside the field-of-view (FOV) only. This can be enabled by setting ``options.useTotLength = false`` (``False`` in Python). 
+
 Transaxial
 ^^^^^^^^^^
 

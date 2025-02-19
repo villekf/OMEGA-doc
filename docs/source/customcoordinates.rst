@@ -53,9 +53,18 @@ Using list-mode data
 
 While the above two can be used for the coordinates of list-mode data, there are few special things to take into account when using list-mode data. First ``options.SinM`` should preferably contain only ones or minus ones. Negative
 values should be used for randoms. If you add randoms manually, you don't actually need to set ``options.randoms_correction`` to true. While the measurements are not really needed for list-mode reconstruction, OMEGA requires 
-their inclusion at the moment. TOF is not yet supported with list-mode data.
+their inclusion at the moment.
 
 Another thing to note is the computation of the sensitivity image, such as the one required by MLEM/OSEM. If the sensitivity image is computed with the same coordinates as the list-mode data, the reconstructions will fail. 
 There are two alternatives, one is to compute the sensitivity image using all applicable LORs by using the built-in feature. This is, however, only applicable to cylindrical scanners and scanners where the reconstruction 
 can be performed in normal, sinogram, mode. This feature can be enabled with ``options.compute_sensitivity_image``. Note that the scanner properties have to be correctly set to use this feature. Alternatively, simply use an
 algorithm that doesn't require a sensitivity image, such as PDHG. 
+
+TOF-data
+--------
+
+List-mode data now also supports TOF reconstruction. This can be enabled with either the coordinate- or index-based reconstruction. The TOF data is included as indices that refer to TOF windows. This means that it is not recommended 
+to have separate TOF bin/window for each measurement but rather to divide the data into TOF bins as with sinogram data. A maximum of 256 bins can be included by default. The TOF indices should be included into ``options.TOFIndicess`` 
+variable that should be unsigned char (``uint8``) with zero-based indexing. The TOF time windows should be stored in ``options.TOFCenter``. The windows should start from the zero bin and then include the negative and positive bins,
+for example ``options.TOFCenter = [0, 1, -1, 2, -2]``. In most settings, it should be enough to simply give the values specified in ``TOF PROPERTIES`` in the PET examples to automatically create the ``TOFCenter`` variable. In fact,
+by default ``options.TOFCenter`` is formed internally and overwrites any user input variable. Thus, it is recommended to use the built-in variables and only provide ``options.TOFIndicess``.

@@ -16,7 +16,7 @@ PET, CT and SPECT have quite different main-file compositions due to different p
 are unchanged between different modalities. It is not necessary to use these main-files and not every variable present in the main-files is necessary. In the simplest form, only the source-detector coordinates, the size of the FOV
 and the number of voxels are required.
 
-Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in /path/to/OMEGA/source/Python. 
+Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in ``/path/to/OMEGA/source/Python``. 
 
 In general OMEGA uses units millimeter (mm) and seconds (s).
 
@@ -98,8 +98,8 @@ SPECT data
 
 A couple of SPECT examples are available. For SPECT, you'll need the projection angles as well as the radial distance of the panel from the origin. 
 
-For SPECT, currently only projector types 1 and 6 are supported. Projector type is a ray-based projector similar to the one used by other modalities. It allows setting the number of rays per projection pixel. The rays are distributed 
-evenly for each pixel. Projector type 6, on the other hand, is a rotation-based projector where the image is rotated and then reconstructed as parallel beam case with computed, or manually input, spread function. Both methods require
+For SPECT, currently only projector types 1 and 6 are supported. Projector type is a ray-based projector similar to the ones used by other modalities. It allows setting the number of rays per projection pixel. The rays are 
+distributed based on normal (Gaussian) distribution for each pixel. Projector type 6, on the other hand, is a rotation-based projector where the image is rotated and then reconstructed as parallel beam case with computed, or manually input, spread function. Both methods require
 collimator parameters such as hole diameter, height/length and the distance from the detector panel. Projector type 1 also requires the septal thickness (thickness of the wall between adjacent holes) and type 6 the intrinsic resolution
 (scanner specific resolution value). 
 

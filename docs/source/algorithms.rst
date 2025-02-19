@@ -94,6 +94,15 @@ Uses prime factor sampling to select the projections/sinograms. Mainly recommend
 
 Based on: https://doi.org/10.1109/42.241889
 
+Stochastic subset selection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default the subsets are always used in the same order. However, it is now possible to also select the subsets randomly though it is not completely randomly. The subsets are considered as "groups" that contain a set amount of
+measurements, projections, or sinograms. The contents of these groups remain the same even if you use the stochastic subset selection, but the groups themselves are picked randomly. For example, if we have three subsets and 9 measurements,
+the subset 1 always contains the same three measurement, such as 1, 4, and 7. However, instead of using first subset 1, then subset 2, and lastly subset 3, any subset can be used first, second, etc.
+
+You can enable the stochastic subset selection by setting ``options.stochasticSubsetSelection = true`` (or ``True`` in Python). Default is false.
+
 
 Reconstruction algorithms
 -------------------------
@@ -103,11 +112,11 @@ modality. EM refers to emission tomography as many Poisson-based algorithms have
 
 | Recommended algorithms when regularization is not used (PET and SPECT): OSEM, PKMA, PDHG, PDHGKL
 | Recommended algorithms with regularization (PET and SPECT): PKMA, PDHG, PDHGKL
-| Recommended algorithms for listmode PET: OSEM, PKMA
+| Recommended algorithms for listmode PET: OSEM, PKMA, PDHG
 | Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
 | Recommended algorithms with regularization (CT): PDHG, PKMA
 
-When in doubt, use PDHG with measurement-based filtering preconditioner.
+When in doubt, use PDHG, possibly with measurement-based filtering preconditioner.
 
 FDK/FBP
 ^^^^^^^
@@ -315,6 +324,13 @@ Unlike the original article, any non-proximal prior can be used here, though the
 Does not support projector type 6 at the moment.
 
 Based on: http://dx.doi.org/10.1088/0031-9155/53/17/021
+
+SAGA
+^^^^
+
+Only included in the full examples, but can be enabled with ``options.SAGA = true`` (MATLAB/Octave) or ``options.SAGA = True`` (Python). Supports gradient-based regularization. Implementation 2 only!
+
+Based on: https://arxiv.org/abs/1407.0202
 
 FISTA acceleration
 ^^^^^^^^^^^^^^^^^^

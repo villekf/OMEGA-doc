@@ -99,13 +99,13 @@ Python
 
 Ignore this section if you intend to only use Octave or MATLAB.
 
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
+You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You can install Python either manually or from the Microsoft Store.
 
-You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+You'll need to add ``C:\path\to\OMEGA\source\Python`` to PYTHONPATH (you can do this easilly in Spyder in Tools --> PYTHONPATH manager). The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
 ``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
-required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info.
+required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info. All packages can be installed through ``pip`` or ``conda``, e.g. ``pip install arrayfire``.
 
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. 
 
 Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
 The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
@@ -131,7 +131,7 @@ To build all the necessary mex-files, simply run ``install_mex``.
 
 In case you have trouble compiling the mex-files, you can also try using the precompiled files on the `releases <https://github.com/villekf/OMEGA/releases>`_ page.
 
-Below part can be ignored if you only use the custom reconstruction in Python.
+Below part can be ignored if you only use the custom reconstruction in Python or if you use only MATLAB/Octave.
 
 For Python, it is highly recommended to use Visual Studio as the C++ compiler! You can compile the necessary files by using "x64 Native Tools Command Prompt for VS 2022" (or 2019 or any other Visual studio version) 
 from the Windows start menu. In the command prompt, navigate to ``C:\path\to\OMEGA\source\Python`` and then run ``python3 compile.py`` or ``python compile.py``. 
@@ -226,11 +226,11 @@ Ignore this section if you intend to only use Octave or MATLAB.
 
 You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
 
-You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH (you can do this easilly in Spyder in Tools --> PYTHONPATH manager). The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
 ``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
-required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info.
+required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info. All packages can be installed through ``pip`` or ``conda``, e.g. ``pip install arrayfire``.
 
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``.
 
 Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
 The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
@@ -248,11 +248,12 @@ Unless the MATLAB package was used, you need to add the source and mat-files fol
 
 In Python, add ``/path/to/OMEGA/source/Python`` to PYTHONPATH.
 
-To build all the necessary mex-files, simply run ``install_mex``. 
+To build all the necessary mex-files, simply run ``install_mex``. If ArrayFire was installed in some non-standard folder, the compilation might not work unless you include the folder to ``install_mex``. This can be done with
+``install_mex(0, [], [], '/path/to/Arrayfire')``. See ``help install_mex`` for more details.
 
 The below compilation is not required if you only use custom reconstruction in Python.
 
-In Python, navigate to ``/path/to/OMEGA/source/Python`` in terminal and run ``python compile.py`` to compile the library files. If ArrayFire was not installed in ``opt`` add the path with ``python compile.py -A /path/to/arrayfire``.
+In Python, navigate to ``/path/to/OMEGA/source/Python`` in terminal and run ``python compile.py`` (or ``python3 compile.py``) to compile the library files. If ArrayFire was not installed in ``opt`` add the path with ``python compile.py -A /path/to/arrayfire``.
 
 In case you have trouble compiling the mex-files or the library-files, you can also try using the precompiled files on the `releases <https://github.com/villekf/OMEGA/releases>`_ page.
 
@@ -386,7 +387,8 @@ do this by simply right clicking the folders and selecting "Add to path -> Selec
 using for example Octave, you can add the paths with ``addpath('/path/to/OMEGA/source')`` and ``addpath('/path/to/OMEGA/mat-files')`` or simply with ``addpath(genpath('/path/to/OMEGA/'))``. On MATLAB you can also add 
 these folders to the list of folders in "Set path".
 
-To build all the necessary mex-files in MATLAB or Octave, simply run ``install_mex``.
+To build all the necessary mex-files in MATLAB or Octave, simply run ``install_mex``. If ArrayFire was installed in some non-standard folder, the compilation might not work unless you include the folder to ``install_mex``. This can be done with
+``install_mex(0, [], [], '/path/to/Arrayfire')``. See ``help install_mex`` for more details.
 
 The below compilation is not required if you only use custom reconstruction in Python.
 
@@ -395,14 +397,14 @@ In Python, navigate to ``/path/to/OMEGA/source/Python`` in terminal and run ``py
 Optional software
 -----------------
 
-This section describes the optional software that can be used in OMEGA, but which are not required for any of the core functions.
+This section describes the optional software that can be used in OMEGA, but which are not required for any of the core functions. Most of these are for MATLAB only.
 
 If you wish to use NIfTI data or save data as NIfTI format, on MATLAB you'll need EITHER image processing toolbox OR `Tools for NIfTI and ANALYZE image <https://se.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image>`_. For Octave, only Tools for NIfTI and ANALYZE image can be used, though it hasn't been tested. For Python you can try `NiBabel <https://nipy.org/nibabel/>`_.
 
 For Analyze data, you'll need the above `Tools for NIfTI and ANALYZE image <https://se.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image>`_ in all cases.
 
-For DICOM data, you'll need image processing toolbox on MATLAB and `dicom package <https://octave.sourceforge.io/dicom/index.html>`_ on Octave (untested).
+For DICOM data, you'll need image processing toolbox on MATLAB and `dicom package <https://octave.sourceforge.io/dicom/index.html>`_ on Octave (untested). In Python you can use ``pydicom`` package to load DICOM data.
 
 For 3D volumetric visualization, there is built-in support for `vol3d <https://www.mathworks.com/matlabcentral/fileexchange/22940-vol3d-v2>`_ in `visualize_pet.m <https://github.com/villekf/OMEGA/blob/master/visualize_pet.m#L344>`_.
 
-For random subset sampling (``subset_type = 3``), `Shuffle <https://www.mathworks.com/matlabcentral/fileexchange/27076-shuffle>`_ can speed up the process as it is both faster and more memory efficient than the built-in function. Note that you need to enable this by setting ``options.shuffle = true``.
+For random subset sampling (``subset_type = 3``), `Shuffle <https://www.mathworks.com/matlabcentral/fileexchange/27076-shuffle>`_ can speed up the process as it is both faster and more memory efficient than the built-in function. Note that you need to enable this by setting ``options.shuffle = true``. MATLAB only!
