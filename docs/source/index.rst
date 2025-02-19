@@ -30,5 +30,6 @@ Contents
    corrections
    customcoordinates
    features
+   technical
    usefullinks
    modifyomega
