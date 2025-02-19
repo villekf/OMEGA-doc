@@ -1,18 +1,19 @@
 Technical info
 ===============
 
-This page outlines some technical information on the software. Mainly how everything works.
+This page outlines some technical information on the software. Mainly how everything works. The text is largely based on version 1.2 and thus mainly features PET-related information in MATLAB. This page is still work in progress!
 
 The general structure of OMEGA can be divided into three different layers. The top layer is the MATLAB/Octave/Python user-interface that contains the scripts and functions necessary to call the lower layers. 
 The middle layer is the MATLAB (C) MEX-interface or C++ dynamic library that calls and computes the C++ code and then sends it back to the top layer. The bottom layer, which is not always used, contains the OpenCL/CUDA kernels that 
 compute the OpenCL/CUDA code and then send the output data (reconstructed images) to the middle layer. The bottom layer is only used if OpenCL/CUDA code is used. The middle layer can also be ignored, but this is recommended only when
 doing custom reconstructions in Python.
 
-For the user, only the top layer is exposed. This is achieved in the form of scripts that are referred to as *main-files*. These include, for example, https://github.com/villekf/OMEGA/blob/master/main-files/PET_main_gateExample.m[``gate_main.m``],
-https://github.com/villekf/OMEGA/blob/master/main-files/CT_main_full.m[``CT_main_full.m``], or https://github.com/villekf/OMEGA/blob/master/source/Python/gate_PET.py[``gate_PET.py``].
+`GNU Octave <https://octave.org/>`_
+For the user, only the top layer is exposed. This is achieved in the form of scripts that are referred to as *main-files*. These include, for example, `gate_main.m <https://github.com/villekf/OMEGA/blob/master/main-files/PET_main_gateExample.m>`_,
+`CT_main_full.m <https://github.com/villekf/OMEGA/blob/master/main-files/CT_main_full.m>`_, or `gate_PET.py <https://github.com/villekf/OMEGA/blob/master/source/Python/gate_PET.py>`_.
 It is from these main-files that the actual functions are called. This
 is achieved by storing all the user selected parameters to a
-MATLAB/Octave struct called ``options``, which is then input to the
+MATLAB/Octave/Python struct called ``options`` in the example files (the name can be anything though), which is then input to the
 functions (e.g. when loading data or performing image reconstruction).
 
 In the main-files most parameters are set either with numerical values
@@ -23,74 +24,13 @@ it is omitted (e.g. ``randoms_correction``, ``scatter_smoothing``,
 labels (SCANNER PROPERTIES, IMAGE PROPERTIES, SINOGRAM PROPERTIES, etc.)
 that control different aspects. Many of these sections are completely
 optional, e.g. CORRECTIONS section can be omitted if the user does not
-wish to use any corrections. The only compulsory ones are SCANNER
-PROPERTIES and either SINOGRAM or RAW DATA PROPERTIES. For
-reconstruction it is also advisable to inspect the RECONSTRUCTION
-PROPERTIES section, but the default values should always output a
-working OSEM estimate. By default all non-compulsory options are set as
-false (with the exception of the Inveon main-file which has several
-corrections enabled by default).
+wish to use any corrections. The only compulsory items are the FOV size, the number of voxels per dimension, and the source/detector coordinates for each measurement (and the measurement data itself).
 
 There are also several functions that work very independently without
 the need for the main-files. These include file import and export
-functions, visualization functions and many reconstruction algorithm
-functions. For help on many of these functions, you should use
+functions, and visualization functions. For help on many of these functions, you should use
 ``help function_name`` or alternatively ``doc function_name``. E.g.
-``help saveImage``.
-
-Technical aspects
-=================
-
-This section explains how, exactly, does each component of OMEGA
-software work.
-
-Precomputation phase
---------------------
-
-The corresponding m-file is
-https://github.com/villekf/OMEGA/blob/master/source/lor_pixel_count_prepass.m[``lor_pixel_count_prepass.m``].
-
-Purpose
-~~~~~~~
-
-As mentioned in other help pages, the goal of the precomputation phase
-is to determine the number of voxels that each line of response
-traverses (interacts with). Line of responses that do not intersect the
-FOV at all will have 0 interacted voxels and as such can be safely
-removed. This step is also necessary for the parallel version of
-implementation 1 as it requires the preallocation of the system matrix
-in memory. This also means that, unlike with matrix free
-implementations, the orthogonal and volume of intersection ray tracers
-require their own precomputation passes since the number of voxels that
-are interacted with is much higher.
-
-Execution
-~~~~~~~~~
-
-Dedicated codes are available for the precomputation phase. Furthermore,
-since the OpenCL implementations use single (32-bit float) precision
-numbers and the C++ versions double (64-bit double) precision numbers,
-different versions are available for both. This is because of
-floating-point rounding effects that can cause LORs that are on the very
-edge of a voxel to be in different voxels depending on whether the
-single or double precision implementations are used. While this usually
-affects only a very small portion of all the LORs, even a single wrong
-one can cause a crash due to out-of-bounds variables. Implementation 2
-also has its own precomputation code, although the OpenCL kernel itself
-is identical to implementation 3. This is simply because of the
-different device/platform executions.
-
-The codes themselves are stripped versions of the actual projectors. In
-all cases, the ray tracing itself is always performed, no parameters
-outside of the ones necessary for the ray tracing are computed. For C++
-version, there is a different file/function for this
-(https://github.com/villekf/OMEGA/blob/master/source/improved_Siddon_algorithm_discard.cpp[``improved_Siddon_algorithm_discard.cpp``]),
-but for OpenCL versions all the code are in “master” kernel file
-(https://github.com/villekf/OMEGA/blob/master/source/multidevice_kernel.cl[``multidevice_kernel.cl``])
-where the correct lines are compiled during runtime by taking advantage
-of preprocessor directives (``#ifdef``, ``#else``, etc.). For
-precomputation phase, the preprocessor directive that is defined is
-``FIND_LORS``. No precomputation code is available for CUDA.
+``help saveImage`` in MATLAB/Octave.
 
 Data load
 ---------
@@ -113,7 +53,7 @@ GATE data
 ^^^^^^^^^
 
 For http://www.opengatecollaboration.org/[GATE] data, the data import is
-separate for LMF, ASCII and ROOT.
+separate for LMF (not supported anymore), ASCII and ROOT.
 
 In LMF, the data import is done in a C++ file
 (https://github.com/villekf/OMEGA/blob/master/source/gate_lmf_matlab.cpp[``gate_lmf_matlab.cpp``])
