@@ -281,7 +281,7 @@ This section applies only to Inveon, mCT and Vision.
 For Inveon two different attenuation correction types are available. The
 first is based on the blank and transmission scans while the other is
 CT-based. Both are controlled by
-https://github.com/villekf/OMEGA/blob/master/source/attenuation_correction_factors.m[attenuation_correction_factors.m].
+`attenuation_correction_factors.m <https://github.com/villekf/OMEGA/blob/master/source/attenuation_correction_factors.m>`_.
 For the blank and transmission case the .atn-file provided by the Inveon
 Acquisition workplace is needed. This is reconstructed into an
 attenuation image by the aforementioned function. All the reconstruction
@@ -290,7 +290,7 @@ for the reconstruction. In the CT-case the umap-file contains ready-made
 attenuation images that are simply loaded and rotated. It is assumed
 that the bed is always at the lower part of the image. For the .atn-case
 the attenuation values are also scaled with
-https://github.com/villekf/OMEGA/blob/master/source/attenuation122_to_511.m[attenuation122_to_511.m].
+`attenuation122_to_511.m <https://github.com/villekf/OMEGA/blob/master/source/attenuation122_to_511.m>`_.
 
 The scaling scales the 122 keV attenuation coefficients (blank and
 transmission scan) to 511 keV. First the tabulated values for various
