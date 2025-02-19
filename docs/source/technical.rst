@@ -594,7 +594,7 @@ computed as a 1D integral from the current ray location to the next
 current distance from the center of the ray). The integral itself is
 computed by using the
 https://en.wikipedia.org/wiki/Trapezoidal_rule[trapezoidal rule]. By
-default, five (5) trapezoidal integration points are used. Each original
+default, four (4) trapezoidal integration points are used. Each original
 probability is then multiplied with the TOF coefficients. *Δ* is
 computed for each TOF bin and then summed together before the atomic
 addition. Same goes for sensitivity image, although that could be
