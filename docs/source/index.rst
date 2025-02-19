@@ -13,7 +13,7 @@ See :doc:`installation` for install help. Check out the :doc:`usage` section for
 
 .. note::
 
-   This documentation is for OMEGA v.2.1 and up. For earlier versions, see https://github.com/villekf/OMEGA/wiki
+   This documentation is for OMEGA v.2.1 and up. Separate documentation for v.2.0 is available from the menu in the lower right corner. For versions v.0.9-1.2, see https://github.com/villekf/OMEGA/wiki
 
 Contents
 --------
