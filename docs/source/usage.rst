@@ -96,20 +96,14 @@ Note that in helical CT cases the curvature of the panel is NOT taken into accou
 SPECT data
 ^^^^^^^^^^
 
-A couple of SPECT examples are available. For SPECT, you'll need the projection angles as well as the radial distance of the panel from the origin. 
+There are examples included for Siemens Pro.specta and SIMIND data reconstruction. Reconstruction with other data requires the sinograms/projection data, the projection angles, radial distances between the panel centre and FOV centre, as well as the collimator geometry and detector intrinsic resolution.. Attenuation correction requires a 3D volume of linear attenuation coefficients, which should be aligned with the FOV of the reconstruction.
 
-For SPECT, currently only projector types 1 and 6 are supported. Projector type is a ray-based projector similar to the ones used by other modalities. It allows setting the number of rays per projection pixel. The rays are 
-distributed based on normal (Gaussian) distribution for each pixel. Projector type 6, on the other hand, is a rotation-based projector where the image is rotated and then reconstructed as parallel beam case with computed, or manually input, spread function. Both methods require
-collimator parameters such as hole diameter, height/length and the distance from the detector panel. Projector type 1 also requires the septal thickness (thickness of the wall between adjacent holes) and type 6 the intrinsic resolution
-(scanner specific resolution value). 
-
-At the moment, only parallel hole collimators are supported, though pin-hole or coded aperture collimator might be possible with manual adjustment of detector coordinates (contact me if you are interested in trying out 
-pin-hole or coded aperture reconstruction).
+At the moment, only parallel hole collimators are supported, though pin-hole or coded aperture collimator might be possible with manual adjustment of detector coordinates (contact me if you are interested in trying out pin-hole or coded aperture reconstruction).
 
 ``SPECT_main_Siemens_Prospecta`` includes an example for two-head Siemens Pro.specta SPECT scanner (no data available at the moment). ``SPECT_main_simind_voxelbased`` contains a SIMIND-simulated test case with a link to the data.
-There is also ``SPECT_main`` example file, which loads Interfile SPECT data (no data available).
+There is also a ``SPECT_main`` example file, which loads Interfile SPECT data (no data available).
 
-Python version also includes examples for custom algorithm reconstructions. These are, however, based on the Siemens Pro.specta case and as such there is no open data available at the moment. For MATLAB/Octave custom reconstruction
+The Python version also includes examples for custom algorithm reconstructions. These are, however, based on the Siemens Pro.specta case and as such there is no open data available at the moment. For MATLAB/Octave custom reconstruction
 might be possible with implementation 4 (CPU), but there are no examples at the moment. 
 
 The SPECT examples are, in general, not as refined as the others mainly due to the lack of test data.

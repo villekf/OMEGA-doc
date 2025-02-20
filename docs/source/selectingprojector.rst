@@ -56,13 +56,9 @@ A good combination of quality and speed is to use ``projector_type = 45``, or ``
 SPECT data
 ----------
 
-Projector types 1 and 6 are the only ones recommended. Projector type 6 in general gives softer/blurrier results while projector type 1 gives much noisier results.
+For SPECT, currently only projector types 1 and 6 are supported. Projector type 1 is a ray-based projector salgorithmically identical to the PET version, i.e. the exact intersection length between a voxel and the ray is computed. The pattern of the rays traced is similar for all detector pixels and can be selected either arbitrarily or from a cone determined by the collimator geometry. This serves as an approximation for the collimator cone of response in the case of the collimator holes not aligning with the detector pixels. However, practical tests have shown this approximation to have a minimal effect on the image quality. Projector type 6, on the other hand, is a rotation-based projector where the image is rotated and then reconstructed as parallel beam case with a computed, or a manually input, point spread function.
 
-Projector type 1 is a ray-based projector and is algorithmically identical to the PET version, i.e. the exact intersection length is computed. However, for SPECT multiple rays per projection pixel can be used and the rays spread
-out as a cone according to the collimator geometry. Usable for any parallel hole collimator. Could be modified for any other type of collimator as well, but currently pinhole, fanbeam or similar do not work optimally. Unlike the
-projector type 6, projector type 1 works with any kind of scanner geometry as long as parallel hole collimator is used.
-
-Projector type 6 is a rotation-based projector, meaning it rotates the images to simulate parallel beam reconstruction. Detector response can be included as well to enable PSF blurring.
+The projectors are usable for any parallel hole collimator. They could be modified for any other type of collimator as well, but currently pinhole, fanbeam or similar require additional detector coordinate and/or sinogram manipulation. Unlike the projector type 6, projector type 1 works with any kind of scanner geometry as long as parallel hole collimator is used. In general, projector type 6 gives softer/blurrier results while projector type 1 gives much noisier results.
 
 Other data
 ----------
