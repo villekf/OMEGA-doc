@@ -328,24 +328,11 @@ format; size of the full system matrix can exceed even hundreds of
 gigabytes. This is partially caused by MATLAB/Octave always storing
 sparse matrices in double precision format with 64-bit integer indices
 in 64-bit systems although single precision and 32-bit integers would be
-enough. Using the orthogonal (ODRT) or volume-based (VRT) ray tracers
-even more emphasizes this as the system matrix grows even larger, making
-even subset-based reconstruction very memory intensive.
+enough. Implemenation 1 is only available for PET and CT, it is not currently available for SPECT.
 
-As previously mentioned, two different versions of each implementation
-is available. For this case the one without a precomputation phase is
-the only non-parallel version due to the need to dynamically allocate
-memory. The C++ code saves the row, column and non-zero indices for the
-sparse matrix which is constructed in MATLAB. This version also includes
-a pure MATLAB version (i.e. no C++ code) that can be optionally used,
-but both of these versions are very slow. ODRT or VRT are not supported
-as using them would be infeasible. The development of OMEGA has been an
-iterative process with this non-parallel case being the very ﬁrst to be
-developed. While this case is no longer recommended to be used, it is
-included for feature parity.
+Previously implementation 1 supported a non-parallel version, but this was removed in v2.0.
 
-The other case, with precomputation phase, is computed in parallel with
-OpenMP. The precomputation phase is needed in order to allocate correct
+The current version performs a "precomputation" step before the actual system matrix is computed. The precomputation phase is needed in order to allocate correct
 amount of memory for the sparse matrix. In this case, the sparse matrix
 is directly created and ﬁlled in the C++ MEX-ﬁle. MATLAB sparse matrices
 are in compressed sparse column (CSC) format, but PET data is handled
@@ -353,9 +340,9 @@ row by row (i.e. each measurement) basis, making it more suitable for
 compressed sparse row (CSR) format. However, this can be solved by
 simply considering the sparse system matrix to be transposed, as a
 transposed CSC matrix is a CSR matrix. As such, the output is actually
-the transposed system matrix. This case also supports ODRT and VRT. The
+the transposed system matrix. The
 precomputed phase was developed after the case without precomputation,
-initially without OpenMP support. In both cases, the reconstruction
+initially without OpenMP support. The reconstruction
 itself is handled completely in MATLAB/Octave. Due to this, the
 reconstruction process can be relatively slow as sparse matrix
 multiplications are not parallel in MATLAB (on CPU) in R2020b or earlier
@@ -371,36 +358,21 @@ Implementation 2
 ~~~~~~~~~~~~~~~~
 
 Implementation 2 is the recommended method for image reconstruction. It
-utilizes OpenCL and the open-source
-https://arrayfire.com/download/[ArrayFire] library. Unlike
+utilizes OpenCL or CUDA and the open-source
+`ArrayFire <https://arrayfire.com/download/>`_ library. Unlike
 implementation 1, in this case the system matrix is never explicitly
 computed, but rather the computations of the forward and backward
-projections are done entirely matrix free. Both precomputed and
-non-precomputed cases are available, but this time the differences
-between these are smaller as there is no need to preallocate memory
-based on a priori data. However, the precomputed version should still be
-faster as before. In implementation 2, both the forward and backward
+projections are done entirely matrix free. In implementation 2, both the forward and backward
 projections are computed in an OpenCL kernel that also computes the
-system matrix elements using the selected projector (both SRT and ODRT
-are supported). This kernel outputs two vectors, one containing the
-sensitivity image and the other
+system matrix elements using the selected projector. In v1.2 and below, the algorithms themselves were largely computed in the kernel as well, but currently, only the forward and/or backward projection operations
+are computed in the kernels. The forward projection thus outputs the forward projection vector, while backprojection the backprojection vector and optionally also the sensitivity image. 
 
-*Δ* = (*A\ T* *p*) / (*Af* + *r* + *s*),
-
-where *A* is the system matrix, *p* the measurements, *f* the current
-estimate, *r* randoms and *s* scatter.
-
-The vector Δ contains the necessary elements for all selected algorithms
-and as such has a size of N × N\ :sub:`algorithms`, where N is the total
-number of voxels and N\ :sub:`algorithms` the number of selected
-algorithms. Both of these vectors are then used to compute the ﬁnal
-estimates that are calculated by using ArrayFire functions. All
-operations occur on the selected device and only the ﬁnal result from
-each iteration is transferred to the host (if
+All operations occur on the selected device and only the ﬁnal result from
+each iteration is transferred to the host (if 
 ``options.save_iter = true``, otherwise only the last iteration).
 Implementation 2 supports all algorithms and priors. Implementation 2
 was developed after implementation 1 had been completed. Furthermore, a
-CUDA formulation of implementation 2 exists in v1.1 and has the same
+CUDA formulation of implementation 2 exists since v1.1 and has the same
 features as the OpenCL variant, but is considered only as an extra
 feature at the moment. All operations are computed in single precision.
 
@@ -414,21 +386,12 @@ performed in “pure” OpenCL, i.e. there are no third-party (ArrayFire)
 functions at work and everything is computed in custom-made OpenCL
 kernels.
 
-The forward and backward projections work like in implementation 2, but
-this time only for either OSEM or MLEM. This is due to that it allows
-the use of multiple devices at once, which is also the biggest
-difference between implementations 2 and 3. These devices can be either
-CPUs and/or GPUs, though currently all devices have to be from the same
-vendor. This allows heterogeneous computing with both CPU and GPU or
-multiple GPUs, as long as they are from the same vendor. When using
-different devices, more work (i.e. more LORs in this case) can be
-assigned to the more powerful device. Currently any devices with memory
-of 2 GB or less are ignored in order to prevent out of memory issues.
-All operations are computed in single precision.
+Since implementation 3 uses "pure" OpenCL, only OSEM and MLEM are currently supported. Furthermore, implementation 3 is no longer extensively tested and will be deprecated in the future. Currently implementation 3
+also supports largely only PET data though CT should work too. SPECT is not supported.
 
 Implementation 3 was developed after implementation 2 as a separate
 project to enable multi-device support and additionally to provide
-OpenCL reconstruction without the need for third-party libraries.
+OpenCL reconstruction without the need for third-party libraries. Since v2.0, the support for multiple devices (GPUs) has been dropped.
 
 Implementation 4
 ~~~~~~~~~~~~~~~~
@@ -439,66 +402,30 @@ as in implementation 1, but is implemented in matrix-free way as the
 OpenCL methods. The matrix-free formulation itself does not essentially
 differ from the OpenCL, except using C++ OpenMP code.
 
-As with the OpenCL methods, the sensitivity image and Δ are computed,
-but unlike the OpenCL methods, in implementation 4 these are output into
-MATLAB/Octave where the actual reconstruction algorithms are used. Due
-to this, implementation 4 supports more algorithms than 3, but less than
-1. Supported ML methods include MLEM, OSEM, RAMLA and ROSEM, MAP-methods
-OSL, BSREM and ROSEM-MAP along with all priors, though only one
-algorithm and prior can be used at a time. All operations are computed
-in double precision.
+The functionality is the same as in the OpenCL methods, i.e. the forward and/or backward projection operations are computed in C++ using OpenMP. These are then used in MATLAB-based reconstructions. Due
+to this, implementation 4 supports the same algorithms as implementation 1. 
 
 Implementation 4 was developed after the other implementations
 (excluding CUDA in implementation 2) as a fallback method for
 matrix-free computation without the need for OpenCL. It was also
 developed for CPUs that lack OpenCL support and to provide numerically
-more accurate matrix-free formulation.
+more accurate matrix-free formulation. However, as of v2.0, the default precision of implementation 4 is now single. Double precision can still be enabled with ``options.useSingles = false``.
 
 Matrix-free formulation
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The matrix-free forward and backprojection are implemented similarly
-regardless of the used projector or reconstruction algorithm. Since in
-PET the system matrix depicts the probability that an event originating
-from voxel *j* is detected on LOR *i*, the ﬁrst goal is compute the
-total distance that a LOR (or a TOR) traverses in the image domain. The
-computations are performed by computing several LORs at the same time in
-parallel. In the ﬁrst phase, the line intersection (or orthogonal
-distance) is computed for each voxel along the LOR (TOR) as well as the
-corresponding voxel index. The intersection lengths are summed together
-as well as
+The matrix-free forward and backprojection are implemented the same
+regardless of the used projector or reconstruction algorithm. For PET and SPECT, the probability that a photon emitted from voxel *j* is detected along line of response (LOR) *i* is computed. For CT, and CT-like data,
+the actual intersection length is computed. This means that in PET/SPECT, the intersection length is divided by the length of the ray. The length can be either the length of the ray in total (from detector to detector) or 
+the length of the ray in the FOV only (set ``options.totLength = false`` for the latter). 
 
-*Ξ\ i* = *Σ\ l L\ il f\ l*
-
-where
-
-*a\ il* = *L\ il* / *Σ\ l\ L\ il*
-
-where *L\ il* is the intersection length and *a\ il* the probability.
-
-In implementation 4 the intersection lengths and voxel indices are then
-saved in temporary variables. In case attenuation is included, then
-*Σ\ l\ μ\ l\ L\ l*, where *μ* is the attenuation coefficient, is
-computed as well.
-
-After the ﬁrst phase, the inverse of *Σ\ l\ L\ il* is computed. If
-attenuation is included, this inverse value is multiplied with
-exp(*Σ\ l\ μ\ l\ L\ l*). With normalization enabled there is further
-multiplication with the normalization coefficient. The resulting value
-is then used to compute *a\ il* values. Randoms and/or scatter is then
-added to *Ξ\ i* if either has been selected. The ﬁnal value is then used
-to divide the current number of counts (*p\ i*)
-
-*Θ\ i* = *p\ i* / (*Σ\ l\ a\ il* + *r\ i* + *s\ i*).
-
-In the last step, the sensitivity image and the backprojection are
-computed. Sensitivity image, however, is only computed during the very
-ﬁrst iteration unless not enough memory is available for storage in
-which case it will be computed on-the-ﬂy. When using implementation 4,
-the intersection lengths and voxel indices are loaded from memory. In
-OpenCL methods, however, both values are computed again, due to the high
-memory costs of saving the variables in all the threads as well as the
-slowness of the global memory in GPUs. Both the sensitivity image and
+In all cases, the forward projection always computes each measurement in parallel. This is the case for ALL projectors. 
+That is, all forward projectors are essentially ray-based.
+For backprojection, the process is different depending on whether PET/SPECT or CT data used. For PET/SPECT, the backprojection uses the same ray-based approach as forward projection. CT-data, on the other hand, use
+voxel-based approaches. In both cases, the sensitivity image (diagonal image-based preconditioner) can be computed at the same time. This applies to specific algorithms, such as OSEM, and is handled automatically.
+The preconditioner itself is always computed separately. Sensitivity image, however, is only computed during the very
+ﬁrst iterations unless not enough memory is available for storage in
+which case it will be computed on-the-ﬂy. With PET/SPECT data, both the sensitivity image and
 the backprojection are saved in a thread-safe way by using atomic
 operations, more speciﬁcally the atomic addition. Atomic operations
 guarantee that the read-write operation to the memory location is only
