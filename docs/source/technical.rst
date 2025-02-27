@@ -36,7 +36,7 @@ Data load
 ---------
 
 The corresponding m-files are
-`GATE <https://github.com/villekf/OMEGA/blob/master/source/load_data.m>`_,
+`load_data.m <https://github.com/villekf/OMEGA/blob/master/source/load_data.m>`_,
 `load_data_mCT.m <https://github.com/villekf/OMEGA/blob/master/source/load_data_mCT.m>`_
 and
 `load_data_Vision.m <https://github.com/villekf/OMEGA/blob/master/source/load_data_Vision.m>`_.
@@ -52,8 +52,8 @@ data and sinogram data.
 GATE data
 ^^^^^^^^^
 
-For http://www.opengatecollaboration.org/>`_ data, the data import is
-separate for LMF (not supported anymore), ASCII and ROOT.
+For `GATE <http://www.opengatecollaboration.org/>`_ data, the data import is
+separate for LMF (not supported anymore), ASCII and ROOT. When using Python, only ROOT is supported at the moment.
 
 In LMF, the data import is done in a C++ file
 (`gate_lmf_matlab.cpp <https://github.com/villekf/OMEGA/blob/master/source/gate_lmf_matlab.cpp>`_)
@@ -85,7 +85,7 @@ the chosen variables are then stored in individual vectors/matrices.
 Time steps are handled similarly to LMF. Sinograms are created during
 the data load when using ASCII data.
 
-ROOT data import is handled in a C++ MEX-file. Unlike LMF, ROOT has
+ROOT data import is handled in a C++ MEX-file or through C++ library file in Python. Unlike LMF, ROOT has
 three different MEX-versions. One uses the “traditional” C MEX-interface
 (`GATE_root_matlab_C.cpp <https://github.com/villekf/OMEGA/blob/master/source/GATE_root_matlab_C.cpp>`_)
 and is intended for MATLAB version 2018b and earlier, the second uses
@@ -100,28 +100,20 @@ in place that first guarantee that a specific branch is available,
 e.g. the scatter data. If not a message is displayed, but the data load
 will still continue, unless it is the detector information that is
 missing as it is vital for the data load. Sinograms are created during
-the data load in all three cases. However, for the C++ version the
-sinogram creation does not occur when the ROOT data itself is loaded,
-but only after the file has been loaded.
+the data load in all three cases. Currently, all the mex-files and the Python library file have the exact same functionality. The only difference is the "input" file, that handles all the input variables and data, as well as the 
+outputs. If the index-based data load is used, the sinogram is not saved at the same time. TOF data load is handled automatically, if enabled.
 
 List-mode data
 ^^^^^^^^^^^^^^
 
 List-mode data, more specifically Siemens Inveon, Biograph mCT and
-Biograph Vision list-mode data, is loaded in a separate MEX-file. For
+Biograph Vision list-mode data, is loaded in a separate MEX-file or library file in Python. For
 Inveon, the source code is available
 (`inveon_list2matlab.cpp <https://github.com/villekf/OMEGA/blob/master/source/inveon_list2matlab.cpp>`_),
 but for mCT and Vision only the MEX-files themselves are distributed
-(i.e. a closed source release). For Inveon, the code loops through all
+(i.e. a closed source release) and at the moment there are no files for Python. For Inveon, the code loops through all
 the bit-packets, determines whether they are prompt, delay or time tags
-and then extracts the corresponding information. Static and dynamic
-cases are handled a bit differently; in the former case the counts are
-stored in one detectors x detectors sized matrix, while in the latter
-they are stored event-by-event basis. In dynamic case, however, the
-events are stored in a same type of (sparse) matrix as in static case
-for each time step with the use of ``accumarray`` function. Time steps
-are handled as with LMF data, where the index is stored where the time
-exceeded the previous time step.
+and then extracts the corresponding information. Sinograms are created during the data load, but not when any listmode reconstruction mode is used.
 
 List-mode data is saved with ``_listmode`` in the end of the filename.
 For 32-bit list-mode data (mCT only) ``_listmode_sinogram`` is added to
@@ -144,49 +136,37 @@ Saving data
 
 GATE data and list-mode data go through the same procedures when saving
 data. All steps are repeated for the selected number of time steps,
-where first the sinogram is created (if raw data is not explicitly used)
-and then the raw data is stored (if selected). For GATE data, trues,
+where first the sinogram is created. For GATE data, trues,
 randoms and scatter are stored as well if selected. TOF data will have
-different filenames from non-TOF data, though raw data does not
-currently support TOF data.
+different filenames from non-TOF data.
 
 Forming sinograms
 -----------------
 
 The corresponding m-file is
-`form_sinograms.m <`createSinogramASCII.cpp <https://github.com/villekf/OMEGA/blob/master/source/form_sinograms.m>`_.
-Currently, when data is loaded from GATE or list-mode data the sinograms
-are created through separate MEX-file or OCT-file.
+`form_sinograms.m <https://github.com/villekf/OMEGA/blob/master/source/form_sinograms.m>`_.
+Note that currently the sinograms are created already during data load, and the ``form_sinograms`` is simply used to apply potential precorrections and to save the data. Sinograms can be created separately as well with
+the following files: 
 `createSinogramASCII.cpp <https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCII.cpp>`_
 is for the old C-API,
 `createSinogramASCIICPP.cpp <https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCIICPP.cpp>`_
 is for the C++-API and
 `createSinogramASCIIOct.cpp <https://github.com/villekf/OMEGA/blob/master/source/createSinogramASCIIOct.cpp>`_
-is for Octave.
+is for Octave. Python also has a library version available. These files are, however, only used when loading ASCII GATE data in MATLAB/Octave.
 
 .. _execution-2:
 
 Execution
 ~~~~~~~~~
 
-Sinograms can be formed from saved raw data, during data load (no need
-to load the raw data separately) and also by simply modifying the
-corrections applied to the sinogram (e.g. no actual new sinogram is
+Sinograms can be formed during data load. Alternatively precorrections may be later applied to existing sinogram (e.g. no actual new sinogram is
 created). When sinograms are formed, a raw uncorrected sinogram is
 always created and saved regardless of the corrections applied. This is
 saved as ``raw_SinM``.
 
-As mentioned above, the sinograms can be either created from the raw
-data afterwards or during the data load itself. The latter method is
-faster and more memory efficient. However, it can be useful to create a
-sinogram of different size later from the same data. In this case, if
-the data load takes a long time, it is probably beneficial to create a
-new sinogram from the raw data. This, however, only works if raw data
-was initially saved (``options.store_raw_data = true``).
-
 *form_sinograms.m:*
 
-When creating sinogram from raw data the first step is the formation of
+When creating sinogram from raw ASCII data the first step is the formation of
 an “initial Michelogram”. This is an intermediate step between the raw
 data format and the Michelogram/sinogram format. The raw data is divided
 into vectors that contain the future Michelogram bins. This is performed
@@ -200,8 +180,7 @@ and performed for all the selected data types (trues, prompts, delays,
 etc.).
 
 After this, the next step performs the axial compression, though using
-span of 1 (no axial compression) is also possible. However, span of 1 is
-only supported with prompts.
+span of 1 (no axial compression) is also possible.
 
 *MEX/OCT:*
 
@@ -211,8 +190,7 @@ position) and ring position (transaxial position).
 
 *Corrections:*
 
-The last step, corrections, is applied whether the sinogram was created
-from raw data or during data load. However, most corrections are not
+The last step, corrections, is applied if precorrections are selected. However, most corrections are not
 applied if ``options.corrections_during_reconstruction = false``, with
 the exception of sinogram gap filling. Corrections are handled in the
 following order: Randoms (variance reduction, then smoothing) -> Scatter
@@ -221,7 +199,7 @@ normalization correction -> Scatter when using normalized scatter
 (variance reduction, then smoothing) -> global correction factor ->
 Sinogram gap filling. If any of the corrections are set as ``false``,
 then that step is omitted. Only prompts go through corrections. Scatter
-can be applied only with normalization separately applied to it or
+can be applied with normalization separately applied to it or
 without separate normalization.
 
 All the separate sinograms are saved in a same mat-file with the
@@ -238,8 +216,8 @@ variance reduction and/or smoothing was applied.
 
 Randoms correction is applied as randoms subtraction from the delayed
 coincidences data. Scatter correction can be applied either as a
-subtraction by setting ``options.subtract_scatter = true``, or
-alternatively by multiplication. In the latter case the scatter data is
+subtraction, or
+alternatively by multiplication by setting ``options.subtract_scatter = false``. In the latter case the scatter data is
 multiplied with the sinogram. Same steps are repeated for all time
 steps.
 
@@ -273,8 +251,6 @@ applied) or the uncorrected sinogram (no corrections).
 
 Attenuation correction
 ----------------------
-
-This section applies only to Inveon, mCT and Vision.
 
 *Inveon*
 
@@ -310,6 +286,18 @@ and
 The CT images are first scaled to 511 keV by using trilinear
 interpolation.
 
+*Other data*
+
+In general the attenuation correction requires an attenuation image that should be scaled to the proper energy and use units 1/mm. SPECT reconstructions need to be scaled for the SPECT energy, while PET ones
+for PET energy. The files specified in the above mCT and Vision section can be used for other CT-data, but only work for PET cases.
+
+The attenuation correction itself is performed slightly differently in PET and SPECT. In PET, the attenuation coefficients are multiplied with the length of intersection of the ray in the voxel. These are then summed for all
+voxels and then the exponent is taken of the negative value. This is then multiplied with the probability. For backprojection, the attenuation is precompute. The use of attenuation correction can slow down the computations 
+as the attenuation coefficients are required at every (sub-)iteration.
+
+SPECT attenuation correction is similar, but a single summed variable is not used. Instead, only values summed up to that voxel are used. Thus, voxels further from the detector have greater attenuation correction, while in PET 
+they are the same.
+
 Normalization correction
 ------------------------
 
@@ -319,25 +307,11 @@ Normalization coefficients are computed by
 Image reconstruction
 --------------------
 
-The image reconstruction phase has been divided into four separate types
-that are referred as implementations. Along with these four
-implementations, each implementation has two different modes of working,
-one with a precomputation phase and one without. When the precomputation
-option is selected, a separate phase needs to be completed before the
-image reconstruction which determines the valid LORs, i.e. LORs that
-intersect the FOV (see above). This phase determines the indices of
-those LORs that intersect the FOV and also determines the number of
-voxels each of these valid LORs traverse (required for implementation
-1). While sinogram data may not have any non-valid LORs, raw data often
-has significant amount of them. As such, the precomputation phase should
-increase the speed of the reconstruction phase as non-valid LORs are
-never investigated. This should make even cases with no non-valid LORs
-slightly faster due to lack of LOR validation, but the effect is greater
-with raw data. However, due to ﬂoating point rounding eﬀects the
-precomputation phase needs to be different when computing either
-implementation 1 or 4 (CPU) or 2 or 3 (OpenCL) as the ﬁrst two are
-computed in double precision (64-bit) while the last two are in single
-precision (32-bit).
+The image reconstruction phase has been divided into five separate types
+that are referred as implementations. Note that Python only uses implementation 2. By default
+implementation 1 (CPU) is double precision (64-bit) and 2, 3, 5 (OpenCL), and 4 (CPU) are in single
+precision (32-bit). Implementation 4 can also use double precision with ``options.useSingles = false``. While MATLAB R2025a supports single precision sparse matrices, the support for those have not been validated 
+for implementation 1.
 
 All four implementations are explained here separately in the following
 sections. The matrix-free formulation is explained in more detail after
