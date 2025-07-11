@@ -284,7 +284,7 @@ Useful for any Poisson-based data, if regularization is used. Useful also withou
 The momentum parameter is defined in ``options.alpha_PKMA`` and if left zero or empty, it is computed automatically. You can instead input your own values, but make sure that the number of elements equals number of subsets * number of iterations!
 If the values are computed automatically, these values can be adjusted with ``options.rho_PKMA`` and ``options.delta_PKMA``. The automatic formula is (``options.subsets`` is the number of subsets):
 
-.. code-block::
+.. code-block:: matlab
    oo = 1;
    for kk = 1 : options.Niter
       for ll = 0 : options.subsets - 1
