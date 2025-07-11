@@ -284,7 +284,7 @@ Useful for any Poisson-based data, if regularization is used. Useful also withou
 The momentum parameter is defined in ``options.alpha_PKMA`` and if left zero or empty, it is computed automatically. You can instead input your own values, but make sure that the number of elements equals number of subsets * number of iterations!
 If the values are computed automatically, these values can be adjusted with ``options.rho_PKMA`` and ``options.delta_PKMA``. The automatic formula is (``options.subsets`` is the number of subsets):
 
-.. code-block:: matlab
+.. code-block::
 	oo = 1;
 	for kk = 1 : options.Niter
 		for ll = 0 : options.subsets - 1
@@ -293,6 +293,10 @@ If the values are computed automatically, these values can be adjusted with ``op
 		end
 	end
 
+
+.. code-block:: python
+
+    pygments_style = 'sphinx'
 
 Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
 until it is of the right magnitude. Too high values will cause quick divergence while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use default values). This should work for
