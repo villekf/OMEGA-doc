@@ -283,14 +283,15 @@ see RELAXATION PARAMETER in the examples and `RAMLA <https://omega-doc.readthedo
 Useful for any Poisson-based data, if regularization is used. Useful also without regularization. The recommended algorithm for Poisson-based reconstructions. Unlike MBSREM, also requires the momentum parameter, see PKMA PROPERTIES in the examples.
 The momentum parameter is defined in ``options.alpha_PKMA`` and if left zero or empty, it is computed automatically. You can instead input your own values, but make sure that the number of elements equals number of subsets * number of iterations!
 If the values are computed automatically, these values can be adjusted with ``options.rho_PKMA`` and ``options.delta_PKMA``. The automatic formula is (``options.subsets`` is the number of subsets):
+
 .. code-block::
-	oo = 1;
-	for kk = 1 : options.Niter
-		for ll = 0 : options.subsets - 1
-			options.alpha_PKMA(oo) = 1 + (options.rho_PKMA *((kk - 1) * options.subsets + ll)) / ((kk - 1) * options.subsets + ll + options.delta_PKMA);
-			oo = oo + 1;
-		end
-	end
+   oo = 1;
+   for kk = 1 : options.Niter
+      for ll = 0 : options.subsets - 1
+         options.alpha_PKMA(oo) = 1 + (options.rho_PKMA *((kk - 1) * options.subsets + ll)) / ((kk - 1) * options.subsets + ll + options.delta_PKMA);
+         oo = oo + 1;
+      end
+   end
 
 
 Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
