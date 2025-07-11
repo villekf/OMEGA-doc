@@ -96,6 +96,28 @@ of ``options.pitchRoll`` has to be zeros. Same applies the other way around.
 
    CT/SPECT geometry in the axial view.
    
+Fan beam CT data
+^^^^^^^^^^^^^^^^
+
+While OMEGA inherently assumes cone beam data format, fan beam can also be used. When using fan beam data, the input projections should be essentially
+1D slices, for example of size numberOfRowsX1XnumberOfProjections (or number of columns, the only thing that is important is that either of these has the
+dimension of 1). If the fan beam source moves axially, you can input these as additional projections. The source and center of the 1D slice coordinates 
+have to be input for all projections/combinations. Pure 2D reconstruction is not possible as the axial/z-direction has to be defined at all times, but
+the axial/z-direction can have only one slice.
+
+Parallel beam CT data
+^^^^^^^^^^^^^^^^^^^^^
+
+Parallel beam CT data can also be used, but it requires the input data to be in projection format as with CBCT data. The only difference with parallel
+beam is that the source is always assumed to move exactly like the detector pixels. This means that you need to input the coordinates of the center of 
+the source and detector panels, and both the source and detector pixels always are always moved identically. This means that when moving from the center
+to a corner pixel in the detector panel, the source is also moved the exact same amount. If the center coordinates are exactly perpendicular, the 
+resulting coordinates will be perpendicular too. This assumes that the detector pixels/source are always moved as defined by the size of one detector
+pixel. If there is variation in the shifts, that cannot be taken into account at the moment, meaning that shifts have to be constant and fixed for each
+projection. There can be a difference in the row and/or column directions though.
+
+Use parallel beam setup by setting ``options.useParallelBeam`` to true.
+   
    
 Any data
 --------

@@ -35,14 +35,14 @@ Any data
  * A class object can be created which can be used to compute the forward and/or backward projections
  * Available in MATLAB, GNU Octave and Python
 * Wide range of algorithms supported:
- * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, SART, ASD-POCS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI, SAGA, and OSL
+ * MLEM, OSEM, RAMLA, BSREM, MBSREM, PKMA, LSQR, CGLS, SART, ASD-POCS, FISTA, (A/E)COSEM, ROSEM, DRAMA, PDHG, CV, FDK/FBP, PDDY, SPS, RBI, SAGA, BB, and OSL
   * PDHG supports L1, L2, and Kullback-Leibler optimization
   * Optional FISTA/Momentum acceleration for all algorithms
   * FDK/FBP supports several different windowing methods: Hamming, Hann, Blackman, Nuttal, Gaussian, Shepp-Logan, cosine, Parzen (de la Vallée Poussin) or none (ramp)
 * Wide range of regularization techniques/priors:
  * Quadratic prior, Huber, MRP, Weighted mean, TV, NLM, RDP, Lange, GGMRF, APLS, (proximal) TGV, proximal TV and hyperbolic prior
  * Several different non-local variations such as NLTV and NLRDP
- * TV, NLM and APLS support anatomic/prior image weighting
+ * TV, NL-methods and APLS support anatomic/prior image weighting
 * Supports time-varying dynamic data
  * Reconstruct dynamic data with static algorithms
 * Point spread function blurring
@@ -85,17 +85,18 @@ Any data
 * Allows the use of extended FOV without multi-resolution as well
  * Priors/regularization computed only in the main volume
  * Automatic cropping of the image
+* Dynamic reconstruction with static algorithms
 
 PET features
 ^^^^^^^^^^^^
-
 * Optimized for PET
-* Load GATE ROOT data for cylindrical/ECAT PET systems
+* Load GATE ROOT data for cylindrical/ECAT PET systems (GATE 9 and earlier)
  * Automatically convert the PET data into sinograms
  * Export trues, prompts, randoms and scatter sinograms
   * Rayleigh or Compton scatter in the detector and/or phantom can be separately selected
  * Form and reconstruct dynamic sinograms
  * Obtain a ground truth image from the GATE ROOT data
+* Reconstruct GATE 10 simulations in the same Python script
 * Load Inveon PET list-mode data 
 * Automatically convert any of the above PET data into sinograms
 * Supports orthogonal distance-based ray tracer
@@ -114,10 +115,11 @@ PET features
 * Supports time-of-flight (TOF) data
 * Supports formation of TOF sinograms from GATE data
 * Supports list-mode data
-* Supports TOF with list-mode data
+ * Supports TOF with list-mode data
 * Supports pseudo detectors/rings or ring gaps
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
 * Preliminary support for dual-layer PET
+ * With index-based or listmode reconstruction, even multi-layer is possible
 
 CT features
 ^^^^^^^
@@ -148,6 +150,10 @@ CT features
  * Select the projection images based on prime factors
 * Most of the Poisson-based algorithms are supported with transmission-based (i.e. Lambert-Beer law) data as well
  * These include PKMA, MBSREM, RAMLA, ROSEM, OSEM, MLEM and BSREM
+* Reconstruct even very large images with any GPU
+ * Only a portion of the image and measurements are reconstructed simultaneously
+ * Supports FDK, PDHG and PKMA
+ * Regularizers supported: Non-local methods, RDP, GGMRF, TV, and hyperbolic prior
 
 SPECT features
 ^^^^^^^^^^
@@ -156,8 +162,11 @@ SPECT features
 * Load Interfile SPECT projection images
 * Load Siemens Pro.specta DICOM data (requires additional toolboxes or packages)
 * Automatically compute detector response function for hexagonal or round holes
-* Supports rotation-based projector and ray-based projector
+* Supports rotation-based projector, orthogonal distance-based ray-tracer, and ray-based projector
 * Supports same subset selection methods as CT, though PET ones should work with the ray-based projector
+* Supports attenuation correction during reconstruction, either image-based or sinogram-based
+* Supports normalization correction during reconstruction
+* Supports easy inclusion of GATE attenuation maps as the attenuation correction images
 
 MATLAB/GNU Octave only
 ----------------------

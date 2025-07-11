@@ -137,23 +137,25 @@ PET and SPECT use the linear model. Useful algorithm for PET and SPECT, but not 
 RAMLA
 ^^^^^
 
-Similar to OSEM, but has guaranteed convergence and is dependent on the relaxation parameter lambda (or lambdaN in Python), see RELAXATION PARAMETER. Slower to converge than OSEM. Can be used with or without subsets. 
-Note that the default lambda values might not work with RAMLA. Not recommended for CT but has transmission tomography based version implemented. See BSREM for regularized version.
+Similar to OSEM, but has guaranteed convergence and is dependent on the relaxation parameter ``options.lambda`` (or ``options.lambdaN`` in Python), see RELAXATION PARAMETER in the examples. 
+Slower to converge than OSEM. Can be used with or without subsets. Note that the default lambda values might not work with RAMLA. The default relaxation parameters are computed if the number of relaxation parameters doesn't equal
+the number of iterations, if the variable is omitted or if it's zero. If you wish to enter your own relaxation parameters, make sure that the number of relaxation values equals the number of iterations! 
+Not recommended for CT but has transmission tomography based version implemented. See BSREM for regularized version.
 
 ET version based on: https://doi.org/10.1109/42.538946
 
 MRAMLA
 ^^^^^^
 
-Unregularized version of the MBSREM. Almost identical to RAMLA, i.e. requires lambda, but supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
-Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is not used.
+Unregularized version of the MBSREM. Almost identical to `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_, i.e. requires lambda (see above), but supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
+Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is not used. The upper bound (see the article) can be optionally set with ``options.U``, if zero, a default value is computed.
 
 ET version based on: https://doi.org/10.1109/TMI.2003.812251
 
 ROSEM
 ^^^^^
 
-Identical to OSEM except that includes relaxation as well. Useful for testing/comparison purposes only. See ROSEM-MAP for regularized version.
+Identical to OSEM except that includes relaxation (lambda, see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ above) as well. Useful for testing/comparison purposes only. See ROSEM-MAP for regularized version.
 
 RBI
 ^^^
@@ -165,7 +167,8 @@ Based on: https://doi.org/10.1109/83.499919
 DRAMA
 ^^^^^
 
-Modified version of RAMLA. Requires some additional parameter tuning (see DRAMA PROPERTIES), but can provide faster convergence. No transmission tomography version. No regularized version available.
+Modified version of `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_. Requires some additional parameter tuning (see DRAMA PROPERTIES in the examples and the original article for details on the parameters), but can provide faster convergence. No transmission tomography version. 
+No regularized version available.
 
 Based on: https://doi.org/10.1088/0031-9155/48/10/312
 
@@ -179,29 +182,32 @@ Based on: https://doi.org/10.1117/12.467144
 ECOSEM
 ^^^^^^
 
-Uses both OSEM and COSEM to compute a converged version. Faster than regular COSEM. ACOSEM probably provides faster convergence. No transmission tomography version. 
+Uses both `OSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#mlem-osem>`_ and `COSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#cosem>`_ to compute a converged version. Faster than regular COSEM. ACOSEM probably provides faster convergence. No transmission tomography version. Note that the "weighting" between COSEM and OSEM is identical to that
+of the original article!
 
 Based on: https://doi.org/10.1088/0031-9155/49/11/002
 
 ACOSEM
 ^^^^^^
 
-Accelerated version of COSEM. No transmission tomography version. Useful for non-regularized PET/SPECT reconstructions if converge is required. Regularized version available with OSL-COSEM. Requires the acceleration parameter, see
-ACOSEM PROPERTIES.
+Accelerated version of `COSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#cosem>`_. No transmission tomography version. Useful for non-regularized PET/SPECT reconstructions if converge is required. Regularized version available with OSL-COSEM. Requires the acceleration parameter, see
+ACOSEM PROPERTIES in the examples. The acceleration parameter is defined by ``options.h`` where 2 is the default value.
 
 Based on: https://doi.org/10.1088/0031-9155/55/3/003
 
 FISTA
 ^^^^^
 
-Least-squares based algorithm. Can be used for any data and with or without subsets. Supports preconditioners. Does not support regularization at the moment (except the below one).
+Least-squares based algorithm. Can be used for any data and with or without subsets. Supports preconditioners. Does not support regularization at the moment (except the below one). Requires the computation of the Lipschitz
+constant for the system. This is computed automatically if ``options.tauCP`` is omitted or zero, but a precomputed value can be input as well in which case the precomputation is omitted (this speeds up the reconstruction).
+See PDHG PROPERTIES in the examples (the ``tauCP``-values affect FISTA as well, this includes ``tauCPFilt`` if the filtering-based preconditioner is used).
 
 Based on: https://doi.org/10.1137/080716542
 
 FISTAL1
 ^^^^^^^
 
-FISTA with built-in L1 regularization. Otherwise identical to FISTA.
+FISTA with built-in L1 regularization. Otherwise identical to FISTA. Use ``options.beta`` as the regularization parameter.
 
 Based on: https://doi.org/10.1007/s10878-019-00453-7
 
@@ -222,56 +228,70 @@ Based on: https://doi.org/10.6028/jres.049.044
 SART
 ^^^^
 
-Can be used with or without subsets. Uses same relaxation parameter as all the other algorithms using relaxation (i.e. ``options.lambda`` or ``options.lambdaN``). 
+Can be used with or without subsets. Uses same relaxation parameter as all the other algorithms using relaxation (i.e. ``options.lambda`` or ``options.lambdaN``,see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ above for some details). 
 None of the examples currently include this algorithm, but you can enable it with ``options.SART = true`` in MATLAB/Octave and ``options.SART = True`` in Python. 
-Does not support regularization. Potentially useful test algorithm for CT data. Implementation 2 only!
+Supports regularization. Potentially useful test algorithm for CT data. Implementation 2 only! Use ``options.beta`` as the regularization parameter.
 
 Based on: https://doi.org/10.1016/0161-7346(84)90008-7 and https://content.iospress.com/articles/journal-of-x-ray-science-and-technology/xst00110 and https://doi.org/10.1137/S089547980138705X
 
 OSL-OSEM
 ^^^^^^^^
 
-OSL version of OSEM. Otherwise identical to OSEM but allows the use of regularization. MLEM version can be enabled by using only 1 subset. Everything that applies to OSEM/MLEM, applies here.
+OSL version of OSEM. Otherwise identical to OSEM but allows the use of regularization. MLEM version can be enabled by using only 1 subset. Everything that applies to OSEM/MLEM, applies here. 
+Use ``options.beta`` as the regularization parameter.
 
 OSL based on: https://doi.org/10.1109/42.52985
 
 MBSREM
 ^^^^^^
 
-Regularized version of MRAMLA. Requires relaxation parameter lambda, and supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
-Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is used.
+Regularized version of `MRAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#mramla>`_. Requires relaxation parameter lambda (see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ for details), and supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
+Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is used. Use ``options.beta`` as the regularization parameter.
 
 ET version based on: https://doi.org/10.1109/TMI.2003.812251
 
 BSREM
 ^^^^^
 
-Regularized version of RAMLA. However, unlike MBSREM, BSREM handles the regularization differently. While MBSREM computes the regularization after every subset, BSREM does it only after one full iteration (epoch). This can
-sometimes be useful as less regularization steps might be used. Requires relaxation parameter lambda. Also has dedicated transmission tomography version.
+Regularized version of `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_. However, unlike MBSREM, BSREM handles the regularization differently. While MBSREM computes the regularization after every subset, BSREM does it only after one full iteration (epoch). This can
+sometimes be useful as less regularization steps might be used. Requires relaxation parameter lambda. Also has dedicated transmission tomography version. Use ``options.beta`` as the regularization parameter.
 
 ET version based on: https://doi.org/10.1109/42.921477
 
 ROSEM-MAP
 ^^^^^^^^^
 
-Regularized version of ROSEM. Also like BSREM, this performs regularization at full iteration (epoch) level. Requires relaxation parameter lambda. Also has dedicated transmission tomography version.
+Regularized version of `ROSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#rosem>`_. Also like BSREM, this performs regularization at full iteration (epoch) level. Requires relaxation parameter lambda (see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ for details). Also has dedicated transmission tomography version. 
+Use ``options.beta`` as the regularization parameter.
 
 OSL-RBI
 ^^^^^^^
 
-Regularized version of RBI. Otherwise identical. No transmission tomography version.
+Regularized version of `RBI <https://omega-doc.readthedocs.io/en/latest/algorithms.html#rbi>`_. Otherwise identical. No transmission tomography version. Use ``options.beta`` as the regularization parameter.
 
 OSL-COSEM
 ^^^^^^^^^
 
-Regularized version of either COSEM or ACOSEM. If ``options.OSL_COSEM = 1`` then OSL-ACOSEM is used. With ``options.OSL_COSEM = 2`` OSL-COSEM is used. ECOSEM is not supported. Functions otherwise the same as their parent algorithms.
-No support for transmission tomography.
+Regularized version of either `COSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#cosem>`_ or `ACOSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#acosem>`_. If ``options.OSL_COSEM = 1`` then OSL-ACOSEM is used. With ``options.OSL_COSEM = 2`` OSL-COSEM is used. ECOSEM is not supported. 
+Functions otherwise the same as their parent algorithms, so see those for some more details. No support for transmission tomography. Use ``options.beta`` as the regularization parameter.
 
 PKMA
 ^^^^
 
-Similar to MBSREM. Can be used without regularization but also supports regularization. Supports also proximal priors (TV and TGV). Supports preconditioners. Transmission tomography support. Requires the relaxation parameter lambda, see RELAXATION PARAMETER. 
-Useful for any Poisson-based data, if regularization is used. Useful also without regularization. The recommended algorithm for Poisson-based reconstructions. Unlike MBSREM, also requires the momentum parameter, see PKMA PROPERTIES.
+Similar to `MBSREM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#mbsrem>`_. Can be used without regularization but also supports regularization. Supports also proximal priors (TV and TGV). Supports preconditioners. Transmission tomography support. Requires the relaxation parameter lambda, 
+see RELAXATION PARAMETER in the examples and `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ above. 
+Useful for any Poisson-based data, if regularization is used. Useful also without regularization. The recommended algorithm for Poisson-based reconstructions. Unlike MBSREM, also requires the momentum parameter, see PKMA PROPERTIES in the examples.
+The momentum parameter is defined in ``options.alpha_PKMA`` and if left zero or empty, it is computed automatically. You can instead input your own values, but make sure that the number of elements equals number of subsets * number of iterations!
+If the values are computed automatically, these values can be adjusted with ``options.rho_PKMA`` and ``options.delta_PKMA``. The automatic formula is (``options.subsets`` is the number of subsets):
+``
+oo = 1;
+for kk = 1 : options.Niter
+	for ll = 0 : options.subsets - 1
+		options.alpha_PKMA(oo) = 1 + (options.rho_PKMA *((kk - 1) * options.subsets + ll)) / ((kk - 1) * options.subsets + ll + options.delta_PKMA);
+		oo = oo + 1;
+	end
+end
+``
 
 Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
 until it is of the right magnitude. Too high values will cause quick divergence while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use default values). This should work for
@@ -283,11 +303,22 @@ PDHG
 ^^^^
 
 PDHG refers to the L2 norm least-squares PDHG. Supports subsets, linear models, regularization and preconditioners. Useful for any data. Measurement-based preconditioners are guaranteed to work unlike with PKMA or MBSREM.
-By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES. Supports also adaptive step-size computations, but it is not recomended with multi-resolution
+By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES in the examples. Supports also adaptive step-size computations, but it is not recomended with multi-resolution
 reconstruction. Supports both proximal priors as well as regular non-linear convex ones (in the latter case it is actually the Condat-Vu algorithm).
+The primal value is set with ``options.tauCP``, but is computed automatically if empty or zero. If using a filtering-based preconditioner, a specific primal value is set with ``options.tauCPFilt``, and like the previous one, is computed automatically
+if zero or empty. Dual value is set with ``options.sigmaCP``, but 1 can be safely used. Update step-size is set with ``options.thetaCP``, but can also be safely set as 1. 
+
+The primal and dual variables can also be updated adaptively by setting ``options.PDAdaptiveType`` to either 1 or 2. Note that 1 corresponds to rule B from the article and 2 to rule A. See the article for details.
 
 | Based on: https://doi.org/10.1007/s10851-010-0251-1
-| Regularized version using non-linear convex priors: https://doi.org/10.1007/s10957-012-0245-9 and https://doi.org/10.1007/s10444-011-9254-8
+| Adaptive methods based on: https://doi.org/10.1007/s10851-024-01174-1
+
+CV
+^^
+
+Exactly the same as above PDHG, but for convex gradient-based priors.
+
+| Based on: https://doi.org/10.1007/s10957-012-0245-9 and https://doi.org/10.1007/s10444-011-9254-8
 
 PDHGL1
 ^^^^^^
@@ -306,7 +337,7 @@ Based on: https://doi.org/10.1088/0031-9155/57/10/3065
 PDDY
 ^^^^
 
-Variation of PDHG L2 norm version. Is not as strict with the requirements for primal and dual step-sizes with non-linear regularizers. Recommended only if PDHG fails with some specific prior, but that should not happen with
+Variation of `PDHG <https://omega-doc.readthedocs.io/en/latest/algorithms.html#pdhg>`_ L2 norm version. Is not as strict with the requirements for primal and dual step-sizes with non-linear regularizers. Recommended only if PDHG fails with some specific prior, but that should not happen with
 built-in priors. Slightly slower than PDHG but otherwise everything is identical.
 
 Based on: https://doi.org/10.1007/s10957-022-02061-8
@@ -316,8 +347,8 @@ ASD-POCS
 
 Currently not included in any of the examples, but you can enable it with ``options.ASD_POCS = true`` (MATLAB/Octave) or ``options.ASD_POCS = True`` (Python). Adjustable parameters are ``options.POCS_NgradIter`` 
 (number of iterations for the denoising phase), ``options.POCS_alpha``, ``options.POCS_rMax``, ``options.POCS_alphaRed`` and ``options.POCSepps``. Note that ``options.POCSepps`` is the epsilon value in the original article.
-All values have default values which are taken from the original article, except for epsilon value which is 1e-4. Supports subsets, but doesn't support any preconditioners. Note that, like SART, this algorithm requires 
-the relaxation parameters ``options.lambda`` (MATLAB/Octave) or ``options.lambdaN`` (Python). You can use the default value(s) or input your own values. Implementation 2 only!
+All values have default values which are taken from the original article, except for epsilon value which is 1e-4. Supports subsets, but doesn't support any preconditioners. Note that, like `SART <https://omega-doc.readthedocs.io/en/latest/algorithms.html#sart>`_, this algorithm requires 
+the relaxation parameters ``options.lambda`` (MATLAB/Octave) or ``options.lambdaN`` (Python), see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_. You can use the default value(s) or input your own values. Implementation 2 only!
 
 Unlike the original article, any non-proximal prior can be used here, though the functionality cannot be guaranteed!
 
@@ -328,7 +359,7 @@ Based on: http://dx.doi.org/10.1088/0031-9155/53/17/021
 SAGA
 ^^^^
 
-Only included in the full examples, but can be enabled with ``options.SAGA = true`` (MATLAB/Octave) or ``options.SAGA = True`` (Python). Supports gradient-based regularization. Implementation 2 only!
+Only included in the full examples, but can be enabled with ``options.SAGA = true`` (MATLAB/Octave) or ``options.SAGA = True`` (Python). Supports gradient-based regularization. Implementation 2 only! Supports both emission and transmission tomography.
 
 Based on: https://arxiv.org/abs/1407.0202
 

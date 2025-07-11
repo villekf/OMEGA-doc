@@ -39,8 +39,8 @@ Note that the units in OMEGA are in millimeters!
 Normalization correction
 ------------------------
 
-This is PET only feature and enabled with ``options.normalization_correction``. There are two options, either you can input precomputed normalization correction sinogram or then you can use a specific normalization measurement
-and compute the normalization coefficients with OMEGA. For the latter, set ``options.compute_normalization`` to true and select the desired normalization components with ``options.normalization_options``. Normalization correction 
+This is PET and SPECT only feature and enabled with ``options.normalization_correction``. There are two options, either you can input precomputed normalization correction sinogram/projections or then you can use a specific normalization measurement
+and compute the normalization coefficients with OMEGA (PET only!). For the latter, set ``options.compute_normalization`` to true and select the desired normalization components with ``options.normalization_options``. Normalization correction 
 components to include (1 means that the component is included, 0 that it is not included). First: Axial geometric correction, Second: Detector efficiency correction, Third: Block profile correction, Fourth: Transaxial geometric 
 correction (NOT recommended when using normalization data that does not encompass the entire FOV). E.g. [1 1 0 0] computes normalization correction for axial geometric effects and detector efficiency. If a cylinder was used for 
 the normalization measurements that is smaller than the FOV, you can input its radius with ``options.normalization_phantom_radius``. This is used for automatic attenuation correction. If you input the radius, you also need to input
@@ -79,7 +79,7 @@ will be 6 multi-resolution volumes plus the main volume. The multi-resolution vo
 that the original size is divided by this value, i.e. the resolution is 1/4 of the original and the voxel size four times larger. The default extended FOV extension length is 40% (0.4) of the original size per side. With 1/4 scale, this is
 essentially reduced to 10% increase in voxel count. You can adjust this manually with ``options.eFOVLength``. With multi-resolution volumes, the mask image and regularization are only used for the main volume!
 
-See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution method. Note that the OMEGA implementation may not exactly match the paper.
+See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution method. Note that the OMEGA implementation does not exactly match the paper.
 
 See https://dx.doi.org/10.1118/1.1776673 for another example of projection extrapolation.
 
