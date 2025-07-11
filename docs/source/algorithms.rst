@@ -295,12 +295,6 @@ If the values are computed automatically, these values can be adjusted with ``op
 	end
 
 
-.. code-block:: matlab
-
-    oo = 1;
-	for kk = 1 : options.Niter
-	    for ll = 0 : options.subsets - 1
-
 Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
 until it is of the right magnitude. Too high values will cause quick divergence while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use default values). This should work for
 most CT applications, but it might not be optimal. To fix this, a proper normalization would be required for the backprojection (suggestions are welcome!).
@@ -384,7 +378,7 @@ Priors
 
 Many of the priors are dependent on the neighborhood size, i.e. the number of neighboring voxels that are taken into account during regularization. This can be selected for all three dimensions (X/Y/Z) though at the moment
 X and Y should be identical (transaxial dimensions). For example ``options.Ndx = 1``, ``options.Ndy = 1``, ``options.Ndz = 0`` selects all the 8 neighboring transaxial voxels, while with ``options.Ndz = 1`` a total of 27 voxels would
-be included, and so on. The larger the neighborhood, the longer the computation time. If a prior is NOT affected by this, it is specifically mentioned.
+be included, and so on. The larger the neighborhood, the longer the computation time. If a prior is NOT affected by this, it is specifically mentioned. The regularization strength can always be adjusted with ``options.beta``.
 
 Below is another example of the neighborhood. In the below (2D) example we have ``options.Ndx = 2`` and ``options.Ndy = 2``, with the center pixel in white and neighborhood as blue. Note that the NLM patch region works the same way.
 
@@ -568,11 +562,11 @@ NLM
 
 Based on: https://doi.org/10.1137/040616024
 
-``options.sigma`` is the filtering parameter/strength.
+``options.sigma`` is the filtering parameter/strength. Larger values smooth the image while smaller ones emphasize edges/noise.
 
 The patch region is controlled with parameters ``options.Nlx``, ``options.Nly`` and ``options.Nlz``. The similarity is investigated in this area and the area is formed just like the neighborhood.
 
-The strength of the Gaussian weighting (standard deviation) can be adjusted with ``options.NLM_gauss``.
+The strength of the Gaussian weighting (standard deviation) can be adjusted with ``options.NLM_gauss``, a value of 2 should work well in most cases.
 
 If ``options.NLM_use_anatomical = true`` then an anatomical reference image is used in the similarity search of the neighborhood. Normally the original image is used for this. `options.NLM_reference_image` is either the reference image itself OR is the name of the anatomical reference data file. The reference images need to be the only variable in the file.
 
@@ -583,11 +577,11 @@ If you wish to use non-local total variation, set ``options.NLTV = true``.
 
 NLM can also be used like MRP (and MRP-AD) where the median filtered image is replaced with NLM filtered image. This is achieved by setting ``options.NLM_MRP = true``. This is computed without normalization ((λ - MNLM)/1).
 
-Non-local relative difference prior can se selected with ``options.NLRD = true``. Note that ``options.RDP_gamma`` affects NLRD as well.
+Non-local relative difference prior can se selected with ``options.NLRD = true``. Note that ``options.RDP_gamma`` affects NLRD as well, see `RDP <https://omega-doc.readthedocs.io/en/latest/algorithms.html#rdp>`_.
 
-Non-local generalized Gaussian Markov random field prior can be selected with ``options.NLGGMRF = true``. As with RDP, the `p`, `q`, and `c` parameters affect this prior as well.
+Non-local generalized Gaussian Markov random field prior can be selected with ``options.NLGGMRF = true``. As with RDP, the `p`, `q`, and `c` parameters affect this prior as well, see `GGMRF <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ggmrf>`_.
 
-Non-local Lange function is enabled with ``options.NLLange``. ``options.SATVPhi`` is the tuning parameter for the Lange function.
+Non-local Lange function is enabled with ``options.NLLange``. ``options.SATVPhi`` is the tuning parameter for the Lange function, see `TV <https://omega-doc.readthedocs.io/en/latest/algorithms.html#tv>`_ and specifically type 4.
 
 All the non-local methods also support an "adaptive" non-local weighting. This is enabled with ``options.NLAdaptive`` and is based on http://dx.doi.org/10.1016/j.compmedimag.2015.02.008. Note that the filter parameter (``options.sigma``)
 is the s value from the paper, while the t value is adjusted with ``options.NLAdaptiveConstant``.
@@ -622,7 +616,7 @@ Momentum-like preconditioner
 Essentially a subset-based relaxation. Based on: https://doi.org/10.1109/TMI.2022.3181813
 
 You can input the momentum parameters with ``options.alphaPrecond`` or let OMEGA compute parameters with same logic as with PKMA by inputting ``options.rhoPrecond`` and ``options.delta1Precond``. If these values are omitted, the PKMA variables are used
-instead.
+instead. The "formula" for computing the default ones is the same as with `PKMA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#pkma>`_, see that section for details.
 
 Gradient-based preconditioner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
