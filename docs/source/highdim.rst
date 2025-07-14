@@ -11,8 +11,8 @@ achieved by setting ``options.loadTOF`` to false. Although the name suggests TOF
 also split according to the subset. The measurement data still needs to fit into the host RAM. Note that you can further reduce memory usage by using unsigned 16-bit integer input data whenever applicable. There are no restrictions when using this mode, 
 it can only lead to slower reconstructions if there is sufficient memory on the GPU and the data is transfered on-the-fly.
 
-High-dimensional CT data data
------------------------------
+High-dimensional CT data
+------------------------
 
 This is specifically designed for CT data and especially for µCT. This is similar to the above, but the image is also reconstructed in subsets. Like above, this depends on the number of subsets as well. Unlike above, which supports any reconstruction
 algorithm, this method only supports FDK, PDHG, and its variants, and PKMA. Note that FDK still computes only a single backprojection despite using subsets. The rest divide the reconstruction into the subsets as normal. This feature is enabled by 
