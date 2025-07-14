@@ -92,9 +92,14 @@ See https://dx.doi.org/10.1118/1.1776673 for another example of projection extra
 Multi-resolution
 ^^^^^^^^^^^^^^^^
 
-It is possible to use the multi-resolution reconstruction without any extended FOV. However, note that by default the image volume is always cropped to the "effective" FOV. To save the multi-resolution volumes, you need to set ``CELL`` to true in:
+It is possible to use the multi-resolution reconstruction without any extended FOV. This, however, does require you to use smaller "effective" FOV and then extending the FOV to the original size using ``options.eFOVLength``. 
+Note that by default the image volume is always cropped to the "effective" FOV. To save the multi-resolution volumes, you need to set ``CELL`` to true in:
 https://github.com/villekf/OMEGA/blob/master/source/cpp/structs.h#L10 and recompile the files. This outputs a cell matrix in MATLAB/Octave. The first element is the main volume. For Python, you also need to set ``options.storeMultiResolution = True`` before
 reconstruction in addition to the previous. The image is then output as a vector containing all the volumes in one vector. You need to manually separate them.
+
+This is currently not possible automatically, but it is possible to have specific volumes in specific regions, i.e. the main volume may not be the center volume. This requires modifying https://github.com/villekf/OMEGA/blob/master/source/m-files/setUpCorrections.m
+and https://github.com/villekf/OMEGA/blob/master/source/m-files/computePixelSize.m. Especially important are the correct FOV sizes, number of voxels per volume and the ``bx/y/z`` values, which correspond to the edges where the volumes begin.
+The reconstruction process should work fine as long as the aforementioned values are correctly adjusted.
 
 Offset correction
 -----------------
