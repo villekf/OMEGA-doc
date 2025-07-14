@@ -135,6 +135,12 @@ the scatter data and trues data separately since the trues will include the othe
 Currently the user also has to individually extract each scatter component (i.e. you can't extract Compton scatter in phantom or in detector simultaneously in separate variables/data files, but rather need to extract each component on its own and rename 
 the output data accordingly).
 
+Using GATE 9/10 SPECT or CT data
+--------------------------------
+
+The projection images from both SPECT and CT can be used as is. ``loadGATESPECTData`` can automatically load .sin-files in both MATLAB/Octave and Python. In MATLAB/Octave you can use ``loadMetaImage`` to load MetaImage projections.
+In Python, MetaImages can be easily converted to NumPy arrays: ``img = sitk.ReadImage(file_path);array = sitk.GetArrayFromImage(img)``.
+
 
 GATE 10 PET data
 ----------------
