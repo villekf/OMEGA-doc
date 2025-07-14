@@ -11,7 +11,7 @@ Subset types
 ------------
 
 There are total of 12 different ways to select subsets. Note that these apply only in the case that you use subsets (subsets > 1). These are numbered from 0 to 11. In general, types 1-7 are more suitable for PET and 8-11 for CT and SPECT, while 0 is good for list-mode data.
-Below is a short description for each and when to use each: In MATLAB/Octave use ``options.subset_type`` to specify the type and in Python ``options.subsetType``. For example ``options.subset_type = 1`` would use type 1.
+Below is a short description for each and when to use each: In MATLAB/Octave use ``options.subset_type`` to specify the type and in Python ``options.subsetType``. For example ``options.subset_type = 1`` would use type 1. Type 8 is always used as the default.
 
 Type 0
 ^^^^^^
@@ -134,7 +134,7 @@ it is a very fast method. Also useful for very high-dimensional µCT data.
 MLEM/OSEM
 ^^^^^^^^^
 
-Full name(s): Maximum-likelihood expectation maximination/ordered subsets expectation maximization
+Full name(s): Maximum-likelihood expectation maximization/ordered subsets expectation maximization
 
 Enable with ``options.OSEM``.
 
@@ -399,7 +399,7 @@ Full name(s): Prima-dual hybrid gradient
 Enable with ``options.PDHG``.
 
 PDHG refers to the L2 norm least-squares PDHG. Supports subsets, linear models, regularization and preconditioners. Useful for any data. Measurement-based preconditioners are guaranteed to work unlike with PKMA or MBSREM.
-By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES in the examples. Supports also adaptive step-size computations, but it is not recomended with multi-resolution
+By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES in the examples. Supports also adaptive step-size computations, but it is not recommended with multi-resolution
 reconstruction. Supports both proximal priors as well as regular non-linear convex ones (in the latter case it is actually the Condat-Vu algorithm).
 The primal value is set with ``options.tauCP``, but is computed automatically if empty or zero. If using a filtering-based preconditioner, a specific primal value is set with ``options.tauCPFilt``, and like the previous one, is computed automatically
 if zero or empty. Dual value is set with ``options.sigmaCP``, but 1 can be safely used. Update step-size is set with ``options.thetaCP``, but can also be safely set as 1. 
@@ -445,7 +445,7 @@ Based on: https://doi.org/10.1088/0031-9155/57/10/3065
 PDDY
 ^^^^
 
-Full name(s): Prima-dual Davis-Yin
+Full name(s): Primal-dual Davis-Yin
 
 Enable with ``options.PDDY``.
 
@@ -685,7 +685,7 @@ Based on: https://doi.org/10.1109/83.551699 and https://doi.org/10.1088/0031-915
 
 Modified hyperbolic prior, previously exclusively used as TV type 3. Unlike TV type 3, doesn't support anatomic weighting.
 
-``options.hyperbolicDelta`` can be used to adjust the edge emphasing strength.
+``options.hyperbolicDelta`` can be used to adjust the edge emphasizing strength.
 
 TGV
 ^^^
@@ -719,8 +719,8 @@ it is recommended to use the OpenCL or CUDA versions and not the CPU version.
 RDP with implementation 2 (OpenCL + CUDA) has two different methods. The default is similar to the original RDP, i.e. only the voxels next to the current voxel are taken into account (voxels that share a side with the current voxel). 
 This means that ``options.Ndx/y/z`` are not used with the default method. 
 Second method is enabled by setting ``options.RDPIncludeCorners = true`` (``options.RDPIncludeCorners = True`` for Python). This changes the functionality of the RDP significantly. First of all, the neighborhood size affects RDP
-as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neigborhoods. Second, same weights are used as with quadratic prior, i.e. distance-based weights. You can input your own weights into ``options.weights`` or use the distance-based weights (the distance from the current voxel to
-the neigborhood voxel) which is the default option. The default version (i.e. when ``options.RDPIncludeCorners = false``) does not use any weighting. Lastly, this second version supports a "reference image" weighting, based on: https://dx.doi.org/10.1109/TMI.2019.2913889. 
+as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neighborhoods. Second, same weights are used as with quadratic prior, i.e. distance-based weights. You can input your own weights into ``options.weights`` or use the distance-based weights (the distance from the current voxel to
+the neighborhood voxel) which is the default option. The default version (i.e. when ``options.RDPIncludeCorners = false``) does not use any weighting. Lastly, this second version supports a "reference image" weighting, based on: https://dx.doi.org/10.1109/TMI.2019.2913889. 
 To enable you need to additionally set ``options.RDP_use_anatomical`` and provide the reference image either as mat-file in ``options.RDP_reference_image`` (MATLAB/Octave) or ``options.RDP_referenceImage`` (Python) or as a vector. 
 You need to manually compute the reference image. The reference image weighting itself is computed automatically, i.e. the kappa values.
 

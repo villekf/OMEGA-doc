@@ -31,7 +31,7 @@ Attenuation correction
 This is PET and SPECT only feature. Adjust the state of the correction with ``options.attenuation_correction``. The attenuation data HAS to be input by the user. Two different attenuation data are accepted: images and sinograms.
 This means that the correction can be applied either by using attenuation images or by using attenuation sinograms. Note that for the attenuation images, the images HAVE to be scaled to the corresponding energy! Default is attenuation
 images, but this can be adjusted with ``options.CT_attenuation``, where ``false`` uses sinograms. Input the, preferable full, path of the attenuation data into ``options.attenuation_datafile``. If your attenuation data is oriented 
-different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degress, where N = options.rotateAttImage. Similarly you can also flip the transaxial and/or
+different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degrees, where N = options.rotateAttImage. Similarly you can also flip the transaxial and/or
 axial directions with ``options.flipAttImageXY`` and ``options.flipAttImageZ``, respectively. Note that the attenuation image also has to have the same dimensions as the output image.
 
 For GATE data, the attenuation images created by MuMap actor can be used, simply input the MetaImage (with full path) into ``options.attenuation_datafile``. The size has to correspond to the reconstructed image!

@@ -8,113 +8,97 @@ Installation
 
 See :doc:`installation` for install help.
 
-General Information
+Examples
+------------
+
+See :doc:`examples` for details on the available examples.
+
+Geometry information
 -------------------
 
-Most OMEGA features are built around m-file/py scripts referred to as "main-files". In these main files, a struct variable, called options, is filled and contains all the parameters that are needed for any of the operations selected. 
-PET, CT and SPECT have quite different main-file compositions due to different properties of these imaging modalities. CT, for example, has much less adjustable parameters due to lack of corrections. Reconstruction parameters, however, 
-are unchanged between different modalities. It is not necessary to use these main-files and not every variable present in the main-files is necessary. In the simplest form, only the source-detector coordinates, the size of the FOV
-and the number of voxels are required.
+For more details on the geometry, see :doc:`geometry`.
 
-Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in ``/path/to/OMEGA/source/Python``. 
+For all data and modalities, there are two different ways to set up the geometry. One is a built-in method that is different for each modality and requires specific type of scanner(s). Another is user-input coordinates for each measurement. 
+This page details the built-in features, but any type of data can be used if the geometry is defined completely manually through source-detector (or detector-detector) coordinate pairs. For the manual case, see :doc:`customcoordinates`.
 
-In general OMEGA uses units millimeter (mm) and seconds (s).
-
-Currently the examples only include PET, CT and SPECT. However, as mentioned elsewhere, other type of data can also be used. The only requirement is that the data can be reconstructed by using ray-tracing methods in a voxel/pixel mesh.
-For cases other than PET, CT or SPECT, I recommend reading :doc:`customcoordinates`.
-
-Examples
---------
+Whenever inputing your own values, make sure the data is Fortran-ordered in Python!
 
 PET data
 ^^^^^^^^
 
-Several PET examples are available. For GATE data, there are three examples for MATLAB/Octave and Python. ``PET_main_gateExample.m`` is a generic GATE example, ``PET_main_gateTOFExample.m`` is a TOF example, 
-while ``PET_main_gateExampleSimple.m`` is a simplified version such that the number of adjustable parameters have been greatly reduced. For Python there is ``gate_PET.py`` and ``gate_PET_TOF.py`` and ``gate_PET_simpleExample.py``.
+Built-in support is available for cylindrical PET scanners with block/bucket type setting (as shown in :doc:`geometry`). If the below parameters are specified correctly, the coordinates are computed automatically.
 
-A more "generic" PET example, using Siemens Inveon PET data, is available in ``PET_main_genericExample.m`` and ``PET_main_genericExample.py``. These showcase the generic use case for a cylindrical PET system.
+A necessary parameter to input is ``options.blocks_per_ring``, which is the number of blocks/buckets in the transaxial direction. This is the total number of blocks/buckets as shown in the geometry page in the transaxial direction, 
+i.e. when looking to the bore. 
 
-For list-mode data, there is ``Inveon_PET_main_listmode_example``. Note that for list-mode data, there are no restrictions on the geometry of the scanner. The listmode example contains two different ways for the listmode
-reconstruction. One uses the coordinates of each detector for each measurement and second uses an index-based reconstruction, where the transaxial and axial indices of each event are stored. These indices then correspond to
-coordinates.
+This is not necessary parameter and is only necessary if there are gaps between adjacent rings. ``options.linear_multip`` is the number of blocks/buckets in the axial direction, i.e. when moving along the bore direction.
 
-In case you want to reconstruct PET data from a non-cylindrical scanner, this is also possible. For that you'll need to manually either input the detector coordinates and the measurement data or transaxial and axial indices 
-for each measurement that point to the coordinates. An example of coordinate-based case is 
-shown in ``custom_detector_coordinates_example``. For coordinate based reconstruction, in general, you'll need 6 coordinates for one measurement, with the first three being the x/y/z-coordinates of the first detector, and the next three the x/y/z-coordinates 
-of the second detector. In Python, the data has to be Fortran-ordered, or in vector format, such that the 6 coordinates are contiguously stored. For index-based, you'll need two transaxial indices and two axial indices, plus
-the coordinates. Like with coordinates, the data needs to be Fortran-ordered in Python. The indices also need to be zero-based. The listmode example ``Inveon_PET_main_listmode_example`` shows both methods. Note that the data can be
-in any format (sinogram, listmode, projection image, something else), as long as each measurement has the correct coordinates.
+Instead of using the above, it is also possible to use ``options.cryst_per_block_axial`` instead, IF there are no gaps between the rings. Otherwise, this should be number of crystals per block in the axial direction. Multiplying this
+with the above ``linear_multip`` has to be the total number of rings!
 
-The above example files don't contain all the adjustable parameters. For a complete list of adjustable parameters, see ``main_PET_full``.
+A necessary parameter is also ``options.cryst_per_block`` which is the number of crystals per block in the transaxial direction. This multiplied with ``options.blocks_per_ring`` has to equal the number of crystals per ring!
 
-If you use large datasets, such as TOF data, you may want to limit the amount of measurements transfered to the GPU, when using GPU computing. This can be achieved by setting ``options.loadTOF = false``. In such a case
-only the current subset is transfered to the GPU. This only works with subsets and will most likely slow down the computations. Default value is true, which means that all the measurement data is transfered to the GPU before
-computations. Note that, despite the variable name, this can be applied to any data and not just TOF data.
+If there are gaps between the rings, these can be input into ``options.ringGaps`` and the number of elements should equal to ``options.linear_multip`` - 1. The gaps are the size of the gap in mm. This is required ONLY if there are gaps!
 
-Note that by default OMEGA assumes the FOV to be centered on the origin. You can, however, move the FOV location with ``options.oOffsetX/Y/Z`` variables (separate ones for each!). If you use your own detector coordinates, be
-sure to take this into account.
+``options.diameter`` is a compulsory parameter that is the distance diameter of the bore.
 
-If you want to use the OMEGA forward and backward projedtion operators to develop, for example, your own reconstruction algorithms, you can use the ``custom_algorithms_example`` files. 
-For MATLAB/Octave there is only one example, but Python has two, one for OpenCL using Arrayfire and one for CUDA using PyTorch. They also use different scanners, as the MATLAB/Octave one uses the Inveon scanner, while
-the Python one uses the GATE example scanner. However, you can use any scanner you wish or also simply the detector coordinates or indices as outlined above. For custom coordinates, see ``custom_coordinates_custom_algorithm_example``.
+The crystal pitch in mm (size) is compulsory and is defined for transaxial direction with ``options.cr_p`` and for axial with ``options.cr_pz``.
 
-Example MAT-files created from GATE data can be found from: https://doi.org/10.5281/zenodo.12743218
+The transaxial FOV is defined by ``options.FOVa_x`` for the horizontal size and ``options.FOVa_y`` for the vertical. ``options.FOVa_y`` can be omitted, but ``options.FOVa_x`` has to be input!
 
-Older raw ASCII data obtained from the GATE simulation (not normalization) can be found from: https://doi.org/10.5281/zenodo.3526859
+Axial FOV is defined with ``options.axial_fov`` and has to be input, even if you have only one ring!
 
-Example preclinical Inveon data is available from: https://doi.org/10.5281/zenodo.3528056 or https://doi.org/10.5281/zenodo.4646897. The ``PET_main_genericExample.m/py`` or ``Inveon_PET_main_listmode_example`` 
-files can be used automatically for this data.
+If the scanner has pseudo-rings, the number of those can be input with ``options.pseudot``. You can omit this if there are no pseudo-rings.
+
+``options.det_per_ring``, ``options.rings`` and ``options.detectors`` can be omitted, but ``options.det_w_pseudo`` has to be included if, and only if, pseudo-rings are included.
+
+``options.machine_name`` is important if loading previously saved data or saving measurement, such as GATE, data. If you preload the measurement data into ``options.SinM``, you can omit this, otherwise include some name.
+
+PET data also needs the following sinogram properties, if using sinogram data:
+
+``options.span`` is the span factor/axial compression (default value is 3). ``options.ring_difference`` maximum ring difference (default is number of rings - 1). ``options.Ndist`` number of radial positions/views in the sinogram (default value is 400). 
+``options.Nang`` number of angles (tangential positions) in sinogram (can be omitted, in which case it is assumed to be half the number of detectors per ring).
+``options.segment_table`` the amount of sinograms contained on each segment. Note that this is only required if ``options.span`` > 1 and is computed automatically if omitted. ``options.TotSinos`` the total number of sinograms.
+``options.NSinos`` the total number of sinograms used in the reconstructions, if smaller than ``options.TotSinos`` only the first ``options.NSinos`` sinograms are taken. It is possible to omit ``options.TotSinos``. 
+``options.ndist_side`` is an optional value that is used only if the sinogram is created by OMEGA. If Ndist value is even, take one extra out of the negative side (+1) or from the positive side (-1). If you have sinogram data with pseudo 
+detectors, you can interpolate the gaps by setting ``options.fill_sinogram_gaps = true``, note that this is MATLAB/Octave only! See the ``Biograph_mCT_main.m`` for more details on the gap filling.
+
+For TOF data, see :doc:`tof`.
+
+Note that the origin is assumed to be in the center of the scanner and by default that is also the origin of the FOV/image. If you want to move the FOV, use ``options.oOffsetX``, ``options.oOffsetY`` and ``options.oOffsetZ`` values.
+
+Depth of interaction (DOI) effect can be somewhat included with ``options.DOI`` parameter. This simply assumes that the absorption point is not at the edge of the crystal but the specified depth (in mm) from the surface. This is a constant
+value.
+
+For dual, or multi, layer data, you should use index-based reconstruction, see :doc:`customcoordinates`. It is possible to use dual-layer data by setting ``options.nLayers = 2``, but this is not a recommended method. The sinogram parameters need to be modified
+accordingly. If the size of the layers is different, you need to use pseudo detectors and rings. This is, however, not required with index-based reconstruction.
 
 CT data
 ^^^^^^^
 
-For CT, in general there are three different way to perform the reconstructions. One is largely an automatic version where the source/detector coordinates are computed by OMEGA. You can input offset values for the source and 
-detector coordinates as well as for the FOV origin, but the coordinates themselves are computed by OMEGA. Second is a less automatic version where you can input the source coordinates and the coordinates for the center of the
-detector panel, for each projection. In both cases you can input optional rotation of the detector panel or the direction vectors for each projection. In both cases, the projection angles are required. Third is the least automatic
-where you can input all source/detector coordinates for each measurement, not just each projection, but for all measurements. This is, however, inefficient method and recommended only when other methods are not feasible. In general, 
-you'll need 6 coordinates for one measurement, with the first three being the x/y/z-coordinates of the source, and the next three the x/y/z-coordinates 
-of a single detector pixel. In Python, the data has to be Fourier ordered, or in vector format, such that the 6 coordinates are contiguously stored.
+For CT data, the built-in geometry allows the use of cone beam CT data with flat panel. However, there are many ways to define the geometry of the source and/or detector.
 
-Several CT examples are available. For a rather generic case, see ``CT_main_generalExample`` which uses TIFF projection images as the input. This example automatically computes the source/detector coordinates 
-and thus is applicable mainly to "typical" CBCT cases.
+In all cases, regardless of the source-detector geometry, the following variables are needed:
 
-For a case using source coordinates and the center of the detector panel coordinates for each projection, see ``CBCT_main_generic`` files. These also highlight a case where the panel also rotates along its own axis (slightly).
-Offset correction cases can also be used with this. Example data can be obtained from: https://doi.org/10.5281/zenodo.12722386
+``options.nRowsD`` is the number of rows in the projection image. ``options.nColsD`` the number of columns. ``options.nProjections`` is the total number of projections. ``options.dPitchX`` is the size of single detector pixel in the row direction and 
+``options.dPitchY`´ in the column direction. ``options.sourceToDetector`` is the source-to-detector distance. ``options.sourceToCRot`` is the source-to-center-of-rotation distance.
 
-An example of µCT (using either https://doi.org/10.5281/zenodo.4279613 or https://doi.org/10.5281/zenodo.4279549) is provided with the ``walnut_CT_main`` though ``CT_main_generalExample`` works just as well. 
-A 2D (sinogram) example is shown in ``CT2D_fanbeam_mainExample`` (uses https://doi.org/10.5281/zenodo.1254206). Lastly, an example script using preclinical Inveon CT is in ``Inveon_CT_main`` (uses https://doi.org/10.5281/zenodo.4646835). 
+The transaxial FOV is defined by ``options.FOVa_x`` for the horizontal size and ``options.FOVa_y`` for the vertical. ``options.FOVa_y`` can be omitted, but ``options.FOVa_x`` has to be input! Axial FOV is defined with ``options.axial_fov`` 
+and has to be input, even if you have only one column/row!
 
-For high-dimensional µCT, you can use ``skyscan_CT_main_highDimExample`` or ``nikon_CT_main_highDimExample``. These are useful for datasets that are dozens of gigabytes large. They should also work straight for Skyscan or Nikon
-µCT data. You can reconstruct such datasets at full resolution 
-usin a GPU even if the GPU does not have enough memory to hold all the data. Note that you will need a lot of physical RAM for these as the data is stored in the main memory, while only a subset of the data is stored in the GPU. The 
-features are limited though as only FDK, PKMA and PDHG algorithms work. Regularization can be used, but it is highly unoptimal at the moment. Example SkyScan data can be obtained from: https://doi.org/10.5281/zenodo.12744181
+To input the source-detector geometry, there are multiple ways to achieve that. One is to let OMEGA handle as much as possible. If the source and detector are not shifted at all, then only the projection angles are needed: ``options.angles`` in either
+degrees or radians. You can move the source in the row direction with ``options.sourceOffsetRow`` and in the column direction with ``options.sourceOffsetCol``. For detector, the same is possible with ``options.detOffsetRow`` and
+``options.detOffsetCol``. In both shift cases, the variable can be either a scalar or vector. If vector, the number of elements has to equal the number of projections.
 
-For custom algorithms, see ``CT_main_generic_custom_algorithms_example`` or ``Planmeca_CT_main_generic_custom_algorithms``.
-
-Note that in helical CT cases the curvature of the panel is NOT taken into account at the moment.
+You can also input the coordinates of the source and center of the detector for each projection. These are input as pairs into ``options.x``, ``options.y`` and ``options.z``, i.e. first source then detector center. In case the panel rotates in other 
+directions at each projection, you can input these into ``options.pitchRoll``, which is again in pairs. Alternatively, you can input the direction vectors of the panel at each projection to ``options.uV``. With either 2 or 6 elements per projection.
+See :doc:`geometry` for more details on the ``pitchRoll``.
 
 SPECT data
 ^^^^^^^^^^
 
-There are examples included for Siemens Pro.specta and SIMIND data reconstruction. Reconstruction with other data requires the sinograms/projection data, the projection angles, radial distances between the panel centre and FOV centre, as well as the collimator geometry and detector intrinsic resolution.. Attenuation correction requires a 3D volume of linear attenuation coefficients, which should be aligned with the FOV of the reconstruction.
+Any data
+^^^^^^^^
 
-At the moment, only parallel hole collimators are supported, though pin-hole or coded aperture collimator might be possible with manual adjustment of detector coordinates (contact me if you are interested in trying out pin-hole or coded aperture reconstruction).
-
-``SPECT_main_Siemens_Prospecta`` includes an example for two-head Siemens Pro.specta SPECT scanner (no data available at the moment). ``SPECT_main_simind_voxelbased`` contains a SIMIND-simulated test case with a link to the data.
-There is also a ``SPECT_main`` example file, which loads Interfile SPECT data (no data available).
-
-The Python version also includes examples for custom algorithm reconstructions. These are, however, based on the Siemens Pro.specta case and as such there is no open data available at the moment. For MATLAB/Octave custom reconstruction
-might be possible with implementation 4 (CPU), but there are no examples at the moment. 
-
-The SPECT examples are, in general, not as refined as the others mainly due to the lack of test data.
-
-Contact
--------
-
-Currently it is recommended to ask questions in GitHub `discussions <https://github.com/villekf/OMEGA/discussions>`_.
-
-However, if you prefer using e-mail for contact, use the following address:
-
-.. figure:: contact.png
-   :scale: 100 %
-   :alt: Contact e-mail
+The number of voxels per dimension is defined with ``options.Nx``, ``options.Ny``, and ``options.Nz``. The image volume can be rotated in the measurement space by using ``options.offangle``. The behavior is slightly different depending on modality.
+With PET, this is the number of detector elements, for CT it is the angle in radians and for SPECT it is the angle in radians. The direction is counter-clockwise in PET and CT and clockwise in SPECT.

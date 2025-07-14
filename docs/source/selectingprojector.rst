@@ -45,7 +45,7 @@ compute the area on the detector. In general, the backprojection tends to have g
 Projector type 4 is method that should work in most cases well. It is ray-based interpolation-based projector in the forward projection and voxel-based projector in the backprojection. The forward projection is identical with the
 PET version, i.e. it linearly interpolates values after a pre-determined step-size. This step-size can be adjusted with ``options.dL`` and is the relative size of one voxel. I.e. ``options.dL = 1``
 would use the length of one voxel as the interpolation length. The backprojection projects rays from the source through each voxel to the detector and then interpolates this value on the detector using nearest neighbor interpolation. 
-This projector is not exactly adjoint, but the difference is generally less than 1%. Using longer interpolation length leads to faster computation, but too large values lead to loss of accurace. Generally, value of 0.5 or 1 is
+This projector is not exactly adjoint, but the difference is generally less than 1%. Using longer interpolation length leads to faster computation, but too large values lead to loss of accuracy. Generally, value of 0.5 or 1 is
 a good choice. An alternative method to projector type 4 is type 1, which computes the exact intersection length of each ray with each voxel. Note, however, that this should always be combined with other backprojector! See the hybrid methods below. 
 This is faster forward projector than type 4 if ``options.dL = 0.5`` or smaller, but slower if ``options.dL = 1`` or higher. Type 4 can have faster convergence than type 1 (i.e. same number of iterations can lead to noisier image with type 4), 
 but in general there shouldn't be significant quality differences (note that this applies only to hybrid cases!). Use of type 1 on its own, i.e. as ``options.projector_type = 1`` is NOT recommended!
@@ -61,7 +61,7 @@ SPECT data
 ----------
 
 For SPECT, currently only projector types 1, 2, and 6 are supported. Projector type 1 is a ray-based projector algorithmically identical to the PET version, i.e. the exact intersection length between a voxel and the ray is computed and 
-converted to probablity. The pattern of the rays traced is similar for all detector pixels and can be selected either arbitrarily or from a cone determined by the collimator geometry. This serves as an approximation for the collimator 
+converted to probability. The pattern of the rays traced is similar for all detector pixels and can be selected either arbitrarily or from a cone determined by the collimator geometry. This serves as an approximation for the collimator 
 cone of response in the case of the collimator holes not aligning with the detector pixels. However, practical tests have shown this approximation to have a minimal effect on the image quality. Projector type 6, on the other hand, is a 
 rotation-based projector where the image is rotated and then reconstructed as parallel beam case with a computed, or a manually input, point spread function (into ``options.gFilter``).
 

@@ -328,13 +328,13 @@ format; size of the full system matrix can exceed even hundreds of
 gigabytes. This is partially caused by MATLAB/Octave always storing
 sparse matrices in double precision format with 64-bit integer indices
 in 64-bit systems although single precision and 32-bit integers would be
-enough. Implemenation 1 is only available for PET and CT, it is not currently available for SPECT.
+enough. Implementation 1 is only available for PET and CT, it is not currently available for SPECT.
 
 Previously implementation 1 supported a non-parallel version, but this was removed in v2.0.
 
 The current version performs a "precomputation" step before the actual system matrix is computed. The precomputation phase is needed in order to allocate correct
 amount of memory for the sparse matrix. In this case, the sparse matrix
-is directly created and ﬁlled in the C++ MEX-ﬁle. MATLAB sparse matrices
+is directly created and filled in the C++ MEX-ﬁle. MATLAB sparse matrices
 are in compressed sparse column (CSC) format, but PET data is handled
 row by row (i.e. each measurement) basis, making it more suitable for
 compressed sparse row (CSR) format. However, this can be solved by
@@ -367,7 +367,7 @@ projections are computed in an OpenCL kernel that also computes the
 system matrix elements using the selected projector. In v1.2 and below, the algorithms themselves were largely computed in the kernel as well, but currently, only the forward and/or backward projection operations
 are computed in the kernels. The forward projection thus outputs the forward projection vector, while backprojection the backprojection vector and optionally also the sensitivity image. 
 
-All operations occur on the selected device and only the ﬁnal result from
+All operations occur on the selected device and only the final result from
 each iteration is transferred to the host (if 
 ``options.save_iter = true``, otherwise only the last iteration).
 Implementation 2 supports all algorithms and priors. Implementation 2
@@ -397,7 +397,7 @@ Implementation 4
 ~~~~~~~~~~~~~~~~
 
 Implementation 4 is a combination of implementations 1 and 3, meaning
-that it is a pure CPU method that uses OpenMP for the parallellization,
+that it is a pure CPU method that uses OpenMP for the parallelization,
 as in implementation 1, but is implemented in matrix-free way as the
 OpenCL methods. The matrix-free formulation itself does not essentially
 differ from the OpenCL, except using C++ OpenMP code.
@@ -424,10 +424,10 @@ That is, all forward projectors are essentially ray-based.
 For backprojection, the process is different depending on whether PET/SPECT or CT data used. For PET/SPECT, the backprojection uses the same ray-based approach as forward projection. CT-data, on the other hand, use
 voxel-based approaches. In both cases, the sensitivity image (diagonal image-based preconditioner) can be computed at the same time. This applies to specific algorithms, such as OSEM, and is handled automatically.
 The preconditioner itself is always computed separately. Sensitivity image, however, is only computed during the very
-ﬁrst iterations unless not enough memory is available for storage in
+first iterations unless not enough memory is available for storage in
 which case it will be computed on-the-ﬂy. With PET/SPECT data, both the sensitivity image and
 the backprojection are saved in a thread-safe way by using atomic
-operations, more speciﬁcally the atomic addition. Atomic operations
+operations, more specifically the atomic addition. Atomic operations
 guarantee that the read-write operation to the memory location is only
 available to the current thread until the operation is completed,
 essentially making the operation sequential. Atomic addition in this
@@ -441,21 +441,21 @@ multiplied with *Θ\ i* before atomically added to the current *Δ*.
 If the sensitivity image is saved, the subsequent iterations will be
 much faster as any LORs with zero counts will be completely ignored (the
 additions would be zero). Implementation 4 uses OpenMP atomic operations
-for 32-bit ﬂoats to compute the additions. For implementations 2 and 3
-there are two diﬀerent atomic version available. As there is no inherent
-support for atomic addition for 32-bit ﬂoats in OpenCL, a similar method
+for 32-bit floats to compute the additions. For implementations 2 and 3
+there are two different atomic version available. As there is no inherent
+support for atomic addition for 32-bit floats in OpenCL, a similar method
 as in
 https://streamhpc.com/blog/2016-02-09/atomic-operations-for-floats-in-opencl-improved/[GROMACS]
 has been implemented. However, since this is relatively slow another
 approximate version is also provided that uses 64-bit signed integers
-instead of ﬂoating point numbers. In this case, the ﬂoating point values
+instead of floating point numbers. In this case, the floating point values
 are converted to 64-bit signed integers, which causes some loss of
 precision due to rounding, before atomically added. This provides some
-speed-up compared to the 32-bit ﬂoat version, but cannot be used on some
+speed-up compared to the 32-bit float version, but cannot be used on some
 hardware. If the user has selected this option, the support is
-determined during compile time and the ﬂoat version is used if the
+determined during compile time and the float version is used if the
 hardware does not support 64-bit atomics. The output sensitivity image
-and *Δ* are then converted back to 32-bit ﬂoats before they are used in
+and *Δ* are then converted back to 32-bit floats before they are used in
 the reconstruction algorithms.
 
 TOF coefficients
@@ -477,7 +477,7 @@ offset.
 In the kernel itself, the first step is to compute the distance from the
 FOV (voxel space) to the “source” (first detector/crystal). This is
 achieved by using the parametrization of a line since the required
-parameter (often *t*) is given by the Siddon’s algorithm. The half of
+parameter (often *t*) is given by the Siddon's algorithm. The half of
 the total length of the ray is then subtracted from this value. The
 intersection length is added to this value after each voxel. This length
 is the distance from the current voxel boundary to the center of the

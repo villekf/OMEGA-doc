@@ -19,7 +19,7 @@ Implementation 2 uses Arrayfire to compute many of the algorithms and as such it
 Implementation 3 is pure OpenCL-based implementation. This means that it simply uses OpenCL and not any external library. The downside is that only MLEM/OSEM are supported. As such implementation 3 is not recommended. 
 Most likely it will also be deprecated in the future. However, it can be useful for GPU-based reconstruction of PET data if Arrayfire installation is not possible.
 
-Implementation 4 is purely CPU-based implementation. It uses OpenMP for multithreaded reconstruction. As with implementations 2 and 3, it computes the system matrix on-the-fly. It also supports most of the features, but lacks
+Implementation 4 is purely CPU-based implementation. It uses OpenMP for multi-threaded reconstruction. As with implementations 2 and 3, it computes the system matrix on-the-fly. It also supports most of the features, but lacks
 implementation 2 specific features such as branchless distance-driven projector. Generally not recommended, but is a viable method for PET and SPECT reconstruction or for generic data that is not very high dimensional. For CT data,
 implementation 4 is not recommended. Can also be used for custom algorithm computations. Implementation 4 uses single-precision by default, but can also use double-precision if you set ``options.useSingles = false``. Hasn't been
 as extensively tested as implementation 2 and some features may not work correctly. Most PET and SPECT features, such as OSEM reconstruction, work fine though.

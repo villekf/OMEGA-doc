@@ -48,7 +48,7 @@ Internally both values are computed (in MATLAB/Octave) as:
 	c = 2.99792458e11; % speed of light in mm/s
 	obj.param.sigma_x = (c*obj.param.TOF_FWHM/2) / (2 * sqrt(2 * log(2)));
 	edges_user = linspace(-obj.param.TOF_width * obj.param.TOF_bins/2, obj.param.TOF_width * obj.param.TOF_bins / 2, obj.param.TOF_bins + 1);
-	edges_user = edges_user(1:end-1) + obj.param.TOF_width/2; % the most probable value where annihilation occured
+	edges_user = edges_user(1:end-1) + obj.param.TOF_width/2; % the most probable value where annihilation occurred
 	TOFCenter = zeros(size(edges_user));
 	TOFCenter(1) = edges_user(ceil(length(edges_user)/2));
 	TOFCenter(2:2:end) = edges_user(ceil(length(edges_user)/2) + 1:end);

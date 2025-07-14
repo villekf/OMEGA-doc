@@ -21,14 +21,17 @@ Contents
 .. toctree::
 
    installation
+   examples
    usage
    geometry
    selectingprojector
    implementation
+   reconstruction
    openclcuda
    algorithms
    corrections
    customcoordinates
+   highdim
    features
    tof
    technical
