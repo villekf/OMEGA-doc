@@ -81,7 +81,7 @@ trues are stored. As with trues data, you can optionally choose to reconstruct t
 Randoms can be obtained by putting ``options.store_randoms = true``. The randoms obtained like this will not be used for randoms correction if it is selected. Both the actual randoms and delayed coincidences (if selected in GATE) can be extracted 
 at the same time and in separate variables.
 
-The "true"`(ground truth) image can be optionally stored as well by putting ``options.source = true. This will create a separate mat-file named machine_name 'Ideal_image_coordinates' name '_ASCII.mat', where machine_name is the name of the 
+The "true"(ground truth) image can be optionally stored as well by putting ``options.source = true``. This will create a separate mat-file named machine_name 'Ideal_image_coordinates' name '_ASCII.mat', where machine_name is the name of the 
 scanner you’ve specified and name the name of the examination you’ve specified. The last elements of C contains the trues (e.g. ``C{end}``), RA contains randoms and SC scatter. Randoms and scatter are stored as singles in the true images.
 
 Only ONE of the below output data can be used at a time.
