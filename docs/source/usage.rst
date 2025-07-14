@@ -3,16 +3,6 @@ Usage
 
 .. contents:: Table of Contents
 
-Installation
-------------
-
-See :doc:`installation` for install help.
-
-Examples
-------------
-
-See :doc:`examples` for details on the available examples.
-
 Geometry information
 -------------------
 
