@@ -102,3 +102,10 @@ Any data
 
 The number of voxels per dimension is defined with ``options.Nx``, ``options.Ny``, and ``options.Nz``. The image volume can be rotated in the measurement space by using ``options.offangle``. The behavior is slightly different depending on modality.
 With PET, this is the number of detector elements, for CT it is the angle in radians and for SPECT it is the angle in radians. The direction is counter-clockwise in PET and CT and clockwise in SPECT.
+
+Verbosity
+---------
+
+This largely applies only to built-in reconstruction, but the verbosity can be adjusted with ``options.verbose``, where 1 is the default value. This gives timing information for the whole reconstruction and shows when a sub-iteration and/or iteration
+has been computed. Verbosity of 0 gives no messages and will be largely silent reconstruction. Verbosity of 2 gives more accurate timing information, such as time taken per sub-iteration and iteration, the estimated time left and the total time 
+taken for the reconstruction process itself. Verbosity 3 increases the timing messages to be even more specific, but will also output some debugging messages. Verbosity of 1 or 2 is recommended.
