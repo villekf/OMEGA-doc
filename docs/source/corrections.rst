@@ -3,13 +3,15 @@ Data/artifact corrections
 
 This page describes some details on the different data/artifact correction methods available in OMEGA. Available are: randoms, scatter, attenuation, normalization, out-of-FOV, and offset corrections.
 
+While this is highlighted in the below section, it is important to note that if you input your own data in Python, you need to make sure the data is Fortran-ordered!
+
 Randoms correction
 ------------------
 
 This is PET only feature. The randoms correction data can be either included in the reconstructions in an "ordinary Poisson" (OP) way, or precorrected. For OP, you must select ``options.corrections_during_reconstruction = true``
-before running the reconstructions. As for the randoms corrections data, you can input it manually into ``options.SinDelayd`` variable, have them automatically loaded if using GATE, Inveon or Biograph data with randoms data, or
-input a mat-file containing only the randoms data when prompted. If precorrection is used, then the randoms are simply subtracted from the measurement data. Note that you can also use precorrection yourself manually, but in such
-a case you should set randoms correction as false.
+before running the reconstructions. As for the randoms corrections data, you can input it manually into ``options.SinDelayd`` variable (in Python, you need to make sure the data is Fortran-ordered!), have them automatically loaded if using GATE, 
+Inveon or Biograph data with randoms data, or input a mat-file containing only the randoms data when prompted. If precorrection is used, then the randoms are simply subtracted from the measurement data. Note that you can also use precorrection 
+yourself manually, but in such a case you should set randoms correction as false.
 
 You can also select variance reduction (``options.variance_reduction``) and/or smoothing (``options.randoms_smoothing``) for the randoms data. Note that these features are not yet available on Python. The former performs variance
 reduction to the randoms data, while latter uses 8x8 moving mean smoothing. The mean-size can be adjusted by manually modifying the ``randoms_smoothing`` function.
@@ -19,9 +21,9 @@ See https://doi.org/10.1088/0031-9155/44/4/010 for details on variance reduction
 Scatter correction
 ------------------
 
-Scatter correction data cannot be created with OMEGA at the moment, though you can extract GATE scatter data from PET simulations. However, you can add your own scatter correction data by inputting it into ``options.ScatterC`` 
+Scatter correction data cannot be created with OMEGA at the moment, though you can extract GATE scatter data from PET simulations (GATE 9.X or earlier). However, you can add your own scatter correction data by inputting it into ``options.ScatterC`` 
 variable. Same variance reduction (``options.scatter_variance_reduction``) and smoothing operations (``options.scatter_smoothing``) can be applied to the scatter data as well. You can also normalize PET scatter data with 
-``options.normalize_scatter`` if you use normalization correction.
+``options.normalize_scatter`` if you use normalization correction. In Python, you need to make sure the data is Fortran-ordered!
 
 Attenuation correction
 ----------------------
@@ -32,9 +34,11 @@ images, but this can be adjusted with ``options.CT_attenuation``, where ``false`
 different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degress, where N = options.rotateAttImage. Similarly you can also flip the transaxial and/or
 axial directions with ``options.flipAttImageXY`` and ``options.flipAttImageZ``, respectively. Note that the attenuation image also has to have the same dimensions as the output image.
 
-For GATE data, the attenuation images created by MuMap actor can be used.
+For GATE data, the attenuation images created by MuMap actor can be used, simply input the MetaImage (with full path) into ``options.attenuation_datafile``. The size has to correspond to the reconstructed image!
 
-Note that the units in OMEGA are in millimeters!
+.. note::
+
+	The units in OMEGA are in millimeters!
 
 Normalization correction
 ------------------------
@@ -79,7 +83,7 @@ will be 6 multi-resolution volumes plus the main volume. The multi-resolution vo
 that the original size is divided by this value, i.e. the resolution is 1/4 of the original and the voxel size four times larger. The default extended FOV extension length is 40% (0.4) of the original size per side. With 1/4 scale, this is
 essentially reduced to 10% increase in voxel count. You can adjust this manually with ``options.eFOVLength``. With multi-resolution volumes, the mask image and regularization are only used for the main volume!
 
-See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution method. Note that the OMEGA implementation does not exactly match the paper.
+See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution method. Note that the OMEGA implementation does not match the paper.
 
 See https://dx.doi.org/10.1118/1.1776673 for another example of projection extrapolation.
 
