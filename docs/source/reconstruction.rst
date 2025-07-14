@@ -62,6 +62,7 @@ Creating and storing the system matrix
 --------------------------------------
 
 This is, first of all, MATLAB/Octave only feature. Second, it supports only projector type 1. Third, this is double precision only currently. The process is otherwise identical to above, but instead of computing Ax you can create the matrix
-itself with ``B = formMatrix(A);``. Note, however, that this is the TRANSPOSE of the matrix! I.e. forward projection is computed with ``B' * f`` and backward projection with ``B * y``. Alternatively, you can also transpose the matrix.
+itself with ``B = formMatrix(A);``. This creates the whole (sparse) system matrix. A subset, if you've selected subsets, can be computed with ``B = formMatrix(A, subsetNumber)``. Note, however, that this is the TRANSPOSE of the matrix! 
+I.e. forward projection is computed with ``B' * f`` and backward projection with ``B * y``. Alternatively, you can also transpose the matrix.
 
 The reason the matrix is the transpose is for efficiency reasons. Also, before the matrix formation a prestep is performed which determines the number of voxels traversed per ray and if some of the rays do not intersect with the FOV.
