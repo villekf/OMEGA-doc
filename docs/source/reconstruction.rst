@@ -41,7 +41,11 @@ to remember that OMEGA is column-major, while both are by default row-major! For
 Backprojection is similarly with ``x = options.T() * y``. The input variables should be vectors. If you want to make modifications to the setup that is dependent of the ``options`` variable (or whatever its name is), you need to rerun the 
 ``options.addProjector()`` and ``options.initProj()`` steps.
 
-For Python, it is also possible to manually call some of the regularization methods in a similar way (using PyOpenCL, Arrayfire, CuPy or PyTorch input data). These are RDP, non-local methods, and gradient-based TV. These are located in omegatomo/util/priors.py.
+Standalone regularization
+-------------------------
+
+For Python, it is also possible to manually call some of the regularization methods in a similar way (using PyOpenCL, Arrayfire, CuPy or PyTorch input data) as the forward and/or backward projection operators. 
+These are RDP, non-local methods, and gradient-based TV. These are located in omegatomo/util/priors.py. 
 
 For example
 
@@ -51,7 +55,8 @@ For example
 	from omegatomo.util.priors import NLReg
 	from omegatomo.util.priors import TV
 	
-imports the functions. For details, see ``help(RDP)`` for RDP and similarly for the others. These can be seamlessly combined with the forward and/or backward projection operators.
+imports the functions. For details, see ``help(RDP)`` for RDP and similarly for the others. These can be seamlessly combined with the forward and/or backward projection operators. Note that you can use these completely separately too without any need
+to use the forward/backward projection operators or creating the class object. Simply make sure the inputs are correct and correctly formatted.
 
 Creating and storing the system matrix
 --------------------------------------
