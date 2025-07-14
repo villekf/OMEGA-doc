@@ -52,8 +52,8 @@ Using list-mode data
 --------------------
 
 While the above two can be used for the coordinates of list-mode data, there are few special things to take into account when using list-mode data. First ``options.SinM`` should preferably contain only ones or minus ones. Negative
-values should be used for randoms. If you add randoms manually, you don't actually need to set ``options.randoms_correction`` to true (in fact, it should stay false in such a case!). While the measurements are not really needed for list-mode reconstruction, OMEGA requires 
-their inclusion at the moment.
+values should be used for randoms. If you add randoms manually, you don't actually need to set ``options.randoms_correction`` to true (in fact, it should stay false in such a case!). While the measurements are not really needed for list-mode 
+reconstruction, OMEGA requires their inclusion at the moment.
 
 Another thing to note is the computation of the sensitivity image, such as the one required by MLEM/OSEM. If the sensitivity image is computed with the same coordinates as the list-mode data, the reconstructions will fail. 
 There are two alternatives, one is to compute the sensitivity image using all applicable LORs by using the built-in feature. This is, however, only applicable to cylindrical scanners and scanners where the reconstruction 
@@ -65,7 +65,9 @@ TOF-data
 
 List-mode, or custom coordinate, data now also supports TOF reconstruction. This can be enabled with either the coordinate- or index-based reconstruction. The TOF data is included as indices that refer to TOF windows. This means that it is not recommended 
 to have separate TOF bin/window for each measurement but rather to divide the data into TOF bins as with sinogram data. A maximum of 256 bins can be included by default. The TOF indices should be included into ``options.TOFIndicess`` 
-variable that should be unsigned char (``uint8``) with zero-based indexing. The TOF time windows should be stored in ``options.TOFCenter``. The windows should start from the zero bin and then include the negative and positive bins,
-for example ``options.TOFCenter = [0, 1, -1, 2, -2]``. In most settings, it should be enough to simply give the values specified in ``TOF PROPERTIES`` in the PET examples to automatically create the ``TOFCenter`` variable. In fact,
-by default ``options.TOFCenter`` is formed internally and overwrites any user input variable. Thus, it is recommended to use the built-in variables and only provide ``options.TOFIndicess``. The nubmer of TOF indices has to equal the number of measurements
-and the order needs to be the same! This means that the first TOF index should correspond to the first measurement, second to the second measurement, and so on.
+variable that should be unsigned char (``uint8``) with zero-based indexing. The TOF time windows should be stored in ``options.TOFCenter`` with units in mm (i.e. it's the physical distance of each window from the center). 
+The windows should start from the zero bin and then include the negative and positive bins, for example ``options.TOFCenter = [0, 10.2, -10.2, 20.1, -20.1]``. In most settings, it should be enough to simply give the values specified in ``TOF PROPERTIES`` 
+in the PET examples to automatically create the ``TOFCenter`` variable. If you input your own ``TOFCenter``, you also need to input the standard deviation (in millimeters) of the TOF data into ``options.sigma_x``. The number of TOF indices has to equal the number 
+of measurements and the order needs to be the same! This means that the first TOF index should correspond to the first measurement, second to the second measurement, and so on.
+
+For more information on TOF data, see :doc:`tof`.

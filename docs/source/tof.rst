@@ -1,7 +1,11 @@
 Using TOF data
 ==============
 
-TOF data can be reconstructed either in sinogram or list-mode format. This page outlines the variables needed to perform TOF reconstructions. This page is still work in progress.
+TOF data can be reconstructed either in sinogram or list-mode format. This page outlines the variables needed to perform TOF reconstructions. 
+
+There are two ways you can add TOF data: either using the built-in features or input your own TOF distances and standard deviation. For inputting your own, see "Inputing custom TOF values" below.
+
+Note that in all cases, the measurement data has to contain TOF data! See "TOF in other PET data" below for details.
 
 TOF properties
 --------------
@@ -23,13 +27,37 @@ The following parameters can and need to be set to use TOF data:
 Enabling TOF
 ------------
 
-TOF data can be enabled simply by adding more TOF bins than 1.
+TOF data can be enabled simply by adding more TOF bins than 1, i.e. ``options.TOF_bins`` > 1.
 
 TOF in GATE data can either be included directly in GATE by setting the `temporal resolution module <https://opengate.readthedocs.io/en/latest/digitizer_and_detector_modeling.html#time-resolution>`_ or by simply adding the preferred temporal noise in OMEGA. In the first case, you will only be able to use the one temporal resolution that you set in GATE, but in the latter case you will be able to choose any temporal resolution and use the same simulated data to create different TOF data sets each with different temporal resolution.
 
 If you are using TOF data with the temporal resolution module, you should set ``options.TOF_noise_FWHM = 0`` such that no additional noise is included. ``options.TOF_FWHM`` on the other should be the FWHM of the added temporal noise multiplied with sqrt(2).
 
 When using GATE data, the actual temporal resolution will most likely differ from the one specified by ``options.TOF_noise_FWHM``. If you want to know the actual time resolution with the specified added noise you should run a simulation with a point source. Alternative, multiplying with sqrt(2) should be relatively accurate in most cases.
+
+Inputing custom TOF values
+--------------------------
+
+Instead of using the above, you can also enable TOF data by simply inputting ``options.TOF_bins`` and ``options.TOFCenter`` values. ``options.TOFCenter`` are the distances of each bin from the center in millimeters thus the number of elements 
+needs to be same as the number of bins. In addition to that, you need to input the standard deviation (in millimeters, usually derived from the FWHM) of the TOF data into ``options.sigma_x``.
+
+Internally both values are computed (in MATLAB/Octave) as:
+
+.. code-block:: matlab
+
+	c = 2.99792458e11; % speed of light in mm/s
+	obj.param.sigma_x = (c*obj.param.TOF_FWHM/2) / (2 * sqrt(2 * log(2)));
+	edges_user = linspace(-obj.param.TOF_width * obj.param.TOF_bins/2, obj.param.TOF_width * obj.param.TOF_bins / 2, obj.param.TOF_bins + 1);
+	edges_user = edges_user(1:end-1) + obj.param.TOF_width/2; % the most probable value where annihilation occured
+	TOFCenter = zeros(size(edges_user));
+	TOFCenter(1) = edges_user(ceil(length(edges_user)/2));
+	TOFCenter(2:2:end) = edges_user(ceil(length(edges_user)/2) + 1:end);
+	TOFCenter(3:2:end) = edges_user(ceil(length(edges_user)/2) - 1: -1 : 1);
+	if isfield(obj.param, 'TOF_offset') && obj.param.TOF_offset > 0
+		TOFCenter = TOFCenter + obj.param.TOF_offset;
+	end
+	TOFCenter = -TOFCenter * c / 2;
+	
 
 TOF in other PET data
 --------------
