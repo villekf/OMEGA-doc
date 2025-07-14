@@ -32,6 +32,7 @@ Contents
    corrections
    customcoordinates
    highdim
+   gate
    features
    tof
    technical
