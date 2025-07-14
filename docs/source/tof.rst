@@ -1,6 +1,8 @@
 Using TOF data
 ==============
 
+.. contents:: Table of Contents
+
 TOF data can be reconstructed either in sinogram or list-mode format. This page outlines the variables needed to perform TOF reconstructions. 
 
 There are two ways you can add TOF data: either using the built-in features or input your own TOF distances and standard deviation. For inputting your own, see "Inputing custom TOF values" below.

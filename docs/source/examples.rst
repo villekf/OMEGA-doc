@@ -1,5 +1,5 @@
 Examples
-=====
+========
 
 .. contents:: Table of Contents
 
@@ -63,7 +63,7 @@ Example preclinical Inveon data is available from: https://doi.org/10.5281/zenod
 files can be used automatically for this data.
 
 CT data
---------
+-------
 
 For CT, in general there are three different way to perform the reconstructions. One is largely an automatic version where the source/detector coordinates are computed by OMEGA. You can input offset values for the source and 
 detector coordinates as well as for the FOV origin, but the coordinates themselves are computed by OMEGA. Second is a less automatic version where you can input the source coordinates and the coordinates for the center of the
@@ -91,7 +91,7 @@ For custom algorithms, see ``CT_main_generic_custom_algorithms_example`` or ``Pl
 Note that in helical CT cases the curvature of the panel is NOT taken into account at the moment.
 
 SPECT data
---------
+----------
 
 There are examples included for Siemens Pro.specta and SIMIND data reconstruction. Reconstruction with other data requires the sinograms/projection data, the projection angles, radial distances between the panel center and FOV center, as well as the collimator geometry and detector intrinsic resolution.. Attenuation correction requires a 3D volume of linear attenuation coefficients, which should be aligned with the FOV of the reconstruction.
 

@@ -1,6 +1,8 @@
 Loading GATE data
 =================
 
+.. contents:: Table of Contents
+
 GATE 9 and earlier PET data
 ---------------------------
 

@@ -1,6 +1,8 @@
 Image reconstruction
 ====================
 
+.. contents:: Table of Contents
+
 This page outlines details on the two different ways to achieve image reconstruction: the built-in algorithms and the forward/backward projection operators. This page also outlines some details on how to obtain the (sparse) system matrix itself.
 
 Whichever case is used, the geometry specifications, projector settings, and subsets is defined the same way, as well as any special properties like TOF.

@@ -1,6 +1,8 @@
 Data/artifact corrections
 =========================
 
+.. contents:: Table of Contents
+
 This page describes some details on the different data/artifact correction methods available in OMEGA. Available are: randoms, scatter, attenuation, normalization, out-of-FOV, and offset corrections.
 
 While this is highlighted in the below section, it is important to note that if you input your own data in Python, you need to make sure the data is Fortran-ordered!

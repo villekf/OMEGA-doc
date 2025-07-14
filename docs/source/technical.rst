@@ -1,6 +1,8 @@
 Technical info
 ===============
 
+.. contents:: Table of Contents
+
 This page outlines some technical information on the software. Mainly how everything works. The text is largely based on version 1.2 and thus mainly features PET-related information in MATLAB. This page is still work in progress!
 
 The general structure of OMEGA can be divided into three different layers. The top layer is the MATLAB/Octave/Python user-interface that contains the scripts and functions necessary to call the lower layers. 
