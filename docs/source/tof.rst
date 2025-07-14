@@ -60,7 +60,7 @@ Internally both values are computed (in MATLAB/Octave) as:
 	
 
 TOF in other PET data
---------------
+---------------------
 
 Any PET data with TOF can be used. TOF is assumed to be the fourth dimension of the sinogram matrix (potential time steps are assumed to be the fifth dimension) when using sinogram data. All values except for ``options.TOF_noise_FWHM`` need to be filled.
 
@@ -69,6 +69,6 @@ Biograph mCT and Vision allow for automatic extraction of TOF data. However, cur
 For details on using list-mode data with TOF, see :doc:`customcoordinates`.
 
 TOF integration points
---------------
+----------------------
 
 By default, the trapezoidal integration uses 4 points. However, for small TOF FWHM values this might not be accurate enough for accurate reconstruction. For implementation 4 this can be modified by changing the value of ``TRAPZ_BINS`` in ``projector_functions.h``. For implementation 2 (OpenCL/CUDA), modify ``TRAPZ_BINS`` with the desired number of bins in ``general_opencl_functions.h``. Implementation 4 requires recompilation before the changes take effect (run ``install_mex`` again). Implementation 2 does not require anything else except re-running the reconstruction.

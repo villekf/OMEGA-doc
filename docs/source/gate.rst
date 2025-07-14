@@ -2,7 +2,7 @@ Loading GATE data
 =================
 
 GATE 9 and earlier PET data
-------------------
+---------------------------
 
 When using GATE data (ASCII or ROOT, Python supports only ROOT) the only requirements are that any of the options that you have selected are actually present and that volume IDs have been stored. For example, if you wish to obtain the original 
 source image you need to select all the source coordinates in the coincidence mask and trues require both event IDs as well as scatter numbers. It is also recommended to select the time stamp for the first single. More information on the necessary 
@@ -114,7 +114,7 @@ You need to run ``install_mex`` or ``compile.py`` before ROOT support is availab
 	this only for data extraction (set ``options.only_sinos = true`` and run PET_main_gateExampleSimple.m). This issue is not present on Octave or MATLAB R2019a and up. 
 
 Loading and saving data
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Sinograms are automatically created during data load regardless of the type of data used. Raw data is stored if options.store_raw_data = true. These are also automatically saved into a mat-file in the current working directory. If you are using TOF 
 data, all the trues, scatter and randoms sinograms will be TOF as well.

@@ -4,7 +4,7 @@ Usage
 .. contents:: Table of Contents
 
 Geometry information
--------------------
+--------------------
 
 For more details on the geometry, see :doc:`geometry`.
 

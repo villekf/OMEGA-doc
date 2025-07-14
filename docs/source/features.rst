@@ -122,7 +122,7 @@ PET features
  * With index-based or listmode reconstruction, even multi-layer is possible
 
 CT features
-^^^^^^^
+^^^^^^^^^^^
 * Optimized for (CB)CT data
 * Automatically load image-based projections (e.g. tiff-images)
 * Load GATE CT projections images
@@ -156,7 +156,7 @@ CT features
  * Regularizers supported: Non-local methods, RDP, GGMRF, TV, and hyperbolic prior
 
 SPECT features
-^^^^^^^^^^
+^^^^^^^^^^^^^^
 * Optimized for parallel hole SPECT data
 * Load GATE SPECT projections images
 * Load Interfile SPECT projection images

@@ -65,7 +65,7 @@ If you use Visual studio, OMEGA only requires "Desktop development with C++". No
 MATLAB allows the use of `MinGW++ <https://se.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler>`_, but when using this compiler ArrayFire (implementation 2) will not work unless ArrayFire is built from the source with MinGW.
 
 OpenCL/CUDA
-^^^^^^
+^^^^^^^^^^^
 
 Ignore this section if you intend to only use custom reconstructions in Python.
 
@@ -188,7 +188,7 @@ For Python, g++ is required. Version should not matter.
 On Ubuntu, you can install g++ with e.g. ``sudo apt install build-essential``.
 
 OpenCL/CUDA
-^^^^^^
+^^^^^^^^^^^
 
 Ignore this section if you intend to only use custom reconstructions in Python.
 
@@ -336,7 +336,7 @@ You should install `Xcode <https://apps.apple.com/us/app/xcode/id497799835?mt=12
 On MATLAB, you do not need to do any changes. On Octave, you need to make sure that both the library and header (`omp.h`) can be found on path. This might also be the case on MATLAB if the header is installed in non-standard location. If OpenMP support could NOT be applied, you should see a warning message(s) of the like `...built WITHOUT OpenMP (parallel) support.` 
 
 OpenCL/CUDA
-^^^^^^
+^^^^^^^^^^^
 
 Ignore this section if you intend to only use custom reconstructions in Python.
 
