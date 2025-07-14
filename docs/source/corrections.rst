@@ -89,6 +89,13 @@ See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution
 
 See https://dx.doi.org/10.1118/1.1776673 for another example of projection extrapolation.
 
+Multi-resolution
+^^^^^^^^^^^^^^^^
+
+It is possible to use the multi-resolution reconstruction without any extended FOV. However, note that by default the image volume is always cropped to the "effective" FOV. To save the multi-resolution volumes, you need to set ``CELL`` to true in:
+https://github.com/villekf/OMEGA/blob/master/source/cpp/structs.h#L10 and recompile the files. This outputs a cell matrix in MATLAB/Octave. The first element is the main volume. For Python, you also need to set ``options.storeMultiResolution = True`` before
+reconstruction in addition to the previous. The image is then output as a vector containing all the volumes in one vector. You need to manually separate them.
+
 Offset correction
 -----------------
 

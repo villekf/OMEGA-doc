@@ -784,7 +784,7 @@ Image-based preconditioners
 ---------------------------
 
 For image-based preconditioners, in MATLAB/Octave you need to input ``options.precondTypeImage = [false;false;false;false;false;false;false];`` and then select the appropriate preconditioners by setting its element to ``true``. See below for the elements.
-In general you can select multiple preconditioners, except for diagonal, EM and IEM preconditioners, which are mutually exclusive.
+In general you can select multiple preconditioners, except for diagonal, EM and IEM preconditioners, which are mutually exclusive. Image-based preconditioners, as the name implies, work in the image-space.
 
 Only certain algorithms support image-based preconditioners. These are: MRAMLA, MBSREM, FISTA, FISTAL1, PKMA, PDHG, PDHGKL, PDHGL1, PDDY, and SAGA. If an image-based preconditioner is used with an algorithm not listed, it's not used.
 
@@ -860,6 +860,7 @@ Measurement-based preconditioners
 ---------------------------------
 
 For measurement-based preconditioners, in MATLAB/Octave you need to input ``options.precondTypeMeas = [false;false];`` and then select the appropriate preconditioners by setting its element to ``true``. See below for the elements.
+Measurement-based preconditioners, as the name implies, work in the measurement-space.
 
 Only certain algorithms support measurement-based preconditioners. These are: MRAMLA, MBSREM, FISTA, FISTAL1, PKMA, PDHG, PDHGKL, PDHGL1, PDDY, and SAGA. If a measurement-based preconditioner is used with an algorithm not listed, it's not used.
 
