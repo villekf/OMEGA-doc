@@ -68,3 +68,7 @@ itself with ``B = formMatrix(A);``. This creates the whole (sparse) system matri
 I.e. forward projection is computed with ``B' * f`` and backward projection with ``B * y``. Alternatively, you can also transpose the matrix.
 
 The reason the matrix is the transpose is for efficiency reasons. Also, before the matrix formation a prestep is performed which determines the number of voxels traversed per ray and if some of the rays do not intersect with the FOV.
+
+.. note::
+
+	When forming the system matrix, the source and detector (or detector-detector) positions HAVE to be inside the FOV.
