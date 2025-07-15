@@ -780,6 +780,11 @@ Preconditioners
 
 The use of preconditioners is slightly easier in Python than in MATLAB/Octave. This is because in MATLAB/Octave you need to input the whole vector that specifies the selected preconditioners, in Python you only need to set the desired one to ``True``.
 
+.. note::
+
+	Most of the preconditioners are supported as-is only with built-in algorithms. However, the filtering-based measurement based preconditioner has been implemented as a separate MATLAB/Python function. Some of the preconditioners are also
+	easy to compute manually.
+
 Image-based preconditioners
 ---------------------------
 
