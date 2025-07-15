@@ -103,12 +103,12 @@ taken for the reconstruction process itself. Verbosity 3 increases the timing me
 Adjustable parameters
 ---------------------
 
-Here is a relatively complete list of all adjustable parameters and their default values (in MATLAB format):
+Here is a relatively complete list of all adjustable parameters and their default values (in MATLAB format). In most cases you don't need to adjust the values.
 
 | ``CT = false;``, if true computes the exact intersection length instead of probability. Also, when using built-in algorithms, uses the transmission tomography equivalents.
 | ``options.use_CPU = false;``, if true, uses CPU to compute the reconstructions. Implementation 2 only. Not recommended and the available features is limited, for example projector types 4 and 5 are not supported.
 | ``options.projector_type = 11;``, the default is 4 for CT and 11 for others. The first value refers to the forward projection and the second to the backprojection. With one value, the same method is used for both.
-| ``options.PET = false;``, used internally only. Should not be adjusted by the user!
+| ``options.PET = false;``, used internally only. Should not be adjusted by the user! Set to true if subset type is 8-11 with PET data.
 | ``options.SPECT = false;``, signifies that the input is SPECT data and uses some SPECT specific settings.
 | ``options.useSingles = true;``, MATLAB/Octave only and implementation 4 only! If false, uses double precision instead when computing implementation 4 reconstructions.
 | ``options.largeDim = false;``, if true, uses :doc:`highdim`.
@@ -123,3 +123,23 @@ Here is a relatively complete list of all adjustable parameters and their defaul
 | ``options.dPitchY = 0;``, detector pitch (size) in column dimension.
 | ``options.usingLinearizedData = false;``, if true, doesn't linearize the data if the algorithm requires linearization.
 | ``options.TOF_bins = 1;``, the number of TOF bins.
+| ``options.TOF_bins_used = 1;``, the number of TOF bins used. Needs to be either the same as above or 1, in which case the TOF bins are summed together.
+| ``options.TOF_FWHM = 0;``, TOF FWHM value in s.
+| ``options.TOF_width = 0;``, TOF width of each bin in s.
+| ``options.cryst_per_block_axial = options.cryst_per_block;``, the number of crystals per PET block in the axial direction.
+| ``options.transaxial_multip = 1;``, the number of crystal groups in one PET block.
+| ``options.machine_name = '';``, the name of the scanner. Used only when loading and/or saving data.
+| ``options.sourceOffsetCol = 0;``, the column offset (in mm) of the source location. Either a vector for all projections or a scalar.
+| ``options.sourceOffsetRow = 0;``, same as above, but for row direction.
+| ``options.detOffsetRow = [];``, same as above, but for detector.
+| ``options.detOffsetCol = [];``, you know the drill.
+| ``options.subsets = 1;``, the number of subsets. Note that this has to be minimum of 1!
+| ``options.subset_type = 8;``, the subset selection type. See :doc:`algorithms`. For PET data, it is recommended to use 1 instead of 8.
+| ``options.offsetCorrection = false;``, if true, uses offset correction.
+| ``options.bedOffset = 0;``, offset value of the bed for multi-bed case. Should contain the offsets for each bed position.
+| ``options.pitchRoll = [];``, the pitch/yaw/roll values of the detector panel. See :doc:`geometry`.
+| ``options.nBed = 1;``, number of bed positions.
+| ``options.flip_image = false;`` if true, flips the image in the horizontal direction. This is done in the detector space and thus has no effect on the quality or speed of the reconstruction.
+| ``options.offangle = 0;``, rotates the image in the detector space with the specified amount. This is number of crystals in PET and degrees or radians in CT and SPECT. It is counter-clockwise for PET and CT, and clockwise for SPECT.
+| ``options.tube_width_z = 0;``, the width of the orthogonal "tube" when using projector type 2 (ODRT). If this is zero, the below value is used and ODRT is computed as 2D slices. If this is non-zero, then the below values is not used at all.
+| ``options.tube_width_xy = 0;``, the width of the orthogonal "slice" when using projector type 2 (ODRT). This value is only used if the above is zero. This uses a 2D transaxial slice instead of 3D tube and can be thus faster to compute.
