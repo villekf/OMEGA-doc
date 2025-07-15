@@ -99,3 +99,27 @@ Verbosity
 This largely applies only to built-in reconstruction, but the verbosity can be adjusted with ``options.verbose``, where 1 is the default value. This gives timing information for the whole reconstruction and shows when a sub-iteration and/or iteration
 has been computed. Verbosity of 0 gives no messages and will be largely silent reconstruction. Verbosity of 2 gives more accurate timing information, such as time taken per sub-iteration and iteration, the estimated time left and the total time 
 taken for the reconstruction process itself. Verbosity 3 increases the timing messages to be even more specific, but will also output some debugging messages. Verbosity of 1 or 2 is recommended.
+
+Adjustable parameters
+---------------------
+
+Here is a relatively complete list of all adjustable parameters and their default values (in MATLAB format):
+
+| ``CT = false;``, if true computes the exact intersection length instead of probability. Also, when using built-in algorithms, uses the transmission tomography equivalents.
+| ``options.use_CPU = false;``, if true, uses CPU to compute the reconstructions. Implementation 2 only. Not recommended and the available features is limited, for example projector types 4 and 5 are not supported.
+| ``options.projector_type = 11;``, the default is 4 for CT and 11 for others. The first value refers to the forward projection and the second to the backprojection. With one value, the same method is used for both.
+| ``options.PET = false;``, used internally only. Should not be adjusted by the user!
+| ``options.SPECT = false;``, signifies that the input is SPECT data and uses some SPECT specific settings.
+| ``options.useSingles = true;``, MATLAB/Octave only and implementation 4 only! If false, uses double precision instead when computing implementation 4 reconstructions.
+| ``options.largeDim = false;``, if true, uses :doc:`highdim`.
+| ``options.loadTOF = true;``, if false, only the current subset is transfered to the GPU. See :doc:`highdim`.
+| ``options.storeResidual = false;`` if true, outputs the residual, or primal-dual gap with PDHG and its variants for each (sub-)iteration. Works only for LS-based algorithms!
+| ``options.sourceToCRot = 0;``, source to center-of-rotation-distance.
+| ``options.sourceToDetector = 1;``, source to detector distance.
+| ``options.rotateAttImage = 0;``, rotates the attenuation image with N * options.rotateAttImage degrees. 
+| ``options.cryst_per_block = 0;``, number of PET crystals per block.
+| ``options.linear_multip = 1;``, number of PET axial blocks.
+| ``options.dPitchX = 0;``, detector pitch (size) in row dimension.
+| ``options.dPitchY = 0;``, detector pitch (size) in column dimension.
+| ``options.usingLinearizedData = false;``, if true, doesn't linearize the data if the algorithm requires linearization.
+| ``options.TOF_bins = 1;``, the number of TOF bins.
