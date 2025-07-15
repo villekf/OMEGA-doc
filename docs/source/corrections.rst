@@ -113,6 +113,8 @@ This is currently not possible automatically, but it is possible to have specifi
 and https://github.com/villekf/OMEGA/blob/master/source/m-files/computePixelSize.m. Especially important are the correct FOV sizes, number of voxels per volume and the ``bx/y/z`` values, which correspond to the edges where the volumes begin.
 The reconstruction process should work fine as long as the aforementioned values are correctly adjusted.
 
+When using built-in algorithms, not all algorithms support multi-resolution reconstruction. Unsupported algorithms are CGLS and LSQR. Some other algorithms also might not work optimally with multi-resolution reconstruction. 
+
 .. note::
 
 	This feature works similarly whether using built-in algorithms or computing custom algorithms with the projector operators. For the projector operators, the process is somewhat more difficult though. See the CBCT examples for
