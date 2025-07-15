@@ -71,4 +71,4 @@ The reason the matrix is the transpose is for efficiency reasons. Also, before t
 
 .. note::
 
-	When forming the system matrix, the source and detector (or detector-detector) positions HAVE to be inside the FOV.
+	When forming the system matrix, the source and detector (or detector-detector) positions HAVE to be outside the FOV.
