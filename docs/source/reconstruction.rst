@@ -25,7 +25,8 @@ Using the forward and/or backward projection operators
 Alternatively the user can compute any and all algorithms manually and simply call the forward (Ax) and/or backward (A^Ty) projection operators from OMEGA. In such cases, the user is responsible for the number of iterations and any and all algorithm
 specific settings. Note that by default emission tomography is assumed! You can switch to CT-style (intersection length, not probability) with ``options.CT`` as true. This should be applied even if you don't use CT data, but are not using emission
 tomography either. Note that when using subsets handled by OMEGA with the forward and/or backward projection operators, you need to manually make sure the data is ordered into the subsets correctly. OMEGA can provide the indices, but the user has
-to perform the actual sorting operation using the indices. The examples include several subset-cases.
+to perform the actual sorting operation using the indices. The examples include several subset-cases. Note that when using subsets, you need to input the current subset number with ``A.subset = currentSubset``, with zero-based numbering in Python
+and one-based in MATLAB/Octave.
 
 In MATLAB/Octave, you should first specify all the parameters in the ``options`` struct as with any other method. One important selection in MATLAB/Octave is the implementation. Selecting implementation 2, 3 or 5 uses OpenCL for the forward and/or 
 backward projection operators (e.g. ``options.implementation = 2``) which is the recommended method. Alternatively, it is possible to use CPU also with implementation 4, or create the system matrix with implementation 1 (see below for the matrix creation). 
