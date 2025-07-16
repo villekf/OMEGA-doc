@@ -16,7 +16,7 @@ Inveon or Biograph data with randoms data, or input a mat-file containing only t
 yourself manually, but in such a case you should set randoms correction as false.
 
 You can also select variance reduction (``options.variance_reduction``) and/or smoothing (``options.randoms_smoothing``) for the randoms data. Note that these features are not yet available on Python. The former performs variance
-reduction to the randoms data, while latter uses 8x8 moving mean smoothing. The mean-size can be adjusted by manually modifying the ``randoms_smoothing`` function.
+reduction to the randoms data, while latter uses 7x7 moving mean smoothing. The mean-size can be adjusted by manually modifying the ``randoms_smoothing`` function.
 
 See https://doi.org/10.1088/0031-9155/44/4/010 for details on variance reduction.
 
@@ -31,9 +31,13 @@ Scatter correction data cannot be created with OMEGA at the moment, though you c
 variable. Same variance reduction (``options.scatter_variance_reduction``) and smoothing operations (``options.scatter_smoothing``) can be applied to the scatter data as well. You can also normalize PET scatter data with 
 ``options.normalize_scatter`` if you use normalization correction. In Python, you need to make sure the data is Fortran-ordered!
 
+By default the scatter correction is either subtracted from the measurements (if precorrected) or added to the forward projection (if ordinary Poisson, i.e. ``options.corrections_during_reconstruction = true``). However, it is possible to have
+multiplicative scatter correction instead. In such a case, the scatter data is instead multiplied with the projector operators. To enable this, set ``options.subtract_scatter = false``. Variance reduction, normalization and/or smoothing should 
+not be used in this case. Otherwise the process is similar, i.e. add the data into ``options.ScatterC``.
+
 .. note::
 
-	For custom reconstructions using the projector operators, scatter has to be handled manually by the user.
+	For custom reconstructions using the projector operators, scatter has to be handled manually by the user. ``options.subtract_scatter = false`` case should work automatically, but this is untested.
 
 Attenuation correction
 ----------------------
