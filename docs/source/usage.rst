@@ -113,8 +113,8 @@ All the below variables need to be input to the struct you give as input in MATL
 
 PET scanner variables
 ^^^^^^^^^^^^^^^^^^^^^
-| ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension. For PET, you can also use ``options.cr_p``.
-| ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension. For PET, you can also use ``options.cr_pz``.
+| ``options.dPitchX = 0;``, detector pitch (size, mm) in row direction. For PET, you can also use ``options.cr_p``.
+| ``options.dPitchY = 0;``, detector pitch (size, mm) in column direction. For PET, you can also use ``options.cr_pz``.
 | ``options.cryst_per_block = 0;``, number of PET crystals per block.
 | ``options.linear_multip = 1;``, number of PET axial blocks.
 | ``options.blocks_per_ring = 1;``, the number of PET blocks per ring.
@@ -132,8 +132,8 @@ PET scanner variables
 CT scanner variables
 ^^^^^^^^^^^^^^^^^^^^
 | ``options.CT = false;``, if true computes the exact intersection length instead of probability. Also, when using built-in algorithms, uses the transmission tomography equivalents.
-| ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension.
-| ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension.
+| ``options.dPitchX = 0;``, detector pitch (size, mm) in row direction.
+| ``options.dPitchY = 0;``, detector pitch (size, mm) in column direction.
 | ``options.sourceOffsetCol = 0;``, the column offset (in mm) of the source location. Either a vector for all projections or a scalar.
 | ``options.sourceOffsetRow = 0;``, same as above, but for row direction.
 | ``options.detOffsetRow = [];``, same as above, but for detector.
@@ -149,7 +149,19 @@ CT scanner variables
 SPECT scanner variables
 ^^^^^^^^^^^^^^^^^^^^^^^
 | ``options.SPECT = false;``, signifies that the input is SPECT data and uses some SPECT specific settings.
+| ``options.dPitchX = 0;``, detector pitch (size, mm) in row direction.
+| ``options.dPitchY = 0;``, detector pitch (size, mm) in column direction.
+| ``options.nRowsD = 0``, the number of detector pixels in the row direction.
+| ``options.nColsD = 0``, the number of detector pixels in the column direction.
 | ``options.nProjections = 0;``, total number of projections.
+| ``options.iR = 0;``, detector intrinsic resolution.
+| ``options.cr_p = 0;``, detector crystal thickness.
+| ``options.CORtoDetectorSurface = 0;``, distance from collimator-detector interface to swivel center-of-rotation
+| ``options.colL = 0;``, collimator hole length.
+| ``options.colR = 0;``, collimator hole radius.
+| ``options.colD = 0;``, distance between collimator and detector.
+| ``options.colFxy = 0;``, collimator focal distance (transaxial).
+| ``options.colFz = 0;``, collimator focal distance (axial).
 
 Projector settings
 ^^^^^^^^^^^^^^^^^^
