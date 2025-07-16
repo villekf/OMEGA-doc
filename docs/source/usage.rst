@@ -148,7 +148,7 @@ SPECT scanner variables
 
 Projector settings
 ^^^^^^^^^^^^^^^^^^
-| ``options.projector_type = 11;``, the default is 4 for CT and 11 for others. The first value refers to the forward projection and the second to the backprojection. With one value, the same method is used for both.
+| ``options.projector_type = 11;``, the default is 4 for CT and 11 for others. The first value refers to the forward projection and the second to the backprojection. With one value, the same method is used for both. 1 = Improved Siddon, 2 = Orthogonal distance based, 3 = Volume of intersection, 4 = Interpolation, 5 = Branchless distance-driven (CT), 6 = Rotation (SPECT).
 | ``options.tube_width_z = 0;``, the radius (mm) of the orthogonal "tube" when using projector type 2 (ODRT). If this is zero, the below value is used and ODRT is computed as 2D slices. If this is non-zero, then the below values is not used at all. This is the maximum orthogonal distance allowed!
 | ``options.tube_width_xy = 0;``, the half width (mm) of the orthogonal "slice" when using projector type 2 (ODRT). This value is only used if the above is zero. This uses a 2D transaxial slice instead of 3D tube and can be thus faster to compute. This is the maximum orthogonal distance allowed in 2D case!
 | ``options.tube_radius = sqrt(2) * (options.cr_pz / 2);``, the tube radius (mm) of the volume-of-intersection tube. Only used by projector type 3!
