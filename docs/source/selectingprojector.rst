@@ -36,7 +36,7 @@ PSF modeling
 ^^^^^^^^^^^^
 
 As already mentioned above, PSF blurring/modeling can be enabled by setting ``options.use_psf`` to true. This uses a shift-invariant Gaussian blurring with the FWHM values taken from ``options.FWHM``. Each dimension should have
-its own FWHM value, but the values can be identical. The PSF is thus identical along the ray and only potentially varies along a specific dimension, though even then the variation is always constant. The PSF is applied in both 
+its own FWHM value (in mm), but the values can be identical. The PSF is thus identical along the ray and only potentially varies along a specific dimension, though even then the variation is always constant. The PSF is applied in both 
 forward and backward projection cases. It is also applied to custom reconstruction cases calling the projector operators, if selected.
 
 CT data
