@@ -99,7 +99,8 @@ Stochastic subset selection
 
 By default the subsets are always used in the same order. However, it is now possible to also select the subsets randomly though it is not completely randomly. The subsets are considered as "groups" that contain a set amount of
 measurements, projections, or sinograms. The contents of these groups remain the same even if you use the stochastic subset selection, but the groups themselves are picked randomly. For example, if we have three subsets and 9 measurements,
-the subset 1 always contains the same three measurement, such as 1, 4, and 7. However, instead of using first subset 1, then subset 2, and lastly subset 3, any subset can be used first, second, etc.
+the subset 1 always contains the same three measurement, such as 1, 4, and 7. However, instead of using first subset 1, then subset 2, and lastly subset 3, any subset can be used first, second, etc. This means that while a group uses the same
+indices, the indices themselves are random.
 
 You can enable the stochastic subset selection by setting ``options.stochasticSubsetSelection = true`` (or ``True`` in Python). Default is false.
 
@@ -779,6 +780,11 @@ Preconditioners
 ===============
 
 The use of preconditioners is slightly easier in Python than in MATLAB/Octave. This is because in MATLAB/Octave you need to input the whole vector that specifies the selected preconditioners, in Python you only need to set the desired one to ``True``.
+
+.. note::
+
+	Most of the preconditioners are supported as-is only with built-in algorithms. However, the filtering-based measurement based preconditioner has been implemented as a separate MATLAB/Python function. Some of the preconditioners are also
+	easy to compute manually.
 
 Image-based preconditioners
 ---------------------------

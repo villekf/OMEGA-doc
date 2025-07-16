@@ -3,6 +3,11 @@ Using mask images
 
 In OMEGA, it is currently possible to limit the measurements to be used or voxels to be reconstructed. This is possible with the use of mask images.
 
+.. note::
+
+	Mask images can be used for either built-in or custom reconstructions. There are no restrictions with this, but if used with projector operators, the mask must be defined
+	along with all other definitions, i.e. before the class object is created (MATLAB/Octave) or it's initialized (Python).
+
 Masks in forward projection
 ---------------------------
 

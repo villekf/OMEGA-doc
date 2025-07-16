@@ -3,6 +3,10 @@ High-dimensional computing
 
 In case of high-dimensional cases, there are ways to circumvent running out of GPU memory. Note that all of these methods require sufficient CPU RAM and only help with limited GPU memory.
 
+.. note::
+
+	High-dimensional support is only for built-in algorithms, not the forward/backward projection operators. For high-dimensional cases, the user needs to manually handle the data if the projector operators are used.
+
 High-dimensional measurement data
 ---------------------------------
 

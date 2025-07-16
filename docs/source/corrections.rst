@@ -20,12 +20,20 @@ reduction to the randoms data, while latter uses 8x8 moving mean smoothing. The 
 
 See https://doi.org/10.1088/0031-9155/44/4/010 for details on variance reduction.
 
+.. note::
+
+	For custom reconstructions using the projector operators, randoms has to be handled manually by the user.
+
 Scatter correction
 ------------------
 
 Scatter correction data cannot be created with OMEGA at the moment, though you can extract GATE scatter data from PET simulations (GATE 9.X or earlier). However, you can add your own scatter correction data by inputting it into ``options.ScatterC`` 
 variable. Same variance reduction (``options.scatter_variance_reduction``) and smoothing operations (``options.scatter_smoothing``) can be applied to the scatter data as well. You can also normalize PET scatter data with 
 ``options.normalize_scatter`` if you use normalization correction. In Python, you need to make sure the data is Fortran-ordered!
+
+.. note::
+
+	For custom reconstructions using the projector operators, scatter has to be handled manually by the user.
 
 Attenuation correction
 ----------------------
@@ -40,7 +48,7 @@ For GATE data, the attenuation images created by MuMap actor can be used, simply
 
 .. note::
 
-	The units in OMEGA are in millimeters!
+	The units in OMEGA are in millimeters! This feature works the same whether using built-in algorithms or computing custom algorithms with the projector operators.
 
 Normalization correction
 ------------------------
@@ -58,6 +66,10 @@ and getting the prompt for the data. The normalization data has to be either nrm
 to the mat-files folder and loaded automatically if the same measurement dimensions and scanner are used.
 
 For details on the component-based normalization, see for example https://doi.org/10.1088/0031-9155/43/1/012
+
+.. note::
+
+	This feature works the same way whether using built-in algorithms or computing custom algorithms with the projector operators, as long as the input data is inserted correctly. Note that you need to manually handle the subset indexing if necessary.
 
 Out-of-FOV correction
 ---------------------
@@ -101,6 +113,13 @@ This is currently not possible automatically, but it is possible to have specifi
 and https://github.com/villekf/OMEGA/blob/master/source/m-files/computePixelSize.m. Especially important are the correct FOV sizes, number of voxels per volume and the ``bx/y/z`` values, which correspond to the edges where the volumes begin.
 The reconstruction process should work fine as long as the aforementioned values are correctly adjusted.
 
+When using built-in algorithms, not all algorithms support multi-resolution reconstruction. Unsupported algorithms are CGLS and LSQR. Some other algorithms also might not work optimally with multi-resolution reconstruction. 
+
+.. note::
+
+	This feature works similarly whether using built-in algorithms or computing custom algorithms with the projector operators. For the projector operators, the process is somewhat more difficult though. See the CBCT examples for
+	more details on how to perform multi-resolution reconstruction.
+
 Offset correction
 -----------------
 
@@ -109,3 +128,7 @@ be done automatically.
 
 Examples of offset papers include https://dx.doi.org/10.1109/nssmic.2010.5874179 and https://dx.doi.org/10.1088/0031-9155/58/2/205 and https://dx.doi.org/10.1118/1.1489043 and https://dx.doi.org/10.1088/1361-6560/ac16bc. Note that
 although they present different weights, the results are the same.
+
+.. note::
+
+	This feature works the same way whether using built-in algorithms or computing custom algorithms with the projector operators.

@@ -17,6 +17,11 @@ There are two ways to perform reconstructions with custom scanner or list-mode d
 
 For the choice of algorithm, PDHG is recommended, but for PET, and emission tomography in general, PKMA or OSEM can be good choices.
 
+.. note::
+
+	All these methods can be used both with built-in algorithms or the projector operators (forward/backward projection). As long as the input data is correctly formatted (same for both cases), process should work
+	in both cases.
+
 Index-based reconstruction
 --------------------------
 
