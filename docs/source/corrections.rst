@@ -3,9 +3,26 @@ Data/artifact corrections
 
 .. contents:: Table of Contents
 
-This page describes some details on the different data/artifact correction methods available in OMEGA. Available are: randoms, scatter, attenuation, normalization, out-of-FOV, and offset corrections.
+This page describes some details on the different data/artifact correction methods available in OMEGA. Available are: arc, randoms, scatter, attenuation, normalization, out-of-FOV, and offset corrections.
 
 While this is highlighted in the below section, it is important to note that if you input your own data in Python, you need to make sure the data is Fortran-ordered!
+
+Arc correction
+--------------
+
+Arc correction is MATLAB/Octave and PET only feature! In general, it is not recommended to use arc correction, but with certain scanners it can help in reducing aliasing artifacts with single ray-based projectors. It can be enabled with ``options.arc_correction``.
+Internally arc correction uses the MATLAB function ``scatteredInterpolant`` to interpolate the sinograms, but if that function is not available then ``griddata`` is used instead. Arc correction can be a slow process, but if you own distributed computing
+toolbox that is automatically used and should speed up the process.
+
+From the first OMEGA article: In arc correction the orthogonal distances between adjacent LORs with the same angle are made equidistant, 
+as the circular configuration of most PET designs causes the adjacent LORs not to be equidistant. Using the 
+original detector coordinates and the new detector coordinates of equidistant LORs, the sinogram is 
+interpolated into this new detector grid. This procedure would be mandatory when using analytical methods 
+such as FBP but is not required with iterative methods. However, since the measurement data becomes equally 
+spaced it will remove aliasing artifacts in certain cases (e.g. with Inveon data). As with randoms and 
+normalization, the arc correction is a separate MATLAB/Octave function.
+
+See https://doi.org/10.1117/12.618140 for some details on arc correction.
 
 Randoms correction
 ------------------
@@ -45,10 +62,11 @@ Attenuation correction
 This is PET and SPECT only feature. Adjust the state of the correction with ``options.attenuation_correction``. The attenuation data HAS to be input by the user. Two different attenuation data are accepted: images and sinograms.
 This means that the correction can be applied either by using attenuation images or by using attenuation sinograms. Note that for the attenuation images, the images HAVE to be scaled to the corresponding energy! Default is attenuation
 images, but this can be adjusted with ``options.CT_attenuation``, where ``false`` uses sinograms. Input the, preferable full, path of the attenuation data into ``options.attenuation_datafile``. If your attenuation data is oriented 
-different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degrees, where N = options.rotateAttImage. Similarly you can also flip the transaxial and/or
+different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degrees, where N = ``options.rotateAttImage``. Similarly you can also flip the transaxial and/or
 axial directions with ``options.flipAttImageXY`` and ``options.flipAttImageZ``, respectively. Note that the attenuation image also has to have the same dimensions as the output image.
 
-For GATE data, the attenuation images created by MuMap actor can be used, simply input the MetaImage (with full path) into ``options.attenuation_datafile``. The size has to correspond to the reconstructed image!
+For GATE data, the attenuation images created by MuMap actor can be used, simply input the MetaImage (with full path) into ``options.attenuation_datafile``. The size has to correspond to the reconstructed image! If the units are cm, you need to
+scale the image beforehand.
 
 .. note::
 
@@ -58,16 +76,18 @@ Normalization correction
 ------------------------
 
 This is PET and SPECT only feature and enabled with ``options.normalization_correction``. There are two options, either you can input precomputed normalization correction sinogram/projections or then you can use a specific normalization measurement
-and compute the normalization coefficients with OMEGA (PET only!). For the latter, set ``options.compute_normalization`` to true and select the desired normalization components with ``options.normalization_options``. Normalization correction 
+and compute the normalization coefficients with OMEGA (PET only!). 
+
+If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the normalization coefficient data, either input the data into ``options.normalization`` or select it when running the code
+and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable). Normalization data computed with OMEGA are saved
+to the mat-files folder and loaded automatically if the same measurement dimensions and scanner are used.
+
+For computing the normalization coefficients with OMEGA, set ``options.compute_normalization`` to true and select the desired normalization components with ``options.normalization_options``. Normalization correction 
 components to include (1 means that the component is included, 0 that it is not included). First: Axial geometric correction, Second: Detector efficiency correction, Third: Block profile correction, Fourth: Transaxial geometric 
 correction (NOT recommended when using normalization data that does not encompass the entire FOV). E.g. [1 1 0 0] computes normalization correction for axial geometric effects and detector efficiency. If a cylinder was used for 
 the normalization measurements that is smaller than the FOV, you can input its radius with ``options.normalization_phantom_radius``. This is used for automatic attenuation correction. If you input the radius, you also need to input
 the attenuation coefficient of the material with ``options.normalization_attenuation``. You can also use automatic scatter correction with ``options.normalization_scatter_correction``. Note that Python does not (yet) support computing of
 the normalization coefficients.
-
-If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the normalization coefficient data, either input the data into ``options.normalization`` or select it when running the code
-and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable). Normalization data computed with OMEGA are saved
-to the mat-files folder and loaded automatically if the same measurement dimensions and scanner are used.
 
 For details on the component-based normalization, see for example https://doi.org/10.1088/0031-9155/43/1/012
 
@@ -88,9 +108,10 @@ This is mainly for CT, but might work with other modalities as well. Out-of-FOV 
    
 This correction is a bit more complicated than the other ones as there isn't a single option to turn on. There are two main options, projection extrapolation and extended FOV. For the projection extrapolation, the projection images
 can be extrapolated in the transaxial and/or axial directions, essentially top/bottom and left/right. Default extrapolation length is 20% (0.2) of the original size per direction, but this can be optionally adjusted with ``options.extrapLength``.
-The extrapolation is simple next/previous extrapolation, i.e. depending on the side either the previous or next value is used. The extrapolated data is then scaled logarithmically such that the very edge is air and the values scale
-towards this air value. Note that this step involves linearization of the data and then transforming it back into Poisson-based count data which can cause some numerical inaccuracy to the extrapolated regions. The original data
-is not affected by this. You can separately select the transaxial and axial extrapolations with ``options.transaxialExtrapolation`` and ``options.axialExtrapolation``, respectively. Extrapolation itself is enabled with 
+The extrapolation is simple next/previous extrapolation, i.e. depending on the side either the previous or next value is used. The extrapolated data can also be optionally scaled logarithmically such that the very edge is air and the values scale
+towards this air value from the original value taken from the edge of the original projection. Note that this step involves linearization of the data and then transforming it back into Poisson-based count data which can cause some numerical inaccuracy 
+to the extrapolated regions. Currently, this weighting is off by default, but you can enable it by setting ``options.useExtrapolationWeighting`` to true before the ``CTEFOVCorrection`` function is called. The original data is not affected by this. 
+You can separately select the transaxial and axial extrapolations with ``options.transaxialExtrapolation`` and ``options.axialExtrapolation``, respectively. Extrapolation itself is enabled with 
 ``options.useExtrapolation``.
 
 In addition to, or alternatively, you can use extended FOV. This simply extends the FOV, but does have some additional advantages to doing this manually. First, the image is automatically cropped to the original size, second 
