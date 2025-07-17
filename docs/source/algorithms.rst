@@ -1,5 +1,5 @@
-Algorithm info
-===============
+Algorithms
+==========
 
 This page describes some details on the algorithms. Mainly the image reconstruction algorithms and priors, but also on the different subset types. Note that listmode cases apply to any custom detector reconstructions.
 
