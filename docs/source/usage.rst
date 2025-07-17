@@ -283,14 +283,14 @@ Reconstruction specific settings
 
 Preconditioner settings
 ^^^^^^^^^^^^^^^^^^^^^^^
-| ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners. See :doc:`algorithms:preconditioners`.
+| ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners. See `Preconditioners <https://omega-doc.readthedocs.io/en/latest/algorithms.html#preconditioners>`_.
 | ``options.precondTypeMeas = [false;false];``, the selected measurement-based preconditioners.
 | ``options.filteringIterations = 0;``, the number of filtering iterations when using either of the filtering-based preconditioners. This includes sub-iterations!
 | ``options.gradV1 = 0.5;``, only used by precondTypeImage(5). See the article for details in :doc:`algorithms`.
 | ``options.gradV2 = 2.5;``, only used by precondTypeImage(5). See the article for details in :doc:`algorithms`.
 | ``options.gradInitIter = options.subsets;``, the iteration when precondTypeImage(5) is first used and computed.
 | ``options.gradLastIter = options.gradInitIter;``, the last iteration when the gradient of precondTypeImage(5) is computed. After this, the same gradient is used.
-| ``options.filterWindow = 'hamming';``, windowing type when using filtering-based preconditioners or FDK/FBP. Available windows are: hamming, hann, blackman, nuttal, parzen, cosine, gaussian, and shepp-logan.
+| ``options.filterWindow = 'hamming';``, windowing type when using filtering-based preconditioners or FDK/FBP. Available windows are: hamming, hann, blackman, nuttal, parzen, cosine, gaussian, shepp-logan and none. 
 | ``options.cutoffFrequency = 1;``, the cut-off frequency of the filtering window.
 | ``options.normalFilterSigma = 0.25;``, the sigma value of the Gaussian windowing.
 
@@ -311,16 +311,16 @@ Misc. settings
 
 Algorithm settings
 ^^^^^^^^^^^^^^^^^^
-| ``options.tauCP = 0;``, primal value for PDHG, and its variants, and FISTA
-| ``options.thetaCP = 1;``, the update parameter for PDHG.
+| ``options.tauCP = 0;``, primal value for PDHG, and its variants, and FISTA. Computed automatically if zero or empty.
+| ``options.thetaCP = 1;``, the update parameter for PDHG estimates.
 | ``options.sigmaCP = 1;``, dual value for PDHG.
 | ``options.sigma2CP = options.sigmaCP;`` dual value for TV or TGV. To increase convergence speed, it can be useful to use larger dual values for the regularization.
-| ``options.tauCPFilt = 0;``, primal value for the filtered steps when using filtering-based preconditioner.
+| ``options.tauCPFilt = 0;``, primal value for the filtered steps when using filtering-based preconditioner. Computed automatically if zero or empty.
 | ``options.powerIterations = 20;``, the number of power iterations performed to determine the primal value. Only used if primal value is zero or empty.
 | ``options.PDAdaptiveType = 0;``, adaptively updates the primal and dual values if 1 or 2. Different methods are used with 1 or 2, see :doc:`algorithms`.
 | ``options.computeRelaxationParameters = false;``, experimental feature that computes relaxation parameters based on the data, if true. Not really recommended.
 | ``options.relaxationScaling = false;``, experimental feature that tries to scale the relaxation parameters, if true. Not really recommended.
-| ``options.lambda = [];``, the relaxation parameters for all algorithms using relaxation. In Python this is ``lambdaN``.
+| ``options.lambda = [];``, the relaxation parameters for all algorithms using relaxation. In Python this is ``lambdaN``. If omitted, will be computed internally. See RAMLA in :doc:`algorithms`.
 | ``options.h = 2;`` acceleration factor for ACOSEM.
 | ``options.U = 10000;``, upper bound for MBSREM/MRAMLA.
 
@@ -344,3 +344,10 @@ Regularization settings
 | ``options.TVsmoothing = 1e-2;``, the "smoothing" value of TV, which prevents division and square root of zero.
 | ``options.TV_use_anatomical = false;``, if true, uses anatomical weighting with TV, when supported.
 | ``options.TVtype = 1;``, the "type" of TV. See :doc:`algorithms`. 
+| ``options.APLSsmoothing = 1e-5;``, the "smoothing" value of APLS, which prevents division and square root of zero.
+| ``options.Nlx = 1;``, the non-local patch window size in x-direction. The total amount is always (Nlx * 2 + 1). See :doc:`algorithms`.
+| ``options.Nly = 1;``, the non-local patch window size in y-direction. The total amount is always (Nly * 2 + 1). See :doc:`algorithms`.
+| ``options.Nlz = 1;``, the non-local patch window size in z-direction. The total amount is always (Nlz * 2 + 1). See :doc:`algorithms`.
+| ``options.RDP_gamma = 1;``, RDP "gamma" value that controls the edge preservation. Larger values make the reconstruction smoother, while smaller ones sharpen it.
+| ``options.use2DTGV = false;``, if true, computes the TGV only on 2D (slice) region, without taking into account the 3rd dimension. Reduces memory cost, but decreases reconstruction quality.
+| ``options.useL2Ball = true;``, if true, proximal TV and TGV are computed using L2 (ball). If false, L1 (ball) is used instead. Should have only a marginal effect on the reconstruction.
