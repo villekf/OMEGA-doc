@@ -109,17 +109,17 @@ All the below variables need to be input to the struct you give as input in MATL
 PET scanner variables
 ^^^^^^^^^^^^^^^^^^^^^
 | ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension. For PET, you can also use ``options.cr_p``.
-| ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension. For PET, you can also use ``options.cr_pz``.
-| ``options.cryst_per_block = 0;``, number of PET crystals per block.
+| ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension. For PET, you can also use ``options.cr_pz``. If you omit this, ``dPitchX`` will be used for column direction as well.
+| ``options.cryst_per_block = 0;``, number of PET crystals per block. Required if you wish to use built-in geometry.
 | ``options.linear_multip = 1;``, number of PET axial blocks.
-| ``options.blocks_per_ring = 1;``, the number of PET blocks per ring.
+| ``options.blocks_per_ring = 1;``, the number of PET blocks per ring. Required if you wish to use built-in geometry.
 | ``options.cryst_per_block_axial = options.cryst_per_block;``, the number of crystals per PET block in the axial direction.
 | ``options.transaxial_multip = 1;``, the number of crystal groups in one PET block.
 | ``options.rings = options.linear_multip * options.cryst_per_block;``, the number of PET crystal rings
 | ``options.det_per_ring = options.blocks_per_ring*options.cryst_per_block;``, number of detectors per ring.
 | ``options.det_w_pseudo = options.det_per_ring;``, number of detectors per ring including pseudo detectors.
 | ``options.detectors = options.det_w_pseudo*options.rings;``, total number of detectors.
-| ``options.diameter = 1;`` diameter of the PET scanner bore (mm).
+| ``options.diameter = 1;`` diameter of the PET scanner bore (mm). Required if you wish to use built-in geometry.
 | ``options.pseudot = [];``, the number of pseudo rings.
 | ``options.PET = false;``, used internally only. Should not be adjusted by the user! Set to true if subset type is 8-11 with PET data.
 | ``options.nLayers = 1;``, number of crystal layers.
@@ -129,18 +129,18 @@ CT scanner variables
 ^^^^^^^^^^^^^^^^^^^^
 | ``options.CT = false;``, if true computes the exact intersection length instead of probability. Also, when using built-in algorithms, uses the transmission tomography equivalents.
 | ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension.
-| ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension.
-| ``options.sourceOffsetRow = 0;``, same as above, but for row direction.
-| ``options.sourceOffsetCol = 0;``, the column offset (in mm) of the source location. Either a vector for all projections or a scalar.
+| ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension. If you omit this, ``dPitchX`` will be used for column direction as well.
+| ``options.sourceOffsetRow = 0;``, the row offset (in mm) of the source location. Either a vector for all projections or a scalar.
+| ``options.sourceOffsetCol = 0;``, same as above, but for column direction.
 | ``options.detOffsetRow = [];``, same as above, but for detector.
 | ``options.detOffsetCol = [];``, you know the drill.
 | ``options.pitchRoll = [];``, the pitch/yaw/roll values of the detector panel. See :doc:`geometry`.
 | ``options.sourceToCRot = 0;``, source to center-of-rotation-distance (mm).
 | ``options.sourceToDetector = 1;``, source to detector distance (mm).
-| ``options.nProjections = 0;``, total number of projections.
+| ``options.nProjections = 1;``, total number of projections.
 | ``options.binning = 1;``, binning value for CT projections when loading data. Only used when loading data with the built-in functions! If > 1, then the data is binned.
-| ``options.nRowsD = 0``, the number of detector pixels in the row direction.
-| ``options.nColsD = 0``, the number of detector pixels in the column direction.
+| ``options.nRowsD = 400``, the number of detector pixels in the row direction.
+| ``options.nColsD = 1``, the number of detector pixels in the column direction.
 
 SPECT scanner variables
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -165,19 +165,19 @@ Projector settings
 | ``options.meanFP = false;`` applies only to projector type 5 forward projection. This reduces the dynamic range of the integral images by subtracting the mean from it and then adding it back later. Should only be used if there are numerical issues.
 | ``options.meanBP = false;`` same as above, but for backprojection.
 | ``options.useFDKWeights = true;``, applies to FDK only. Uses specific FDK weights in backprojection if true.
-| ``options.dL = 0;``, the interpolation length for projector type 4. The relative size of the voxel, i.e. 1 would be the voxel size, 0.5 half the voxel size, etc.
-| ``options.useTotLength = true;``, PET only. If true, uses the entire ray/tube length/volume to compute the probability. If false, only the ray/tube inside the FOV is used.
+| ``options.dL = 0;``, the interpolation length for projector type 4. The relative size of the voxel, i.e. 1 would be the voxel size, 0.5 half the voxel size, etc. The default value is actually equal to the size of one voxel in the x-direction, but this is computed later.
+| ``options.useTotLength = true;``, PET only. If true, uses the entire ray/tube length/volume to compute the probability, i.e. from detector to detector. If false, only the ray/tube inside the FOV is used.
 
 Image volume settings
 ^^^^^^^^^^^^^^^^^^^^^
-| ``options.Nx/Ny/Nz``, the number of voxels per each dimension. 
+| ``options.Nx/Ny/Nz``, the number of voxels per each dimension. Nx and Ny HAVE to be input, but Nz is assumed to be 1 by default.
 | ``options.flip_image = false;`` if true, flips the image in the horizontal direction. This is done in the detector space and thus has no effect on the quality or speed of the reconstruction.
 | ``options.offangle = 0;``, rotates the image in the detector space with the specified amount. This is number of crystals in PET and degrees or radians in CT and SPECT. It is counter-clockwise for PET and CT, and clockwise for SPECT.
 | ``options.oOffsetX = 0;``, offset value (mm) of the center of the image FOV in x-direction. Move the FOV with this and the below values if it's not centered on origin.
 | ``options.oOffsetY = 0;``, offset value (mm) of the center of the image FOV in y-direction. 
 | ``options.oOffsetZ = 0;``, offset value (mm) of the center of the image FOV in z-direction. 
 | ``options.FOVa_y = options.FOVa_x;``, FOVa_x (mm) should always be input, but FOVa_y is not necessary. If not input, FOVa_y uses the same values as FOVa_x. These are the transaxial FOV sizes.
-| ``options.axial_fov = 0;``, axial FOV (mm). This should always be greater than zero!
+| ``options.axial_fov = 0;``, axial FOV (mm). This should always be greater than zero! If omitted, will use the size of the detector in the axial-direction, i.e. ``dPitchY``.
 | ``options.x0 = ones(options.Nx, options.Ny, options.Nz) * 1e-5;``, initial value of the reconstruction.
 
 Sinogram settings
@@ -186,27 +186,27 @@ Sinogram settings
 | ``options.Ndist = 400;``, number of radial positions (views) in sinogram.
 | ``options.Nang = options.det_w_pseudo / 2;``, number of angles (tangential positions) in sinogram.
 | ``options.ring_difference = options.rings - 1;``, the maximum ring difference in the sinogram.
-| ``options.NSinos = 0;``, total number of sinograms used in the reconstruction.
+| ``options.NSinos = 1;``, total number of sinograms used in the reconstruction.
 | ``options.TotSinos = options.NSinos;``, the total number of sinograms.
-| ``options.segment_table``, there are two different default values for this, depending on the ``span`` value. The amount of sinograms contained in each segment.
+| ``options.segment_table``, there are two different default values for this, depending on the ``span`` value. The amount of sinograms contained in each segment. If omitted, will be computed.
 | ``options.ndist_side = 1;``, if ``Ndist`` is even and you are loading sinogram data with OMEGA, this specifies where the "extra" row is taken. Can be either 1 or -1.
-| ``options.sampling = 1;`` increase the sampling of the sinogram. MATLAB/Octave only! I.e. interpolates more rows/columns to the sinogram.
+| ``options.sampling = 1;`` increase the sampling of the sinogram. MATLAB/Octave only! I.e. interpolates more rows/columns to the sinogram. MATLAB/Octave only!
 | ``options.sampling_interpolation_method = 'linear';``, the interpolation type. All the methods are available that are supported by interp1 (see ``help interp1``).
-| ``options.fill_sinogram_gaps = false;``, if using pseudo detectors, you can interpolate those gaps when this is true. MATLAB/Octave only!
+| ``options.fill_sinogram_gaps = false;``, if using pseudo detectors, you can interpolate those gaps in the sinogram when this is true. MATLAB/Octave only!
 | ``options.gap_filling_method = 'fillmissing';``, the type of filling method for sinogram gaps. Either MATLAB's built-ins ``fillmissing`` or ``fillmissing2``, or ``inpaint_nans`` from file exchange. 
-| ``options.interpolation_method_fillmissing = 'linear';``, interpolation method for ``fillmissing``
+| ``options.interpolation_method_fillmissing = 'linear';``, interpolation method for ``fillmissing`` and ``fillmissing2``.
 | ``options.interpolation_method_inpaint = 0;``, interpolation method ``inpaint_nans``.
 
 Computing settings
 ^^^^^^^^^^^^^^^^^^
-| ``options.implementation = 2;``, the used implementation. MATLAB/Octave only! See :doc:`implementation` for details.
+| ``options.implementation = 2;``, the used implementation. MATLAB/Octave only! See :doc:`implementation` for details. In Python, the implementation is always 2.
 | ``options.use_CPU = false;``, if true, uses CPU to compute the reconstructions. Implementation 2 only. Not recommended and the available features is limited, for example projector types 4 and 5 are not supported.
 | ``options.use_CUDA = checkCUDA(options.use_device);``, if true, uses CUDA instead of OpenCL. On MATLAB/Octave the default value checks whether the selected device is CUDA-capable. On Python, the default is false.
 | ``options.useSingles = true;``, MATLAB/Octave only and implementation 4 only! If false, uses double precision instead when computing implementation 4 reconstructions.
 | ``options.largeDim = false;``, if true, uses :doc:`highdim`. Built-in algorithms only!
 | ``options.loadTOF = true;``, if false, only the current subset is transfered to the GPU. See :doc:`highdim`. Built-in algorithms only!
 | ``options.storeResidual = false;`` if true, outputs the residual, or primal-dual gap with PDHG and its variants for each (sub-)iteration. Works only for LS-based algorithms! Built-in algorithms only!
-| ``options.usingLinearizedData = false;``, if true, doesn't linearize the data if the algorithm requires linearization.
+| ``options.usingLinearizedData = false;``, if true, doesn't linearize the data if the algorithm requires linearized data.
 | ``options.use_device = 0;``, the GPU/OpenCL device used. In Python, this is ``deviceNum``.
 | ``options.platform = 0;``, the used OpenCL platform number. MATLAB/Octave only! Implementation 3 and 5 only! Does affect implementation 2 when using the projector operators, but not when using built-in algorithms.
 | ``options.useMAD = true;``, if true uses MAD with OpenCL and CUDA. Can increase computational speed but decrease accuracy very slightly.
@@ -215,7 +215,7 @@ Computing settings
 TOF settings
 ^^^^^^^^^^^^
 | ``options.TOF_bins = 1;``, the number of TOF bins.
-| ``options.TOF_bins_used = 1;``, the number of TOF bins used. Needs to be either the same as above or 1, in which case the TOF bins are summed together.
+| ``options.TOF_bins_used = options.TOF_bins;``, the number of TOF bins used. Needs to be either the same as above or 1, in which case the TOF bins are summed together.
 | ``options.TOF_FWHM = 0;``, TOF FWHM value in s.
 | ``options.TOF_width = 0;``, TOF width of each bin in s.
 
@@ -259,18 +259,18 @@ Correction settings
 
 GATE specific settings
 ^^^^^^^^^^^^^^^^^^^^^^
-| ``options.obtain_trues = false;``, applies to GATE data load only. If true, stores trues separately.
+| ``options.obtain_trues = false;``, applies to GATE data load only. If true, stores trues separately in ``SinTrues``.
 | ``options.reconstruct_trues = false;``, if the trues have been separately stored, reconstruct those if true.
-| ``options.store_scatter = false;``, applies to GATE data load only. If true, stores scatter separately. Set the type of scatter to store using the below variable.
+| ``options.store_scatter = false;``, applies to GATE data load only. If true, stores scatter separately. Set the type of scatter to store using the below variable. Stored in ``SinScatter``.
 | ``options.scatter_components = [1 1 0 0];``, the scatter to store. First: Compton in phantom. Second: Compton in detector. Third: Rayleigh in phantom. Fourth: Rayleigh in detector.
 | ``options.reconstruct_scatter = false;``, if true, reconstructs the previously stored scatter components.
-| ``options.store_randoms = false;``, applies to GATE data load only. If true, stores randoms separately.
-| ``options.source = false;``, applies to GATE data load only. If true, stores the "source image" or "ground truth", i.e. the number of photons emitted and detected per voxel.
+| ``options.store_randoms = false;``, applies to GATE data load only. If true, stores randoms separately. Stored in ``SinRandoms``.
+| ``options.source = false;``, applies to GATE data load only. If true, stores the "source image" or "ground truth", i.e. the number of photons emitted and detected per voxel. Uses the source coordinates the compile the ground truth image.
 
 Reconstruction specific settings
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-| ``options.subsets = 1;``, the number of subsets. Note that this has to be minimum of 1! Note that if you use forward/backward projection operators and want to use automatic subsets, you need to specify this!
-| ``options.subset_type = 8;``, the subset selection type. See :doc:`algorithms`. For PET data, it is recommended to use 1 instead of 8. In Python, this is ``subsetType``.
+| ``options.subsets = 1;``, the number of subsets. Note that this has to be minimum of 1! Note also that if you use forward/backward projection operators and want to use automatic subsets, you need to specify this before creating the class object (MATLAB/Octave) or initializing it (Python).
+| ``options.subset_type = 8;``, the subset selection type. See :doc:`algorithms`. For PET data, it is recommended to use 1 instead of 8. In Python, this is ``subsetType``, which can be used in MATLAB/Octave as well.
 | ``options.stochasticSubsetSelection = false;``, if true, the subsets are selected stochastically.
 | ``options.bedOffset = 0;``, offset value of the bed for multi-bed case. Should contain the offsets for each bed position. Built-in algorithms only!
 | ``options.nBed = 1;``, number of bed positions. Built-in algorithms only!
@@ -279,11 +279,11 @@ Reconstruction specific settings
 | ``options.Niter = 1;``, the total number of iterations when using built-in algorithms.
 | ``options.enforcePositivity = true;``, if true, enforces positivity with most algorithms, but not CGLS or LSQR. Note that most Poisson-based algorithms already are inherently positive. Built-in algorithms only!
 | ``options.FISTA_acceleration = false;``, if true, applies FISTA-type acceleration (momentum-based). Built-in algorithms only!
-| ``options.storeFP = false;``, if true, stores ALL forward projections. Built-in algorithms only!
+| ``options.storeFP = false;``, if true, stores ALL forward projections. Built-in algorithms only! This is the ``fp`` variable in some examples. Note that if you use subsets, the forward projection will be in the subset ordering, not in the original ordering. When not using subsets, these are automatically resized to the measurement data size.
 
 Preconditioner settings
 ^^^^^^^^^^^^^^^^^^^^^^^
-| ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners.
+| ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners. See :doc:`algorithms#preconditioners`.
 | ``options.precondTypeMeas = [false;false];``, the selected measurement-based preconditioners.
 | ``options.filteringIterations = 0;``, the number of filtering iterations when using either of the filtering-based preconditioners. This includes sub-iterations!
 | ``options.gradV1 = 0.5;``, only used by precondTypeImage(5). See the article for details in :doc:`algorithms`.

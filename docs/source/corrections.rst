@@ -12,7 +12,8 @@ Arc correction
 
 Arc correction is MATLAB/Octave and PET only feature! In general, it is not recommended to use arc correction, but with certain scanners it can help in reducing aliasing artifacts with single ray-based projectors. It can be enabled with ``options.arc_correction``.
 Internally arc correction uses the MATLAB function ``scatteredInterpolant`` to interpolate the sinograms, but if that function is not available then ``griddata`` is used instead. Arc correction can be a slow process, but if you own distributed computing
-toolbox that is automatically used and should speed up the process.
+toolbox that is automatically used and should speed up the process. You can control the interpolation type with ``options.arc_interpolation``. The supported ones are the same ones as the methods supported by ``scatteredInterpolant`` or ``griddata``. 
+Default type is linear.
 
 From the first OMEGA article: In arc correction the orthogonal distances between adjacent LORs with the same angle are made equidistant, 
 as the circular configuration of most PET designs causes the adjacent LORs not to be equidistant. Using the 
