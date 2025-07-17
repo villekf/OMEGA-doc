@@ -122,7 +122,7 @@ Use parallel beam setup by setting ``options.useParallelBeam`` to true.
 Any data
 --------
 
-Any data can also be used, if you input your own custom detector coordinates, or source-detector pairs, depending on the setup. In such a case,
+Any type of data can also be used, if you input your own custom detector coordinates, or source-detector pairs, depending on the setup. In such a case,
 you only need to input the FOV sizes and the number of voxels per axis in the final image. Optionally also the object offsets (for example 
 ``options.oOffsetX``) if you wish to move the image volume from the origin (the volume is always by default centered on the origin). 
 ``options.x`` should include the source coordinates for the X, Y and Z directions, and the detector coordinates for X, Y and Z, for EACH measurement. 
