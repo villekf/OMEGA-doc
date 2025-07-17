@@ -157,6 +157,22 @@ Slower to converge than OSEM. Can be used with or without subsets. Note that the
 the number of iterations, if the variable is omitted or if it's zero. If you wish to enter your own relaxation parameters, make sure that the number of relaxation values equals the number of iterations! 
 Not recommended for CT but has transmission tomography based version implemented. See BSREM for regularized version.
 
+Internally the relaxation parameters are computed as follows:
+
+.. code-block:: matlab
+
+	if options.stochasticSubsetSelection
+		for i = 1 : options.Niter
+			lambda(i) = 1 / (0.4/options.subsets * i + 1);
+		end
+	else
+		for i = 1 : options.Niter
+			lambda(i) = 1 / ((i - 1)/20 + 1);
+		end
+	end
+	
+For CT, the values are further divided by 10000.
+
 ET version based on: https://doi.org/10.1109/42.538946
 
 MRAMLA
