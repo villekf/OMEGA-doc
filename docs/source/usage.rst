@@ -283,7 +283,7 @@ Reconstruction specific settings
 
 Preconditioner settings
 ^^^^^^^^^^^^^^^^^^^^^^^
-| ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners. See :doc:`algorithms#preconditioners <algorithms>`.
+| ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners. See :doc:`algorithms:preconditioners`.
 | ``options.precondTypeMeas = [false;false];``, the selected measurement-based preconditioners.
 | ``options.filteringIterations = 0;``, the number of filtering iterations when using either of the filtering-based preconditioners. This includes sub-iterations!
 | ``options.gradV1 = 0.5;``, only used by precondTypeImage(5). See the article for details in :doc:`algorithms`.
