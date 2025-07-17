@@ -123,14 +123,15 @@ PET scanner variables
 | ``options.pseudot = [];``, the number of pseudo rings.
 | ``options.PET = false;``, used internally only. Should not be adjusted by the user! Set to true if subset type is 8-11 with PET data.
 | ``options.nLayers = 1;``, number of crystal layers.
+| ``options.DOI = 0;``, the depth of interaction (mm). Basically the ray/tube starts DOI mm deeper from the crystal if this is non-zero.
 
 CT scanner variables
 ^^^^^^^^^^^^^^^^^^^^
 | ``options.CT = false;``, if true computes the exact intersection length instead of probability. Also, when using built-in algorithms, uses the transmission tomography equivalents.
 | ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension.
 | ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension.
-| ``options.sourceOffsetCol = 0;``, the column offset (in mm) of the source location. Either a vector for all projections or a scalar.
 | ``options.sourceOffsetRow = 0;``, same as above, but for row direction.
+| ``options.sourceOffsetCol = 0;``, the column offset (in mm) of the source location. Either a vector for all projections or a scalar.
 | ``options.detOffsetRow = [];``, same as above, but for detector.
 | ``options.detOffsetCol = [];``, you know the drill.
 | ``options.pitchRoll = [];``, the pitch/yaw/roll values of the detector panel. See :doc:`geometry`.
