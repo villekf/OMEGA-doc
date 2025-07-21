@@ -47,6 +47,41 @@ after which you need to load the statistics and image packages
 
 Anisotropic diffusion MRP prior when using either implementation 1 or 4 does not work on Octave. A warning is produced if AD-MRP prior is used.
 
+Python
+^^^^^^
+
+Ignore this section if you intend to only use Octave or MATLAB.
+
+You need to have Python installed. Any version from 3.6 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You can install Python either manually or from the Microsoft Store.
+
+There are two ways you can install OMEGA itself for Python: through pip or manually.
+
+pip install
+***********
+
+If using pip, simply use ``pip install omegatomo``. Note that examples are not included in this case and prebuilt library files are included. 
+
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``pyopencl`` and/or ``cupy`` and ``torch`` packages installed.
+
+Manual install
+**************
+
+You'll need to add ``C:\path\to\OMEGA\source\Python`` to PYTHONPATH (you can do this easilly in Spyder in Tools --> PYTHONPATH manager). The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
+required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info. All packages can be installed through ``pip`` or ``conda``, e.g. ``pip install arrayfire``.
+
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. 
+
+Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
+The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
+
+Other notes
+***********
+
+If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
+
+If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
+
 C++ Compiler
 ^^^^^^^^^^^^
 
@@ -63,6 +98,8 @@ On Python, any version of Visual Studio should suffice.
 If you use Visual studio, OMEGA only requires "Desktop development with C++". No additional features need to be installed.
 
 MATLAB allows the use of `MinGW++ <https://se.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler>`_, but when using this compiler ArrayFire (implementation 2) will not work unless ArrayFire is built from the source with MinGW.
+
+See OMEGA section below on how to compile the code.
 
 OpenCL/CUDA
 ^^^^^^^^^^^
@@ -84,7 +121,7 @@ ArrayFire
 
 Ignore this section if you intend to only use custom reconstructions in Python with non-SPECT data.
 
-*These instructions are for MATLAB ONLY (when using Visual Studio):*
+*These instructions are for MATLAB and Python ONLY (when using Visual Studio):*
 
 On Windows simply download the Windows binary from https://arrayfire.com/download/ and install it. For more help on installing ArrayFire on Windows see http://arrayfire.org/docs/installing.htm#Windows. Make sure you add Arrayfire to PATH.
 
@@ -94,31 +131,26 @@ You'll need to build ArrayFire manually in order to get it to work. Furthermore,
 
 Make sure you add ArrayFire to PATH! The current user is fine if no other user uses OMEGA on the same computer.
 
-Python
-^^^^^^
-
-Ignore this section if you intend to only use Octave or MATLAB.
-
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You can install Python either manually or from the Microsoft Store.
-
-You'll need to add ``C:\path\to\OMEGA\source\Python`` to PYTHONPATH (you can do this easilly in Spyder in Tools --> PYTHONPATH manager). The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
-``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
-required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info. All packages can be installed through ``pip`` or ``conda``, e.g. ``pip install arrayfire``.
-
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. 
-
-Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
-The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
-
-If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
-
-If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
-
 OMEGA
 ^^^^^
 
+Python pip install
+******************
+
+The pip install doesn't include examples so you need to manually download those: https://github.com/villekf/OMEGA/tree/master/source/Python
+
+With the pip version, you shouldn't need to compile anything. However, if you run into issues with the precompiled files, you can manually compile everything too. For this you need to first ``from omegatomo.util.compile import compileOMEGA`` and then run
+``compileOMEGA()``. You can insert ArrayFire path with ``compileOMEGA('-A /path/to/arrayfire')`` and ROOT path with ``compileOMEGA('-R /path/to/ROOT')``. This can be done in an interactive session.
+
+Other cases
+***********
+
 Download either a release version from `releases <https://github.com/villekf/OMEGA/releases>`_, clone the current master with e.g. `GitHub desktop <https://desktop.github.com/>`_ or download an archive of the 
 `master-branch <https://github.com/villekf/OMEGA/archive/master.zip>`_. If you downloaded either a release or master branch archive, you need to extract the contents to the folder of your choosing. 
+
+MATLAB/Octave
++++++++++++++
+
 Alternatively, if you are using MATLAB, you can download the mltbx package (`OMEGA.-.Open-source.MATLAB.emission.tomography.software.mltbx`) from the `releases <https://github.com/villekf/OMEGA/releases>`_ and simply run 
 it in which case all the necessary folders will be automatically added to the MATLAB path.
 
@@ -131,11 +163,15 @@ To build all the necessary mex-files, simply run ``install_mex``.
 
 In case you have trouble compiling the mex-files, you can also try using the precompiled files on the `releases <https://github.com/villekf/OMEGA/releases>`_ page.
 
+Python
+++++++
+
 Below part can be ignored if you only use the custom reconstruction in Python or if you use only MATLAB/Octave.
 
-For Python, it is highly recommended to use Visual Studio as the C++ compiler! You can compile the necessary files by using "x64 Native Tools Command Prompt for VS 2022" (or 2019 or any other Visual studio version) 
-from the Windows start menu. In the command prompt, navigate to ``C:\path\to\OMEGA\source\Python`` and then run ``python3 compile.py`` or ``python compile.py``. 
-If ArrayFire was installed somewhere other than Program files, you'll need to specify its location with ``python3 compile.py -A C:\path\to\Arrayfire\v3``. For ROOT, similarly with ``python3 compile.py -R C:\path\to\root``
+For Python, it is highly recommended to use Visual Studio as the C++ compiler! User either Windows command prompt or Powershell. In the command prompt/shell, navigate to ``C:\path\to\OMEGA\source\Python`` and then run ``python3 compile.py`` 
+or ``python compile.py``. or ``py compile.py``. If ArrayFire was installed somewhere other than Program files, you'll need to specify its location with ``python3 compile.py -A C:\path\to\Arrayfire\v3``. For ROOT, similarly with 
+``python3 compile.py -R C:\path\to\root``. By default, the script should find a Visual Studio install if you are using either 2022, 2019 or 2017 releases. But if the script fails to find Visual Studio, you can also do the compilation 
+by using "x64 Native Tools Command Prompt for VS 2022" (or 2019 or any other Visual studio version) from the Windows start menu. The process is otherwise identical.
 
 Linux
 -----
@@ -174,18 +210,58 @@ after which you need to load the statistics and image packages
 
 Anisotropic diffusion MRP prior when using either implementation 1 or 4 does not work on Octave. A warning is produced if AD-MRP prior is used.
 
+Python
+^^^^^^
+
+Ignore this section if you intend to only use Octave or MATLAB.
+
+You need to have Python installed. Any version from 3.6 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro,
+e.g. ``sudo apt install python``, though often some version should be preinstalled.
+
+There are two ways you can install OMEGA itself for Python: through pip or manually.
+
+pip install
+***********
+
+If using pip, simply use ``pip install omegatomo``. Note that examples are not included in this case and prebuilt library files are included. 
+
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``pyopencl`` and/or ``cupy`` and ``torch`` packages installed.
+
+Manual install
+**************
+
+You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH (you can do this easilly in Spyder in Tools --> PYTHONPATH manager). The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
+required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info. All packages can be installed through ``pip`` or ``conda``, e.g. ``pip install arrayfire``.
+
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``.
+
+Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
+The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
+
+Other notes
+***********
+
+If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
+
+If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
+
 C++ Compiler
 ^^^^^^^^^^^^
 
-Ignore this section if you intend to only use custom reconstructions in Python.
+Ignore this section if you intend to only use custom reconstructions in Python. If the precompiled binaries work, you won't need to build anything.
 
-A C++ compiler should already be included, but gcc/g++ is recommended. Any version 4.7 or up should be sufficient. It is recommended to use the g++ version supported by your MATLAB version whenever possible, when using MATLAB, though newer versions should work almost all the time. Some combinations of MATLAB and g++, however, will lead to errors. See OMEGA section below for more details. List of supported compilers is available at https://www.mathworks.com/support/requirements/previous-releases.html.
+A C++ compiler should already be included, but gcc/g++ is recommended. Any version 4.7 or up should be sufficient. It is recommended to use the g++ version supported by your MATLAB version whenever possible, when using MATLAB, 
+though newer versions should work almost all the time. Some combinations of MATLAB and g++, however, will lead to errors. See OMEGA section below for more details. List of supported compilers is available 
+at https://www.mathworks.com/support/requirements/previous-releases.html.
 
 Octave should be fine in all cases.
 
 For Python, g++ is required. Version should not matter.
 
 On Ubuntu, you can install g++ with e.g. ``sudo apt install build-essential``.
+
+See OMEGA section below on how to compile the code.
 
 OpenCL/CUDA
 ^^^^^^^^^^^
@@ -213,55 +289,56 @@ ArrayFire
 
 Ignore this section if you intend to only use custom reconstructions in Python with non-SPECT data.
 
-Simply download the Linux binary from `ArrayFire <https://arrayfire.com/download/>`_ and install it. For more help on installing ArrayFire on Linux see `here <http://arrayfire.org/docs/installing.htm#Linux>`_. Note, however, that, if you are using the official binary, if you want simple install of OMEGA, you should install ArrayFire to the default location in ``/opt`` and secondly that you should rename, or simply delete if you are not using ArrayFire's graphic features (not used in OMEGA), all the ``libforge`` files in ``/opt/arrayfire/lib64`` to something else (e.g. ``libforge.so.old``). Alternatively, you can use a "`no-GL <http://arrayfire.s3.amazonaws.com/3.6.2/ArrayFire-no-gl-v3.6.2_Linux_x86_64.sh>`_" version, but it is an older version that should, nevertheless, work. Leaving the ``libforge.so`` files with their original names will most likely lead to crashes as of AF 3.9.0 and earlier (except the no-gl versions).
+Simply download the Linux binary from `ArrayFire <https://arrayfire.com/download/>`_ and install it. For more help on installing ArrayFire on Linux see `here <http://arrayfire.org/docs/installing.htm#Linux>`_. Note, however, that, if you are using the 
+official binary, if you want simple install of OMEGA, you should install ArrayFire to the default location in ``/opt``. Secondly, if you are using MATLAB and/or Octave, you should rename, or simply delete if you are not using ArrayFire's graphic features (not used in OMEGA), all 
+the ``libforge`` files in ``/opt/arrayfire/lib64`` to something else (e.g. ``libforge.so.old``). Alternatively, you can use a "`no-GL <http://arrayfire.s3.amazonaws.com/3.6.2/ArrayFire-no-gl-v3.6.2_Linux_x86_64.sh>`_" version, but it is an older 
+version that should, nevertheless, work. Leaving the ``libforge.so`` files with their original names will most likely lead to crashes as of AF 3.9.0 and earlier (except the no-gl versions) when using MATLAB or Octave.
 
 Alternatively, you can `build from source <https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-Linux>`_. If you are building ArrayFire from source, it is recommended to disable Forge (set ``AF_BUILD_FORGE`` to ``OFF``), otherwise you might get unstable behavior.
 
-Make sure you add ``/path/to/arrayfire/lib64`` (or ``/lib`` if you built from source) to ``LD_LIBRARY_PATH``! If you complete the instructions above and have sudo permission, you're fine. Otherwise, if you lack sudo permission you can add the library path with ``export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/arrayfire/lib64`` on Linux terminal. Note that if you want to avoid typing it everytime you open a terminal, you need to add it to .bashrc, .profile or something similar.
-
-Python
-^^^^^^
-
-Ignore this section if you intend to only use Octave or MATLAB.
-
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro, e.g. ``sudo apt install python``, though often some version should be preinstalled.
-
-You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH (you can do this easilly in Spyder in Tools --> PYTHONPATH manager). The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
-``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
-required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info. All packages can be installed through ``pip`` or ``conda``, e.g. ``pip install arrayfire``.
-
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``.
-
-Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
-The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
-
-If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
-
-If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
+Make sure you add ``/path/to/arrayfire/lib64`` (or ``/lib`` if you built from source) to ``LD_LIBRARY_PATH``! If you complete the instructions above and have sudo permission, you're fine. Otherwise, if you lack sudo permission you can add the library 
+path with ``export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/arrayfire/lib64`` on Linux terminal. Note that if you want to avoid typing it every time you open a terminal, you need to add it to .bashrc, .profile or something similar.
 
 OMEGA
 ^^^^^
 
-Download either a release version from `releases <https://github.com/villekf/OMEGA/releases>`_, clone the current master with e.g. `git clone https://github.com/villekf/OMEGA.git` or download an archive of the `master-branch <https://github.com/villekf/OMEGA/archive/master.zip>`_. If you downloaded either a release or master branch archive, you need to extract the contents to the folder of your choosing. Alternatively, if you are using MATLAB, you can download the mltbx package (``OMEGA.-.Open-source.MATLAB.emission.tomography.software.mltbx``) from the `releases <https://github.com/villekf/OMEGA/releases>`_ and simply run it in which case all the necessary folders will be automatically added to the MATLAB path.
+Python pip install
+******************
 
-Unless the MATLAB package was used, you need to add the source and mat-files folders to the MATLAB/Octave path (biograph-folder should be added if you intend to use mCT or Vision list-mode data files). In MATLAB you can do this by simply right clicking the folders and selecting "Add to path -> Selected folders" by selecting the OMEGA folder itself and selecting "Add to path -> Selected folders and subfolders". Alternatively, if you are using for example Octave, you can add the paths with ``addpath('/path/to/OMEGA/source')`` and ``addpath('/path/to/OMEGA/mat-files')`` or simply with ``addpath(genpath('/path/to/OMEGA/'))``. On MATLAB you can also add these folders to the list of folders in "Set path".
+The pip install doesn't include examples so you need to manually download those: https://github.com/villekf/OMEGA/tree/master/source/Python
 
-In Python, add ``/path/to/OMEGA/source/Python`` to PYTHONPATH.
+With the pip version, you shouldn't need to compile anything. However, if you run into issues with the precompiled files, you can manually compile everything too. For this you need to first ``from omegatomo.util.compile import compileOMEGA`` and then run
+``compileOMEGA()``. You can insert ArrayFire path with ``compileOMEGA('-A /path/to/arrayfire')`` and ROOT path with ``compileOMEGA('-R /path/to/ROOT')``. This can be done in an interactive session.
+
+Other cases
+***********
+
+Download either a release version from `releases <https://github.com/villekf/OMEGA/releases>`_, clone the current master with e.g. `git clone https://github.com/villekf/OMEGA.git` or download an archive of the 
+`master-branch <https://github.com/villekf/OMEGA/archive/master.zip>`_. If you downloaded either a release or master branch archive, you need to extract the contents to the folder of your choosing. 
+
+MATLAB/Octave
++++++++++++++
+
+Alternatively, if you are using MATLAB, you can download the mltbx package (``OMEGA.-.Open-source.MATLAB.emission.tomography.software.mltbx``) from the `releases <https://github.com/villekf/OMEGA/releases>`_ and simply run it in which case all the 
+necessary folders will be automatically added to the MATLAB path.
+
+Unless the MATLAB package was used, you need to add the source and mat-files folders to the MATLAB/Octave path (biograph-folder should be added if you intend to use mCT or Vision list-mode data files). In MATLAB you can do this by simply right clicking the 
+folders and selecting "Add to path -> Selected folders" by selecting the OMEGA folder itself and selecting "Add to path -> Selected folders and subfolders". Alternatively, if you are using for example Octave, you can add the paths 
+with ``addpath('/path/to/OMEGA/source')`` and ``addpath('/path/to/OMEGA/mat-files')`` or simply with ``addpath(genpath('/path/to/OMEGA/'))``. On MATLAB you can also add these folders to the list of folders in "Set path".
 
 To build all the necessary mex-files, simply run ``install_mex``. If ArrayFire was installed in some non-standard folder, the compilation might not work unless you include the folder to ``install_mex``. This can be done with
 ``install_mex(0, [], [], '/path/to/Arrayfire')``. See ``help install_mex`` for more details.
-
-The below compilation is not required if you only use custom reconstruction in Python.
-
-In Python, navigate to ``/path/to/OMEGA/source/Python`` in terminal and run ``python compile.py`` (or ``python3 compile.py``) to compile the library files. If ArrayFire was not installed in ``opt`` add the path with ``python compile.py -A /path/to/arrayfire``.
 
 In case you have trouble compiling the mex-files or the library-files, you can also try using the precompiled files on the `releases <https://github.com/villekf/OMEGA/releases>`_ page.
 
 *MATLAB troubleshooting*
 
-If you are using MATLAB R2017b or EARLIER, you will most likely encounter problems when running the mex-files. The same can also happen if you use the latest gcc/g++ with MATLAB 2020a or earlier. One alternative is to install the supported compiler of the MATLAB version in use (see `here <https://www.mathworks.com/support/requirements/previous-releases.html>`_) and then re-run ``install_mex`` (the supported compiler is used if available). Alternatively, you can try one of solutions presented `here <https://www.mathworks.com/matlabcentral/answers/329796-issue-with-libstdc-so-6>`_ or try the precompiled mex-files from `releases <https://github.com/villekf/OMEGA/releases>`_. In short there are mainly three possibilities:
+If you are using MATLAB R2017b or EARLIER, you will most likely encounter problems when running the mex-files. The same can also happen if you use the latest gcc/g++ with MATLAB 2020a or earlier. One alternative is to install the supported compiler 
+of the MATLAB version in use (see `here <https://www.mathworks.com/support/requirements/previous-releases.html>`_) and then re-run ``install_mex`` (the supported compiler is used if available). Alternatively, you can try one of solutions 
+presented `here <https://www.mathworks.com/matlabcentral/answers/329796-issue-with-libstdc-so-6>`_ or try the precompiled mex-files from `releases <https://github.com/villekf/OMEGA/releases>`_. In short there are mainly three possibilities:
 
-1. Install the compiler that MATLAB supports. If you are using, for example, Ubuntu 20, you can install older g++ as outlined `here <https://askubuntu.com/questions/1229774/how-to-use-an-older-version-of-gcc>`_. Note that you need to install g++ (e.g. ``sudo apt install g++-6``). If you are using R2017b or earlier, see `here <https://askubuntu.com/questions/1036108/install-gcc-4-9-at-ubuntu-18-04>`_. Then simply re-run ``install_mex``.
+1. Install the compiler that MATLAB supports. If you are using, for example, Ubuntu 20, you can install older g++ as outlined `here <https://askubuntu.com/questions/1229774/how-to-use-an-older-version-of-gcc>`_. Note that you need to install 
+g++ (e.g. ``sudo apt install g++-6``). If you are using R2017b or earlier, see `here <https://askubuntu.com/questions/1036108/install-gcc-4-9-at-ubuntu-18-04>`_. Then simply re-run ``install_mex``.
 
 2. Locate the system version of libstdc++.so.6 and create an alias in .bashrc for MATLAB to use this one, for example:
 ``alias matlab='LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 /path/to/MATLAB/bin/matlab -desktop'``. Or simply run MATLAB with the same ``LD_PRELOAD``.
@@ -271,7 +348,8 @@ e.g. ``sudo mv /path/to/MATLAB/sys/os/glnxa64/libstdc++.so.6 /path/to/MATLAB/sys
 
 *ROOT support*
 
-When importing ROOT data, you might run into errors (the crashes with R2018b and earlier can be fixed by running MATLAB with ``matlab -nojvm``, however, errors can still occur after this). These occur if you are using ROOT 6.16 or later and are using MATLAB (Octave and Python are unaffected). R2020b (and probably newer ones later) is unaffected. These errors can be fixed by similar methods as above with two additional possibilities: 
+When importing ROOT data, you might run into errors (the crashes with R2018b and earlier can be fixed by running MATLAB with ``matlab -nojvm``, however, errors can still occur after this). These occur if you are using ROOT 6.16 or later and are using 
+MATLAB (Octave and Python are unaffected). R2020b (and probably newer ones later) is unaffected. These errors can be fixed by similar methods as above with two additional possibilities: 
 
 1. Locate the ROOT version of libtbb.so.2 and create an alias in .bashrc for MATLAB to use this one, for example:
 ``alias matlab='LD_PRELOAD=/opt/root/lib/libtbb.so.2 /path/to/MATLAB/bin/matlab -desktop'``. Or simply run MATLAB with the same ``LD_PRELOAD``.
@@ -282,6 +360,15 @@ e.g. ``sudo mv /path/to/MATLAB/bin/glnxa64/libtbb.so.2 /path/to/MATLAB/bin/glnxa
 3. Install ROOT 6.14 or earlier.
 
 4. Use Octave or Python for ROOT data import.
+
+Python
+++++++
+
+In Python, add ``/path/to/OMEGA/source/Python`` to PYTHONPATH.
+
+The below compilation is not required if you only use custom reconstruction in Python.
+
+In Python, navigate to ``/path/to/OMEGA/source/Python`` in terminal and run ``python compile.py`` (or ``python3 compile.py``) to compile the library files. If ArrayFire was not installed in ``opt`` add the path with ``python compile.py -A /path/to/arrayfire``.
 
 Mac
 ---
@@ -324,6 +411,42 @@ after which you need to load the statistics and image packages
 
 Anisotropic diffusion MRP prior when using either implementation 1 or 4 does not work on Octave. A warning is produced if AD-MRP prior is used.
 
+Python
+^^^^^^
+
+Ignore this section if you intend to only use Octave or MATLAB.
+
+You need to have Python installed. Any version from 3.6 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! You should install Python using your the package manager of your distro,
+e.g. ``sudo apt install python``, though often some version should be preinstalled.
+
+There are two ways you can install OMEGA itself for Python: through pip or manually.
+
+pip install
+***********
+
+If using pip, simply use ``pip install omegatomo``. Note that examples are not included in this case and prebuilt library files are included. 
+
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``pyopencl`` and/or ``cupy`` and ``torch`` packages installed.
+
+Manual install
+**************
+
+You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
+``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
+required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info.
+
+Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
+
+Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
+The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
+
+Other notes
+***********
+
+If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
+
+If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
+
 C++ Compiler
 ^^^^^^^^^^^^
 
@@ -354,32 +477,27 @@ Simply download the Mac binary from `ArrayFire <https://arrayfire.com/download/>
 
 Alternatively, you can `build from source <https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-OSX>`_.
 
-Python
-^^^^^^
-
-Ignore this section if you intend to only use Octave or MATLAB.
-
-You need to have Python installed. Any version from 3.8 and up should work, though most likely earlier versions work also. Note that Python 3.12 hasn't been tested! 
-
-You'll need to add ``/path/to/OMEGA/source/Python`` to PYTHONPATH. The only required package is NumPy (``numpy``). ``scikit-image`` is required if you use extended FOV or binning.
-``pymatreader`` is required in order to load mat-files, this is mainly for precomputed data, such as example data used by OMEGA examples. ``SimpleITK`` is 
-required to load MetaImage-files, this is mainly for PET such as GATE attenuation images. ``arrayfire`` is highly recommended, as it allows to display device info.
-
-Furthermore, if you want to use the custom algorithm reconstruction, you'll need ``arrayfire`` and ``pyopencl`` or ``cupy`` and ``torch``. All packages can be installed through ``pip`` or ``conda``.
-
-Note that with ``pymatreader``, you can load measurement data from mat-files, which is useful when running the examples as many of them utilize the precomputed mat-files. MATLAB and/or Octave is NOT required.
-The benefit of using ``pymatreader`` instead of SciPy is that ``pymatreader`` supports both v7 and v7.3 mat-files. SciPy only supports v7 mat-files.
-
-If you want to load ROOT data, you'll need to make sure that PyROOT is in PYTHONPATH.
-
-If you want to compute your own algorithms with OpenCL using Arrayfire, take into account this issue: https://github.com/arrayfire/arrayfire-python/issues/265 and this as well if you use CUDA device: https://github.com/arrayfire/arrayfire-python/issues/267
-
 OMEGA
 ^^^^^
 
+Python pip install
+******************
+
+The pip install doesn't include examples so you need to manually download those: https://github.com/villekf/OMEGA/tree/master/source/Python
+
+With the pip version, you shouldn't need to compile anything. However, if you run into issues with the precompiled files, you can manually compile everything too. For this you need to first ``from omegatomo.util.compile import compileOMEGA`` and then run
+``compileOMEGA()``. You can insert ArrayFire path with ``compileOMEGA('-A /path/to/arrayfire')`` and ROOT path with ``compileOMEGA('-R /path/to/ROOT')``. This can be done in an interactive session.
+
+Other cases
+***********
+
 Download either a release version from `releases <https://github.com/villekf/OMEGA/releases>`_, clone the current master with e.g. `git clone https://github.com/villekf/OMEGA.git` or download an archive of the 
-`master-branch <https://github.com/villekf/OMEGA/archive/master.zip>`_. If you downloaded either a release or master branch archive, you need to extract the contents to the folder of your choosing. Alternatively, 
-if you are using MATLAB, you can download the mltbx package (``OMEGA.-.Open-source.MATLAB.emission.tomography.software.mltbx``) from the `releases <https://github.com/villekf/OMEGA/releases>`_ and simply run it in 
+`master-branch <https://github.com/villekf/OMEGA/archive/master.zip>`_. If you downloaded either a release or master branch archive, you need to extract the contents to the folder of your choosing. 
+
+MATLAB/Octave
++++++++++++++
+
+Alternatively, if you are using MATLAB, you can download the mltbx package (``OMEGA.-.Open-source.MATLAB.emission.tomography.software.mltbx``) from the `releases <https://github.com/villekf/OMEGA/releases>`_ and simply run it in 
 which case all the necessary folders will be automatically added to the MATLAB path.
 
 Unless the MATLAB package was used, you need to add the source and mat-files folders to the MATLAB/Octave path (biograph-folder should be added if you intend to use mCT or Vision list-mode data files). In MATLAB you can 
@@ -390,6 +508,9 @@ these folders to the list of folders in "Set path".
 To build all the necessary mex-files in MATLAB or Octave, simply run ``install_mex``. If ArrayFire was installed in some non-standard folder, the compilation might not work unless you include the folder to ``install_mex``. This can be done with
 ``install_mex(0, [], [], '/path/to/Arrayfire')``. See ``help install_mex`` for more details.
 
+Python
+++++++
+
 The below compilation is not required if you only use custom reconstruction in Python.
 
 In Python, navigate to ``/path/to/OMEGA/source/Python`` in terminal and run ``python compile.py`` to compile the library files. If ArrayFire was not installed in ``opt`` add the path with ``python compile.py -A /path/to/arrayfire``.
@@ -399,7 +520,8 @@ Optional software
 
 This section describes the optional software that can be used in OMEGA, but which are not required for any of the core functions. Most of these are for MATLAB only.
 
-If you wish to use NIfTI data or save data as NIfTI format, on MATLAB you'll need EITHER image processing toolbox OR `Tools for NIfTI and ANALYZE image <https://se.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image>`_. For Octave, only Tools for NIfTI and ANALYZE image can be used, though it hasn't been tested. For Python you can try `NiBabel <https://nipy.org/nibabel/>`_.
+If you wish to use NIfTI data or save data as NIfTI format, on MATLAB you'll need EITHER image processing toolbox OR `Tools for NIfTI and ANALYZE image <https://se.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image>`_. 
+For Octave, only Tools for NIfTI and ANALYZE image can be used, though it hasn't been tested. For Python you can try `NiBabel <https://nipy.org/nibabel/>`_.
 
 For Analyze data, you'll need the above `Tools for NIfTI and ANALYZE image <https://se.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image>`_ in all cases.
 
@@ -407,4 +529,5 @@ For DICOM data, you'll need image processing toolbox on MATLAB and `dicom packag
 
 For 3D volumetric visualization, there is built-in support for `vol3d <https://www.mathworks.com/matlabcentral/fileexchange/22940-vol3d-v2>`_ in `visualize_pet.m <https://github.com/villekf/OMEGA/blob/master/visualize_pet.m#L344>`_.
 
-For random subset sampling (``subset_type = 3``), `Shuffle <https://www.mathworks.com/matlabcentral/fileexchange/27076-shuffle>`_ can speed up the process as it is both faster and more memory efficient than the built-in function. Note that you need to enable this by setting ``options.shuffle = true``. MATLAB only!
+For random subset sampling (``subset_type = 3``), `Shuffle <https://www.mathworks.com/matlabcentral/fileexchange/27076-shuffle>`_ can speed up the process as it is both faster and more memory efficient than the built-in function. Note that you need to 
+enable this by setting ``options.shuffle = true``. MATLAB only!
