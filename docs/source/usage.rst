@@ -110,10 +110,10 @@ PET scanner variables
 ^^^^^^^^^^^^^^^^^^^^^
 | ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension. For PET, you can also use ``options.cr_p``.
 | ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension. For PET, you can also use ``options.cr_pz``. If you omit this, ``dPitchX`` will be used for column direction as well.
-| ``options.cryst_per_block = 0;``, number of PET crystals per block. Required if you wish to use built-in geometry.
+| ``options.cryst_per_block = 0;``, number of PET crystals per block. Required if you wish to use built-in geometry. Can be a vector of two variables if dual-layer PET. The second element is for outer layer.
 | ``options.linear_multip = 1;``, number of PET axial blocks.
 | ``options.blocks_per_ring = 1;``, the number of PET blocks per ring. Required if you wish to use built-in geometry.
-| ``options.cryst_per_block_axial = options.cryst_per_block;``, the number of crystals per PET block in the axial direction.
+| ``options.cryst_per_block_axial = options.cryst_per_block;``, the number of crystals per PET block in the axial direction. Can be a vector of two variables if dual-layer PET. The second element is for outer layer.
 | ``options.transaxial_multip = 1;``, the number of crystal groups in one PET block.
 | ``options.rings = options.linear_multip * options.cryst_per_block;``, the number of PET crystal rings
 | ``options.det_per_ring = options.blocks_per_ring*options.cryst_per_block;``, number of detectors per ring.
@@ -122,8 +122,9 @@ PET scanner variables
 | ``options.diameter = 1;`` diameter of the PET scanner bore (mm). Required if you wish to use built-in geometry.
 | ``options.pseudot = [];``, the number of pseudo rings.
 | ``options.PET = false;``, used internally only. Should not be adjusted by the user! Set to true if subset type is 8-11 with PET data.
-| ``options.nLayers = 1;``, number of crystal layers.
 | ``options.DOI = 0;``, the depth of interaction (mm). Basically the ray/tube starts DOI mm deeper from the crystal if this is non-zero.
+| ``options.nLayers = 1;``, number of crystal layers. Relevant only for sinogram reconstruction and can be at most 2. Note that the experimental sinogram dual-layer PET only works in MATLAB/Octave,
+| ``options.crystH = [];``, the crystal height (mm) of the innermost crystal for dual-layer PET. Note that diameter should not include this!
 
 CT scanner variables
 ^^^^^^^^^^^^^^^^^^^^
