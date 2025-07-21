@@ -16,7 +16,8 @@ PET, CT and SPECT have quite different main-file compositions due to different p
 are unchanged between different modalities. It is not necessary to use these main-files and not every variable present in the main-files is necessary. In the simplest form, only the source-detector coordinates, the size of the FOV
 and the number of voxels are required.
 
-Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in ``/path/to/OMEGA/source/Python``. 
+Examples for MATLAB/Octave are contained in the main-files folder. For Python these are in ``/path/to/OMEGA/source/Python``. Alternatively, you can find the MATLAB/Octave examples from https://github.com/villekf/OMEGA/tree/master/main-files and Python
+examples from https://github.com/villekf/OMEGA/tree/master/source/Python
 
 In general OMEGA uses units millimeter (mm) and seconds (s).
 
