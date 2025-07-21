@@ -5,12 +5,23 @@ Installation
    :depth: 15
    :local:
 
+As a general rule, if you want to use `built-in algorithms <https://omega-doc.readthedocs.io/en/latest/reconstruction.html#built-in-reconstruction>`_, you MUST also install ArrayFire and either OpenCL or CUDA!
+
 The general steps to install OMEGA are as follows:
+
+MATLAB/Octave
+^^^^^^^^^^^^^
 
 * Install a C++-compiler if one is not already installed
 * (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
 * Obtain OMEGA and add the necessary folders to the MATLAB/Octave path or PYTHONPATH with Python
 * Run ``install_mex`` in MATLAB or Octave or ``compile.py`` with Python
+
+Python
+^^^^^^
+
+* Install with ``pip install omegatomo``
+* (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
 
 Windows
 -------
