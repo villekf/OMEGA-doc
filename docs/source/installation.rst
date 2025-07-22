@@ -10,15 +10,15 @@ As a general rule, if you want to use `built-in algorithms <https://omega-doc.re
 The general steps to install OMEGA are as follows:
 
 MATLAB/Octave
-^^^^^^^^^^^^^
+-------------
 
 * Install a C++-compiler if one is not already installed
 * (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
 * Obtain OMEGA and add the necessary folders to the MATLAB/Octave path or PYTHONPATH with Python
-* Run ``install_mex`` in MATLAB or Octave or ``compile.py`` with Python
+* Run ``install_mex`` in MATLAB or Octave
 
 Python
-^^^^^^
+------
 
 * Install with ``pip install omegatomo``
 * (Optional) Install OpenCL, ArrayFire, ROOT, drivers/runtimes, OpenMP and/or CUDA
