@@ -86,6 +86,8 @@ Any data
  * Priors/regularization computed only in the main volume
  * Automatic cropping of the image
 * Dynamic reconstruction with static algorithms
+* Supports randoms/scatter smoothing
+* Supports pre-correcting the sinogram
 
 PET features
 ^^^^^^^^^^^^
@@ -120,6 +122,9 @@ PET features
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
 * Preliminary support for dual-layer PET
  * With index-based or listmode reconstruction, even multi-layer is possible
+* Supports arc correction for PET
+* Supports randoms variance reduction (PET only)
+* Supports increasing the sampling (i.e. interpolation) of PET sinograms
 
 CT features
 ^^^^^^^^^^^
@@ -138,6 +143,7 @@ CT features
  * Supports hybrid projectors
 * Supports projection image extrapolation
  * Automatically extrapolate and weight projections to fix out-of-FOV artifacts
+ * Optional log-based weighting
 * Supports offset correction
  * Offset weights can be automatically computed
  * Each projection has their own weight
@@ -205,15 +211,10 @@ MATLAB/GNU Octave only
  * Supports the system matrix approach, OpenCL or OpenMP (CPU)
  * For SPECT, only OpenMP version is available
 * Visualization function that does not require any toolboxes
-* Supports arc correction for PET (MATLAB only)
-* Supports randoms/scatter smoothing
-* Supports randoms variance reduction (PET only)
 * Supports computation of the normalization coefficients from a normalization measurement (PET only)
  * Component-based
-* Supports increasing the sampling (i.e. interpolation) of PET sinograms
 * Supports sinogram gap filling
 * Supports scaling of CT-based attenuation coefficient to 511 keV attenuation coefficients
-* Supports pre-correcting the sinogram
 * Allows to automatically crop voxelized phantoms/sources for MC simulations
 * Individual functions to load MetaImage or Interfile data
 * Few additional priors
@@ -232,3 +233,6 @@ Python only
   * Note that OMEGA is column-major while PyTorch is row-major!
   * Use Fortran-ordering with CuPy
  * Any package that supports PyOpenCL or CuPy can be combined with OMEGA
+* Supports standalone regularization functions
+ * As with above, interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, CuPy, and PyTorch with CuPy
+ * Compute RDP, GGMRF, TV (gradient-based), hyperbolic prior, or non-local regularization methods with any data

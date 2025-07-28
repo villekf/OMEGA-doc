@@ -191,8 +191,8 @@ Sinogram settings
 | ``options.TotSinos = options.NSinos;``, the total number of sinograms.
 | ``options.segment_table``, there are two different default values for this, depending on the ``span`` value. The amount of sinograms contained in each segment. If omitted, will be computed.
 | ``options.ndist_side = 1;``, if ``Ndist`` is even and you are loading sinogram data with OMEGA, this specifies where the "extra" row is taken. Can be either 1 or -1.
-| ``options.sampling = 1;`` increase the sampling of the sinogram. MATLAB/Octave only! I.e. interpolates more rows/columns to the sinogram. MATLAB/Octave only!
-| ``options.sampling_interpolation_method = 'linear';``, the interpolation type. All the methods are available that are supported by interp1 (see ``help interp1``).
+| ``options.sampling = 1;`` increase the sampling of the sinogram. MATLAB/Octave only! I.e. interpolates more rows/columns to the sinogram.
+| ``options.sampling_interpolation_method = 'linear';``, the interpolation type. All the methods are available that are supported by interp2 (see ``help interp2``). Not used in Python.
 | ``options.fill_sinogram_gaps = false;``, if using pseudo detectors, you can interpolate those gaps in the sinogram when this is true. MATLAB/Octave only!
 | ``options.gap_filling_method = 'fillmissing';``, the type of filling method for sinogram gaps. Either MATLAB's built-ins ``fillmissing`` or ``fillmissing2``, or ``inpaint_nans`` from file exchange. 
 | ``options.interpolation_method_fillmissing = 'linear';``, interpolation method for ``fillmissing`` and ``fillmissing2``.
@@ -211,7 +211,7 @@ Computing settings
 | ``options.use_device = 0;``, the GPU/OpenCL device used. In Python, this is ``deviceNum``.
 | ``options.platform = 0;``, the used OpenCL platform number. MATLAB/Octave only! Implementation 3 and 5 only! Does affect implementation 2 when using the projector operators, but not when using built-in algorithms.
 | ``options.useMAD = true;``, if true uses MAD with OpenCL and CUDA. Can increase computational speed but decrease accuracy very slightly.
-| ``options.useImages = true;``, if true, uses OpenCL images/CUDA textures, instead of buffers.
+| ``options.useImages = true;``, if true, uses OpenCL images/CUDA textures, instead of buffers. If you're using CPU as an OpenCL device, setting this to ``false`` might speed up reconstructions.
 
 TOF settings
 ^^^^^^^^^^^^
@@ -223,6 +223,7 @@ TOF settings
 Correction settings
 ^^^^^^^^^^^^^^^^^^^
 | ``options.randoms_correction = false;``, if true, applies randoms correction. Randoms data must be supplied either in ``SinDelayed`` or in precomputed mat-file!
+| ``options.SinDelayed = [];``, the randoms data.
 | ``options.variance_reduction = false;``, if true, applies variance reduction to randoms data. 
 | ``options.randoms_smoothing = false;``, if true, smooths the randoms with 7x7 moving mean.
 | ``options.scatter_correction = false;``, if true, applies scatter correction. Scatter data must be input by the user into ``ScatterC``.
@@ -246,17 +247,20 @@ Correction settings
 | ``options.normalization_correction = false;``, if true, applies normalization correction to the reconstruction, either as a precorrection or during the reconstruction.
 | ``options.use_user_normalization = false;``, if true, then assumes that the user has the normalization correction data. This will be prompted and should be either a mat-file or nrm-file.
 | ``options.normalization = []``, alternatively, input the normalization data into here.
-| ``options.arc_correction = false;``, if true, applies arc correction to the sinogram. MATLAB/Octave only!
-| ``options.arc_interpolation = 'linear';``, interpolation type of the arc correction. Applies only if above is true.
+| ``options.arc_correction = false;``, if true, applies arc correction to the sinogram.
+| ``options.arc_interpolation = 'linear';``, interpolation type of the arc correction. Applies only if above is true. See ``scatteredInterpolant`` or ``griddata`` (fallback, in Octave the only option) in MATLAB. See ``griddata`` in Python.
 | ``options.global_correction_factor = [];`` a global constant that is applied to all forward/backward projection computations.
 | ``options.corrections_during_reconstruction = true;``, if true, all corrections are applied during reconstruction. If false, randoms, scatter, and/or normalization correction is/are done as a precorrection. Attenuation correction is always applied during the reconstruction.
 | ``options.useEFOV = false;``, use extended FOV.
 | ``options.eFOVLength = 0.4;``, the extended FOV size, per side. I.e. the total size is increased by 80% with this value.
 | ``options.useExtrapolation = false;``, use projection extrapolation if true.
 | ``options.extrapLength = 0.2;``, the extrapolated projection amount per side. I.e. the total size is increased by 40% with this value.
+| ``options.useExtrapolationWeighting = false;``, if true, uses a log-based weighting on the extrapolated projection parts. This means that the values will "fade" into air values using logarithmic weighting. Can be useful if the regions in the projections should not continue for the whole extrapolated length.
+| ``options.useInpaint = false;``, if true, uses the MATLAB file exchange function ``inpaint_nans`` to perform the extrapolation of the projections. Not recommended. Requires ``inpaint_nans``.
 | ``options.useMultiResolutionVolumes = false;``, use multi-resolution reconstruction. Replaces the extended FOV region with a region with different voxel size. See below for the parameter to adjust.
 | ``options.multiResolutionScale = .25;``, the reduced resolution of multi-resolution volumes. In this case .25 means that the resolution is 25% of the original, i.e. voxel size is 4 times larger.
 | ``options.offsetCorrection = false;``, if true, uses offset correction.
+| ``options.ordinaryPoisson = options.corrections_during_reconstruction``, even if ``options.corrections_during_reconstruction`` is set to true, setting this to false will cause randoms and/or scatter to be precorrected.
 
 GATE specific settings
 ^^^^^^^^^^^^^^^^^^^^^^
