@@ -236,3 +236,24 @@ Python only
 * Supports standalone regularization functions
  * As with above, interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, CuPy, and PyTorch with CuPy
  * Compute RDP, GGMRF, TV (gradient-based), hyperbolic prior, or non-local regularization methods with any data
+ 
+ 
+Features missing from Python
+----------------------------
+
+* Subset type 10
+ * Might be included in the future
+* ASCII data support for GATE
+ * Probably won't be included
+* Biograph support
+ * Probably won't be included
+* FMH and L-filter
+ * Might be included in the future
+* Sinogram gap filling
+ * Probably won't be included
+* Automatic crop of voxelized phantoms/sources
+ * Might be included in the future
+* CT attenuation coefficient scaling functions
+ * Might be included in the future
+* Computation of the normalization coefficients from a normalization measurement
+ * Will most likely be included in the future
