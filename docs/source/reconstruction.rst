@@ -25,8 +25,17 @@ Using the forward and/or backward projection operators
 Alternatively, the user can manually compute any and all algorithms and simply call the OMEGA forward (Ax) and/or backward (A^Ty) projection operators. In such cases, the user is responsible for the number of iterations and any and all algorithm-
 specific settings. Note that by default emission tomography is assumed! You can switch to CT-style (intersection length, not probability) with ``options.CT`` as true. This should be applied even if you don't use CT data, but are not using emission
 tomography either. Note that when using subsets handled by OMEGA with the forward and/or backward projection operators, you need to manually make sure that the data is ordered into the subsets correctly. OMEGA can provide the indices, but the user has
-to perform the actual sorting operation using the indices. The examples include several subset cases. Note that when using subsets, you need to input the current subset number with ``A.subset = currentSubset``, with zero-based numbering in Python
-and one-based in MATLAB/Octave.
+to perform the actual sorting operation using the indices. The examples include several subset cases. Note that when using subsets, you need to input the current subset number with ``A.subset = currentSubset`` before you compute the forward and/or backward 
+projection, with zero-based numbering in Python and one-based in MATLAB/Octave. Below is an example of subset use in Python:
+
+.. code-block:: python
+
+	for it in range(A.Niter):
+		for k in range(A.subsets):
+			# This is necessary when using subsets
+			A.subset = k
+			fp = A * f
+			bp = A.T() * fp
 
 In MATLAB/Octave, you should first specify all the parameters in the ``options`` struct as with any other method. An important selection in MATLAB/Octave is the implementation. Selecting implementation 2, 3 or 5 uses OpenCL for the forward and/or 
 backward projection operators (e.g. ``options.implementation = 2``) which is the recommended method. Alternatively, it is possible to use CPU also with implementation 4, or create the system matrix with implementation 1 (see below for the matrix creation). 
