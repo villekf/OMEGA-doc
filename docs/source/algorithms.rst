@@ -10,7 +10,9 @@ Note that https://github.com/villekf/OMEGA/wiki/Function-help#reconstruction-alg
 Subset types
 ------------
 
-There are a total of 12 different ways to select subsets. Note that these apply only in the case that you use subsets (subsets > 1). These are numbered from 0 to 11. In general, types 1-7 are more suitable for PET and 8-11 for CT and SPECT, while 0 is good for list-mode data.
+The concept of subsets means that the measurement data is divided into N segments that are then reconstructed individually, as a sort of "sub-iterations". This means that the reconstruction process is, usually, otherwise quite identical, but only a subset of
+the measurement data is used to reconstruct the current estimate. The exact behavior of subset-based reconstruction depends on the selected algorithm. There are a total of 12 different ways to select subsets. Note that these apply only in the case that 
+you use subsets (subsets > 1). These are numbered from 0 to 11. In general, types 1-7 are more suitable for PET and 8-11 for CT and SPECT, while 0 is good for list-mode data.
 Below is a short description for each and when to use each: In MATLAB/Octave use ``options.subset_type`` to specify the type and in Python ``options.subsetType``. For example ``options.subset_type = 1`` would use type 1. Type 8 is always used as the default.
 
 Type 0
