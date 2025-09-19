@@ -50,8 +50,11 @@ For Python, the process is similar, but you don't need to separately create any 
 backward projections: ``options.addProjector()`` followed by ``options.initProj()``. The reconstructions can be coupled with either PyOpenCL (default), Arrayfire, CuPy or PyTorch data. For Arrayfire, set ``options.useAF = True``. For CuPy, 
 use ``options.useCUDA = True`` and ``options.useCuPy = True``. For PyTorch, use ``options.useCUDA = True`` and ``options.useTorch = True``. Call forward projection with ``y = options * f``, where ``f`` is either PyOpenCL buffer, Arrayfire array, 
 CuPy array or PyTorch tensor. When using CuPy or PyTorch it is important to remember that OMEGA is column-major, while both are by default row-major! For CuPy, you can use Fortran-ordering as with NumPy, but with PyTorch you need to be extra careful. 
-Note that ``options`` can also be called as something else too (such as ``A``). Backprojection is similarly with ``x = options.T() * y``. The input variables should be vectors. If you want to make modifications to the setup that is dependent of the 
-``options`` variable (or whatever its name is), you need to rerun the ``options.addProjector()`` and ``options.initProj()`` steps.
+Note that ``options`` can also be called as something else too (such as ``A``). Backprojection is computed similarly with ``x = options.T() * y``. The input variables should be vectors. If you want to make modifications to the setup that is dependent of the 
+``options`` variable (or whatever its name is), you need to rerun the ``options.addProjector()`` and ``options.initProj()`` steps before calling either forward projection or backprojection. 
+
+For choosing whether to use PyOpenCL, CuPy, Arrayfire or PyTorch, there is no particularly optimal one. Arrayfire and PyTorch have some additional support, such as projector type 6 and already built-in filtering preconditioner. CuPy and PyTorch are 
+only for CUDA-capable devices though (no ROCm support at the moment). 
 
 Standalone regularization
 -------------------------
