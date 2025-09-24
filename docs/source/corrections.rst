@@ -10,7 +10,7 @@ While this is highlighted in the below section, it is important to note that if 
 Arc correction
 --------------
 
-In general, it is not recommended to use arc correction, but with certain scanners it can help in reducing aliasing artifacts with single ray-based projectors. It can be enabled with ``options.arc_correction``.
+This is a PET-only feature. In general, it is not recommended to use arc correction, but with certain scanners it can help in reducing aliasing artifacts with single ray-based projectors. It can be enabled with ``options.arc_correction``.
 Internally arc correction uses the MATLAB function ``scatteredInterpolant`` to interpolate the sinograms, but if that function is not available then ``griddata`` is used instead. In Python, SciPy's ``griddata`` is always used. 
 Arc correction can be a slow process, but if you own distributed computing toolbox, that is automatically used and should speed up the process. For Python or Octave, however, there are no means to speed up the process. 
 You can control the interpolation type with ``options.arc_interpolation``. The supported ones are the same ones as the methods supported by ``scatteredInterpolant`` or ``griddata`` (MATLAB/Octave or Python). 
@@ -51,7 +51,7 @@ Scatter correction
 ------------------
 
 Scatter correction data cannot be created with OMEGA at the moment, though you can extract GATE scatter data from PET simulations (GATE 9.X or earlier). However, you can add your own scatter correction data by inputting it into ``options.ScatterC`` 
-variable. The same variance reduction (``options.scatter_variance_reduction``) and smoothing operations (``options.scatter_smoothing``) can be applied to the scatter data as well. You can also normalize PET scatter data with 
+variable. The same variance reduction (``options.scatter_variance_reduction``) and smoothing operations (``options.scatter_smoothing``) as with randoms can be applied to the scatter data as well. You can also normalize PET scatter data with 
 ``options.normalize_scatter`` if you use the normalization correction. In Python, you need to make sure that the data is Fortran-ordered!
 
 By default, the scatter correction is either subtracted from the measurements (if precorrected) or added to the forward projection (if ordinary Poisson, i.e. ``options.corrections_during_reconstruction = true``). However, it is possible to have
@@ -67,11 +67,13 @@ Attenuation correction
 
 This is PET and SPECT only feature. Adjust the state of the correction with ``options.attenuation_correction``. The attenuation data HAS to be input by the user. Two different attenuation data are accepted: images and sinograms.
 This means that the correction can be applied either by using attenuation images or by using attenuation sinograms. Note that for the attenuation images, the images HAVE to be scaled to the corresponding energy! The default is attenuation
-images, but this can be adjusted with ``options.CT_attenuation``, where ``false`` uses sinograms. Input the, preferable full, path of the attenuation data into ``options.attenuation_datafile``. If your attenuation data is oriented 
+images, but this can be adjusted with ``options.CT_attenuation``, where ``false`` uses sinograms. Input the, preferable full, path of the attenuation data into ``options.attenuation_datafile`` OR input the attenuation data itself into ``options.vaimennus``. 
+If your attenuation data is oriented 
 different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degrees, where N = ``options.rotateAttImage``. Similarly, you can also flip the transaxial and/or
-axial directions with ``options.flipAttImageXY`` and ``options.flipAttImageZ``, respectively. Note that the attenuation image also has to have the same dimensions as the output image.
+axial directions with ``options.flipAttImageXY`` and ``options.flipAttImageZ``, respectively. Note that the attenuation image also should have the same dimensions as the output image. Automatic resize will be attempted if the dimensions don't match, but
+it might not work correctly.
 
-For GATE data, the attenuation images created by MuMap actor can be used, simply input the MetaImage (with full path) into ``options.attenuation_datafile``. The size has to correspond to the reconstructed image! If the units are cm, you need to
+For GATE data, the attenuation images created by MuMap actor can be used, simply input the MetaImage (header with full path) into ``options.attenuation_datafile``. The size should correspond to the reconstructed image! If the units are cm, you need to
 scale the image beforehand.
 
 .. note::
@@ -85,7 +87,7 @@ This is PET and SPECT only feature and enabled with ``options.normalization_corr
 and compute the normalization coefficients with OMEGA (PET only!). 
 
 If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the normalization coefficient data, either input the data into ``options.normalization`` or select it when running the code
-and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable). Normalization data computed with OMEGA are saved
+and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable) when using the prompt. Normalization data computed with OMEGA are saved
 to the mat-files folder and loaded automatically if the same measurement dimensions and scanner are used.
 
 For computing the normalization coefficients with OMEGA, set ``options.compute_normalization`` to true and select the desired normalization components with ``options.normalization_options``. Normalization correction 
