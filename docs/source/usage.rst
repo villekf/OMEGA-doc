@@ -191,8 +191,8 @@ Sinogram settings
 | ``options.TotSinos = options.NSinos;``, the total number of sinograms.
 | ``options.segment_table``, there are two different default values for this, depending on the ``span`` value. The amount of sinograms contained in each segment. If omitted, will be computed.
 | ``options.ndist_side = 1;``, if ``Ndist`` is even and you are loading sinogram data with OMEGA, this specifies where the "extra" row is taken. Can be either 1 or -1.
-| ``options.sampling = 1;`` increase the sampling of the sinogram. MATLAB/Octave only! I.e. interpolates more rows/columns to the sinogram.
-| ``options.sampling_interpolation_method = 'linear';``, the interpolation type. All the methods are available that are supported by interp2 (see ``help interp2``). Not used in Python.
+| ``options.sampling = 1;`` increase the sampling of the sinogram. I.e. interpolates more rows/columns to the sinogram.
+| ``options.sampling_interpolation_method = 'linear';``, the interpolation type. All the methods are available that are supported by interp2 (see ``help interp2``) or ``interpn`` in Python.
 | ``options.fill_sinogram_gaps = false;``, if using pseudo detectors, you can interpolate those gaps in the sinogram when this is true. MATLAB/Octave only!
 | ``options.gap_filling_method = 'fillmissing';``, the type of filling method for sinogram gaps. Either MATLAB's built-ins ``fillmissing`` or ``fillmissing2``, or ``inpaint_nans`` from file exchange. 
 | ``options.interpolation_method_fillmissing = 'linear';``, interpolation method for ``fillmissing`` and ``fillmissing2``.
@@ -248,7 +248,7 @@ Correction settings
 | ``options.use_user_normalization = false;``, if true, then assumes that the user has the normalization correction data. This will be prompted and should be either a mat-file or nrm-file.
 | ``options.normalization = []``, alternatively, input the normalization data into here.
 | ``options.arc_correction = false;``, if true, applies arc correction to the sinogram.
-| ``options.arc_interpolation = 'linear';``, interpolation type of the arc correction. Applies only if above is true. See ``scatteredInterpolant`` or ``griddata`` (fallback, in Octave the only option) in MATLAB. See ``griddata`` in Python.
+| ``options.arc_interpolation = 'linear';``, interpolation type of the arc correction. Applies only if above is true. See ``scatteredInterpolant`` or ``griddata`` (fallback, in Octave the only option) in MATLAB. See ``interpn`` in Python.
 | ``options.global_correction_factor = [];`` a global constant that is applied to all forward/backward projection computations.
 | ``options.corrections_during_reconstruction = true;``, if true, all corrections are applied during reconstruction. If false, randoms, scatter, and/or normalization correction is/are done as a precorrection. Attenuation correction is always applied during the reconstruction.
 | ``options.useEFOV = false;``, use extended FOV.
@@ -256,7 +256,7 @@ Correction settings
 | ``options.useExtrapolation = false;``, use projection extrapolation if true.
 | ``options.extrapLength = 0.2;``, the extrapolated projection amount per side. I.e. the total size is increased by 40% with this value.
 | ``options.useExtrapolationWeighting = false;``, if true, uses a log-based weighting on the extrapolated projection parts. This means that the values will "fade" into air values using logarithmic weighting. Can be useful if the regions in the projections should not continue for the whole extrapolated length.
-| ``options.useInpaint = false;``, if true, uses the MATLAB file exchange function ``inpaint_nans`` to perform the extrapolation of the projections. Not recommended. Requires ``inpaint_nans``.
+| ``options.useInpaint = false;``, if true, uses the MATLAB file exchange function ``inpaint_nans`` to perform the extrapolation of the projections. Not recommended. Requires ``inpaint_nans``. MATLAB only!
 | ``options.useMultiResolutionVolumes = false;``, use multi-resolution reconstruction. Replaces the extended FOV region with a region with different voxel size. See below for the parameter to adjust.
 | ``options.multiResolutionScale = .25;``, the reduced resolution of multi-resolution volumes. In this case .25 means that the resolution is 25% of the original, i.e. voxel size is 4 times larger.
 | ``options.offsetCorrection = false;``, if true, uses offset correction.
@@ -277,7 +277,7 @@ Reconstruction specific settings
 | ``options.subsets = 1;``, the number of subsets. Note that this has to be minimum of 1! Note also that if you use forward/backward projection operators and want to use automatic subsets, you need to specify this before creating the class object (MATLAB/Octave) or initializing it (Python).
 | ``options.subset_type = 8;``, the subset selection type. See :doc:`algorithms`. For PET data, it is recommended to use 1 instead of 8. In Python, this is ``subsetType``, which can be used in MATLAB/Octave as well.
 | ``options.stochasticSubsetSelection = false;``, if true, the subsets are selected stochastically.
-| ``options.bedOffset = 0;``, offset value of the bed for multi-bed case. Should contain the offsets for each bed position. Built-in algorithms only!
+| ``options.bedOffset = 0;``, offset value of the bed for multi-bed case, i.e. how much is the bed moved. Should contain the offsets for each bed position. Built-in algorithms only!
 | ``options.nBed = 1;``, number of bed positions. Built-in algorithms only!
 | ``options.save_iter = false;``, if true, saves ALL intermediate iterations. Only full iterations, not sub-iterations. Built-in algorithms only!
 | ``options.saveNIter = uint32([]);``, save specific iteration numbers. This uses zero-based indexing so 0 is the result of the first iteration, 1 the second, etc.
@@ -290,7 +290,7 @@ Preconditioner settings
 ^^^^^^^^^^^^^^^^^^^^^^^
 | ``options.precondTypeImage = [false;false;false;false;false;false;false];``, the selected image-based preconditioners. See `Preconditioners <https://omega-doc.readthedocs.io/en/latest/algorithms.html#preconditioners>`_.
 | ``options.precondTypeMeas = [false;false];``, the selected measurement-based preconditioners.
-| ``options.filteringIterations = 0;``, the number of filtering iterations when using either of the filtering-based preconditioners. This includes sub-iterations!
+| ``options.filteringIterations = 0;``, the number of filtering iterations when using either of the filtering-based preconditioners. This includes sub-iterations! For example with 2 iterations and 10 subsets, using 15 here would use the filtering with one full iteration and half of the subsets in the next iteration.
 | ``options.gradV1 = 0.5;``, only used by precondTypeImage(5). See the article for details in :doc:`algorithms`.
 | ``options.gradV2 = 2.5;``, only used by precondTypeImage(5). See the article for details in :doc:`algorithms`.
 | ``options.gradInitIter = options.subsets;``, the iteration when precondTypeImage(5) is first used and computed.
@@ -303,8 +303,8 @@ Dynamic imaging settings
 ^^^^^^^^^^^^^^^^^^^^^^^^
 | ``options.tot_time = inf;``, the total time. Applies only when loading dynamic data with built-in functions!
 | ``options.partitions = 1;``, either the number of time steps, or the size of each time step in seconds. The latter is only used when loading data with the built-in functions! Relevant only for dynamic data.
-| ``options.start = 0;``, start time, see above.
-| ``options.end = options.tot_time;``, end time, see above.
+| ``options.start = 0;``, start time, as with above applies only with built-in functions loading the data. The data are thus saved starting from this time.
+| ``options.end = options.tot_time;``, end time, as with above applies only with built-in functions loading the data. The data are thus saved up to this point.
 
 Misc. settings
 ^^^^^^^^^^^^^^
@@ -318,7 +318,7 @@ Algorithm settings
 ^^^^^^^^^^^^^^^^^^
 | ``options.tauCP = 0;``, primal value for PDHG, and its variants, and FISTA. Computed automatically if zero or empty.
 | ``options.thetaCP = 1;``, the update parameter for PDHG estimates.
-| ``options.sigmaCP = 1;``, dual value for PDHG.
+| ``options.sigmaCP = 1;``, dual value for PDHG. If zero, sigma will be identical to tau and both are scaled accordingly.
 | ``options.sigma2CP = options.sigmaCP;`` dual value for TV or TGV. To increase convergence speed, it can be useful to use larger dual values for the regularization.
 | ``options.tauCPFilt = 0;``, primal value for the filtered steps when using filtering-based preconditioner. Computed automatically if zero or empty.
 | ``options.powerIterations = 20;``, the number of power iterations performed to determine the primal value. Only used if primal value is zero or empty.
@@ -350,9 +350,10 @@ Regularization settings
 | ``options.TV_use_anatomical = false;``, if true, uses anatomical weighting with TV, when supported.
 | ``options.TVtype = 1;``, the "type" of TV. See :doc:`algorithms`. 
 | ``options.APLSsmoothing = 1e-5;``, the "smoothing" value of APLS, which prevents division and square root of zero.
+| ``options.sigma = 1;``, the filtering parameter of non-local methods. Higher values smooth the image, smaller values make it sharper.
 | ``options.Nlx = 1;``, the non-local patch window size in x-direction. The total amount is always (Nlx * 2 + 1). See :doc:`algorithms`.
 | ``options.Nly = 1;``, the non-local patch window size in y-direction. The total amount is always (Nly * 2 + 1). See :doc:`algorithms`.
 | ``options.Nlz = 1;``, the non-local patch window size in z-direction. The total amount is always (Nlz * 2 + 1). See :doc:`algorithms`.
-| ``options.RDP_gamma = 1;``, RDP "gamma" value that controls the edge preservation. Larger values make the reconstruction smoother, while smaller ones sharpen it.
+| ``options.RDP_gamma = 1;``, RDP "gamma" value that controls the edge preservation. Higher values sharpen the image, lower values smooth it.
 | ``options.use2DTGV = false;``, if true, computes the TGV only on 2D (slice) region, without taking into account the 3rd dimension. Reduces memory cost, but decreases reconstruction quality.
 | ``options.useL2Ball = true;``, if true, proximal TV and TGV are computed using L2 (ball). If false, L1 (ball) is used instead. Should have only a marginal effect on the reconstruction.
