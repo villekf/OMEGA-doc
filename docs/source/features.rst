@@ -16,14 +16,14 @@ Any data
 * OpenCL and CUDA support (single precision only)
  * Works with AMD, Nvidia or Intel GPUs
  * Has been tested with GPUs from all three (AMD in Windows, Intel in Linux, Nvidia in Linux)
- * Possibly also with mobile device GPUs such as Qualcomm
+ * Possibly also works with mobile device GPUs such as Qualcomm
 * Supports any data that uses ray-tracing
  * Only the source and detector coordinates need to be input
  * Source and/or detector can be inside the FOV
 * In addition to supporting coordinates for each measurement, supports also index-based reconstruction
  * Separate 16-bit index-vectors can be input for transaxial and axial dimensions
  * Each index corresponds to a coordinate in separate coordinate vectors (transaxial and axial)
- * Useful for symmetric systems
+ * Useful for symmetric systems where same coordinates (transaxial and/or axial) are repeated, such as cylindrical or "cubic" PET.
 * Supported projectors include:
  * Improved Siddon's ray tracer
   * Also multi-ray version available
@@ -74,9 +74,9 @@ Any data
 * Insert scatter and/or randoms correction data into the reconstruction with supported algorithms (Poisson-based algorithms)
 * Allows input of object offsets
  * If the object is not centered on the origin
-* Use 2D masks to limit forward projection and/or backprojection
- * 2D mask in measurement space can be used to ignore certain measurements (values that are set at 0 are ignored)
- * Similarly in backprojection the 2D mask can be used to specify the voxels to reconstruct (likewise values that are 0 are not reconstructed)
+* Use 2D/3D masks to limit forward projection and/or backprojection
+ * 2D/3D mask in measurement space can be used to ignore certain measurements (values that are set at 0 are ignored)
+ * Similarly in backprojection the 2D/3D mask can be used to specify the voxels to reconstruct (likewise values that are 0 are not reconstructed)
 * Supports multi-resolution reconstruction
  * Extended FOV can have reduced resolution
  * Resolution can be manually set
@@ -182,7 +182,7 @@ MATLAB/GNU Octave only
  * Supports both binned 32-bit list-mode data as well as 64-bit
  * Supports also .ptd-files
 * Automatically convert any of the above PET data into sinograms
-* Obtain a ground truth image from GATE ASCII or LMF data (LMF support has bee deprecated)
+* Obtain a ground truth image from GATE ASCII, ROOT, or LMF data (LMF support has bee deprecated)
 * Several different "implementations" available that perform the computations either on the CPU or the GPU
  * Implementation 1 forms a sparse system matrix that is used in computations
   * Double precision only
