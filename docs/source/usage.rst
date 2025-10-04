@@ -128,6 +128,7 @@ PET scanner variables
 | ``options.DOI = 0;``, the depth of interaction (mm). Basically the ray/tube starts DOI mm deeper from the crystal if this is non-zero.
 | ``options.nLayers = 1;``, number of crystal layers. Relevant only for sinogram reconstruction and can be at most 2. Note that the experimental sinogram dual-layer PET only works in MATLAB/Octave,
 | ``options.crystH = [];``, the crystal height (mm) of the innermost crystal for dual-layer PET. Note that diameter should not include this!
+| ``options.ringGaps = [];``, the distance between adjacent rings. Rings are defined by ``cryst_per_block_axial``, i.e. after every ``cryst_per_block_axial`` a new ring is assumed. If there are gaps between these rings, you can input the gaps to this variable (in mm). Note that the gaps need to be input for each ring, even if they are identical!
 
 CT scanner variables
 ^^^^^^^^^^^^^^^^^^^^
@@ -251,6 +252,8 @@ Correction settings
 | ``options.attenuation_correction = false;``, if true, applies attenuation correction. Attenuation data must be present in ``vaimennus`` or input as a file into ``options.attenuation_datafile``. Note that the attenuation image, or sinogram, has to be equal to the ones used in the reconstruction! You also need to scale it for the energy used.
 | ``options.attenuation_datafile = '';``, the path to the optional attenuation file, such as a mat-file or MetaImage file. Use the header for MetaImage or Interfile.
 | ``options.rotateAttImage = 0;``, rotates the attenuation image with N * options.rotateAttImage degrees. 
+| ``options.flipAttImageXY = false;``, flips the attenuation image in the transaxial direction before applying it.
+| ``options.flipAttImageZ = false;``, flips the attenuation image in the axial direction before applying it.
 | ``options.vaimennus = [];``, you can also manually input the attenuation data to here.
 | ``options.CT_attenuation = true;``, by default, it is assumed that the attenuation data is an attenuation image, such as one derived from CT. However, if this is false, the attenuation data is assumed to be attenuation sinogram instead.
 | ``options.SinM = [];``, if the measurement data is not automatically loaded (such as when using GATE data created by OMEGA), you can input the measurement data into this.
