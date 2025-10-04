@@ -88,10 +88,6 @@ SPECT data
 ^^^^^^^^^^
 SPECT data is input as CT/PET data regarding the variables ``options.SinM``, ``options.nRowsD``, ``options.nColsD``, ``options.nProjections``, ``options.FOVa_x``, ``options.FOVa_y``, ``options.axial_fov``, ``options.angles``, ``options.x``, ``options.z``, ``options.dPitchX`` and ``options.dPitchY``. However, if reconstructing the image from sinograms, the distance between detector surface and FOV center is required in ``options.radiusPerProj``. Additionally, the detector swivel angle can be input to ``options.swivelAngles`` and the distance from detector surface to swivel centre of rotation to  ``options.CORtoDetectorSurface``. The crystal thickness is read from ``options.cr_p`` and the intrinsic resolution from ``options.iR``.
 
-The geometry of the collimator is input into the variables ``options.colL``, ``options.colR``, ``options.colD``, ``options.colFxy`` and ``options.colFz``. These define the hole length, radius, separation from detector surface, focal distance in XY direction, and focal distance in Z direction, respectively. Currently focal distances of zero and Inf are supported, these represent pinhole and parallel-hole collimators respectively.
-
-For collimator modeling with multi-ray tracing, the shifts for each detector element can be input into the variables ``options.rayShiftsSource`` and ``options.rayShiftsDetector``. The former encodes the shifts at the detector-collimator interface, and the latter encodes the shifts at the other end of the collimator.  The variables should be of the size ``2*options.nRays * options.nRowsD * options.nColsD * options.nProjections``, with the elements ``[x0, y0, x1, y1]`` depicting the shifts in detector coordinate system in millimeters.
-
 Any data
 ^^^^^^^^
 
