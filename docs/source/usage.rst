@@ -86,7 +86,9 @@ See :doc:`geometry` for more details on the ``pitchRoll``.
 
 SPECT data
 ^^^^^^^^^^
-SPECT data is input as CT/PET data regarding the variables ``options.SinM``, ``options.nRowsD``, ``options.nColsD``, ``options.nProjections``, ``options.FOVa_x``, ``options.FOVa_y``, ``options.axial_fov``, ``options.angles``, ``options.x``, ``options.z``, ``options.dPitchX`` and ``options.dPitchY``. However, if reconstructing the image from sinograms, the distance between detector surface and FOV center is required in ``options.radiusPerProj``. Additionally, the detector swivel angle can be input to ``options.swivelAngles`` and the distance from detector surface to swivel centre of rotation to  ``options.CORtoDetectorSurface``. The crystal thickness is read from ``options.cr_p`` and the intrinsic resolution from ``options.iR``.
+SPECT data is input as CT/PET data regarding the variables ``options.SinM``, ``options.nRowsD``, ``options.nColsD``, ``options.nProjections``, ``options.FOVa_x``, ``options.FOVa_y``, ``options.axial_fov``, ``options.angles``, ``options.x``, ``options.z``, ``options.dPitchX`` and ``options.dPitchY``. However, if reconstructing the image from sinograms, the distance between detector surface and FOV center is required in ``options.radiusPerProj``. The crystal thickness is read from ``options.cr_p`` and the intrinsic resolution from ``options.iR``.
+
+Modern full-ring 360° SPECT imaging devices, such as the Veriton-CT or StarGuide, have one additional detector swivel angle. That swivel angle can be input to ``options.swivelAngles`` and the distance from detector surface to swivel centre of rotation to  ``options.CORtoDetectorSurface``. 
 
 Any data
 ^^^^^^^^
