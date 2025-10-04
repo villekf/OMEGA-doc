@@ -86,6 +86,9 @@ See :doc:`geometry` for more details on the ``pitchRoll``.
 
 SPECT data
 ^^^^^^^^^^
+SPECT data is input as CT/PET data regarding the variables ``options.SinM``, ``options.nRowsD``, ``options.nColsD``, ``options.nProjections``, ``options.FOVa_x``, ``options.FOVa_y``, ``options.axial_fov``, ``options.angles``, ``options.x``, ``options.z``, ``options.dPitchX`` and ``options.dPitchY``. However, if reconstructing the image from sinograms, the distance between detector surface and FOV center is required in ``options.radiusPerProj``. The crystal thickness is read from ``options.cr_p`` and the intrinsic resolution from ``options.iR``.
+
+Modern full-ring 360° SPECT imaging devices, such as the Veriton-CT or StarGuide, have one additional detector swivel angle. That swivel angle can be input to ``options.swivelAngles`` and the distance from detector surface to swivel centre of rotation to  ``options.CORtoDetectorSurface``. 
 
 Any data
 ^^^^^^^^
@@ -146,7 +149,19 @@ CT scanner variables
 SPECT scanner variables
 ^^^^^^^^^^^^^^^^^^^^^^^
 | ``options.SPECT = false;``, signifies that the input is SPECT data and uses some SPECT specific settings.
+| ``options.dPitchX = 0;``, detector pitch (size, mm) in row direction.
+| ``options.dPitchY = 0;``, detector pitch (size, mm) in column direction.
+| ``options.nRowsD = 0``, the number of detector pixels in the row direction.
+| ``options.nColsD = 0``, the number of detector pixels in the column direction.
 | ``options.nProjections = 0;``, total number of projections.
+| ``options.iR = 0;``, detector intrinsic resolution.
+| ``options.cr_p = 0;``, detector crystal thickness.
+| ``options.CORtoDetectorSurface = 0;``, distance from collimator-detector interface to swivel center-of-rotation
+| ``options.colL = 0;``, collimator hole length.
+| ``options.colR = 0;``, collimator hole radius.
+| ``options.colD = 0;``, distance between collimator and detector.
+| ``options.colFxy = 0;``, collimator focal distance (transaxial).
+| ``options.colFz = 0;``, collimator focal distance (axial).
 
 Projector settings
 ^^^^^^^^^^^^^^^^^^

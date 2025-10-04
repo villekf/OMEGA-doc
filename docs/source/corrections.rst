@@ -164,4 +164,15 @@ although they present different weights, the results are the same.
 
 .. note::
 
-	This feature works the same way whether you are using built-in algorithms or computing custom algorithms with the projector operators.
+	This feature works the same way whether using built-in algorithms or computing custom algorithms with the projector operators.
+
+Resolution recovery
+-------------------
+
+In SPECT, modeling the response of the collimator is commonly referred to as resolution recovery. Also known as the collimator-detector response correction, full modeling of the collimator includes considering the geometry of the collimator, the septal penetration and the collimator scatter. However, the built-in resolution recovery in OMEGA accounts only for the geometrical response, which is the most significant component in the collimator-detector response. Thus, this is a SPECT only feature, and supported by projector models 1, 2 and 6. Resolution recovery parameters can be determined automatically using the collimator dimensions or manually by setting the relative variables. The geometry of the collimator is input into the variables ``options.colL``, ``options.colR``, ``options.colD``, ``options.colFxy`` and ``options.colFz``. These define the hole length, radius, separation from detector surface, focal distance in XY direction, and focal distance in Z direction, respectively. Currently focal distances of zero and Inf are supported, these represent pinhole and parallel-hole collimators respectively.
+
+With projector type 1, resolution recovery is performed by tracing multiple rays for each detector pixel / data point. The collimator is thus modeled by the relative shifts of the traced rays. The shifts for each detector element can be input into the variables ``options.rayShiftsSource`` and ``options.rayShiftsDetector``. The former encodes the shifts at the detector-collimator interface, and the latter encodes the shifts at the middle of the collimator.  The variables should be of the size ``2*options.nRays * options.nRowsD * options.nColsD * options.nProjections``, with the elements ``[x0, y0, x1, y1]`` depicting the shifts in detector coordinate system in millimeters.
+
+The orthogonal distance ray tracer weighs voxels by a Gaussian distribution, the variance of which is defined by the variables ``options.coneOfResponseStdCoeffA``, ``options.coneOfResponseStdCoeffB`` and ``options.coneOfResponseStdCoeffC``. The characters A, B and C refer to the collimator-detector response model, where the Gaussian FWHM is sqrt((az+b)^2+c^2), z being  the distance along the normal vector of the detector element in question.
+
+Projector type 6, the rotate-and-sum method, considers the detector response by convolving the image volume with ``options.gFilter`` during projection.
