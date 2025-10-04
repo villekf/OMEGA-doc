@@ -1,7 +1,7 @@
 Using mask images
 =================
 
-In OMEGA, it is currently possible to limit the measurements to be used or voxels to be reconstructed. This is possible with the use of mask images.
+In OMEGA, it is currently possible to limit the measurements to be used or the voxels to be reconstructed. This is possible with the use of mask images.
 
 .. note::
 
@@ -11,13 +11,13 @@ In OMEGA, it is currently possible to limit the measurements to be used or voxel
 Masks in forward projection
 ---------------------------
 
-A mask can be input to ``options.maskFP`` in unsigned 8-bit format (uint8 or uchar) where 1 means that the measurement is taken into account while 0 means that it is not.
+A mask can be input to ``options.maskFP`` in unsigned 8-bit format (uint8 or uchar) where 1 means that the measurement is taken into account, while 0 means that it is not.
 This type of mask is utilized in the forward projection to skip certain measurement locations. The forward projection is thus not computed if the pixel is 0.
 The mask should either be a 2D image which is then used for all measurement data, or a 3D stack of images where an individual image is used for each measurement slice. 
-The measurement data can be, for example, projections or sinograms, where each image would correspond to a projection or sinogram. The masks can be used to remove dead pixels
+The measurement data can be, for example, projections or sinograms, where each image corresponds to a projection or sinogram. The masks can be used to remove dead pixels
 from the projections, or sinograms, by setting those pixels to zero in the mask images. The mask images will only work as uint8 images, logical masks won't work!
 
-Subset type 3 cannot be used with forward projection mask!
+Subset type 3 cannot be used with a forward projection mask!
 
 Note that if you use the forward and/or backward projection operators, you need to handle the subset division of the mask image when you are using subsets types 8-11. 
 Subset types 0-7, excluding 3, should work correctly, but this is untested.

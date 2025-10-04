@@ -16,14 +16,14 @@ Any data
 * OpenCL and CUDA support (single precision only)
  * Works with AMD, Nvidia or Intel GPUs
  * Has been tested with GPUs from all three (AMD in Windows, Intel in Linux, Nvidia in Linux)
- * Possibly also with mobile device GPUs such as Qualcomm
+ * Possibly also works with mobile device GPUs such as Qualcomm
 * Supports any data that uses ray-tracing
  * Only the source and detector coordinates need to be input
  * Source and/or detector can be inside the FOV
 * In addition to supporting coordinates for each measurement, supports also index-based reconstruction
  * Separate 16-bit index-vectors can be input for transaxial and axial dimensions
  * Each index corresponds to a coordinate in separate coordinate vectors (transaxial and axial)
- * Useful for symmetric systems
+ * Useful for symmetric systems where same coordinates (transaxial and/or axial) are repeated, such as cylindrical or "cubic" PET.
 * Supported projectors include:
  * Improved Siddon's ray tracer
   * Also multi-ray version available
@@ -74,9 +74,9 @@ Any data
 * Insert scatter and/or randoms correction data into the reconstruction with supported algorithms (Poisson-based algorithms)
 * Allows input of object offsets
  * If the object is not centered on the origin
-* Use 2D masks to limit forward projection and/or backprojection
- * 2D mask in measurement space can be used to ignore certain measurements (values that are set at 0 are ignored)
- * Similarly in backprojection the 2D mask can be used to specify the voxels to reconstruct (likewise values that are 0 are not reconstructed)
+* Use 2D/3D masks to limit forward projection and/or backprojection
+ * 2D/3D mask in measurement space can be used to ignore certain measurements (values that are set at 0 are ignored)
+ * Similarly in backprojection the 2D/3D mask can be used to specify the voxels to reconstruct (likewise values that are 0 are not reconstructed)
 * Supports multi-resolution reconstruction
  * Extended FOV can have reduced resolution
  * Resolution can be manually set
@@ -86,6 +86,8 @@ Any data
  * Priors/regularization computed only in the main volume
  * Automatic cropping of the image
 * Dynamic reconstruction with static algorithms
+* Supports randoms/scatter smoothing
+* Supports pre-correcting the sinogram
 
 PET features
 ^^^^^^^^^^^^
@@ -120,6 +122,9 @@ PET features
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
 * Preliminary support for dual-layer PET
  * With index-based or listmode reconstruction, even multi-layer is possible
+* Supports arc correction for PET
+* Supports randoms variance reduction (PET only)
+* Supports increasing the sampling (i.e. interpolation) of PET sinograms
 
 CT features
 ^^^^^^^^^^^
@@ -138,6 +143,7 @@ CT features
  * Supports hybrid projectors
 * Supports projection image extrapolation
  * Automatically extrapolate and weight projections to fix out-of-FOV artifacts
+ * Optional log-based weighting
 * Supports offset correction
  * Offset weights can be automatically computed
  * Each projection has their own weight
@@ -176,7 +182,7 @@ MATLAB/GNU Octave only
  * Supports both binned 32-bit list-mode data as well as 64-bit
  * Supports also .ptd-files
 * Automatically convert any of the above PET data into sinograms
-* Obtain a ground truth image from GATE ASCII or LMF data (LMF support has bee deprecated)
+* Obtain a ground truth image from GATE ASCII, ROOT, or LMF data (LMF support has bee deprecated)
 * Several different "implementations" available that perform the computations either on the CPU or the GPU
  * Implementation 1 forms a sparse system matrix that is used in computations
   * Double precision only
@@ -205,15 +211,10 @@ MATLAB/GNU Octave only
  * Supports the system matrix approach, OpenCL or OpenMP (CPU)
  * For SPECT, only OpenMP version is available
 * Visualization function that does not require any toolboxes
-* Supports arc correction for PET (MATLAB only)
-* Supports randoms/scatter smoothing
-* Supports randoms variance reduction (PET only)
 * Supports computation of the normalization coefficients from a normalization measurement (PET only)
  * Component-based
-* Supports increasing the sampling (i.e. interpolation) of PET sinograms
 * Supports sinogram gap filling
 * Supports scaling of CT-based attenuation coefficient to 511 keV attenuation coefficients
-* Supports pre-correcting the sinogram
 * Allows to automatically crop voxelized phantoms/sources for MC simulations
 * Individual functions to load MetaImage or Interfile data
 * Few additional priors
@@ -232,3 +233,27 @@ Python only
   * Note that OMEGA is column-major while PyTorch is row-major!
   * Use Fortran-ordering with CuPy
  * Any package that supports PyOpenCL or CuPy can be combined with OMEGA
+* Supports standalone regularization functions
+ * As with above, interoperability with PyOpenCL, Arrayfire OpenCL with PyOpenCL, CuPy, and PyTorch with CuPy
+ * Compute RDP, GGMRF, TV (gradient-based), hyperbolic prior, or non-local regularization methods with any data
+ 
+ 
+Features missing from Python
+----------------------------
+
+* Subset type 10
+ * Might be included in the future
+* ASCII data support for GATE
+ * Probably won't be included
+* Biograph support
+ * Probably won't be included
+* FMH and L-filter
+ * Might be included in the future
+* Sinogram gap filling
+ * Probably won't be included
+* Automatic crop of voxelized phantoms/sources
+ * Might be included in the future
+* CT attenuation coefficient scaling functions
+ * Might be included in the future
+* Computation of the normalization coefficients from a normalization measurement
+ * Will most likely be included in the future

@@ -1,16 +1,18 @@
-Algorithm info
-===============
+Algorithms
+==========
 
 This page describes some details on the algorithms. Mainly the image reconstruction algorithms and priors, but also on the different subset types. Note that listmode cases apply to any custom detector reconstructions.
 
-Note that https://github.com/villekf/OMEGA/wiki/Function-help#reconstruction-algorithms is also largely valid, though lacks newer algorithms.
+Note that https://github.com/villekf/OMEGA/wiki/Function-help#reconstruction-algorithms is also largely valid, though it lacks newer algorithms.
 
 .. contents:: Table of Contents
 
 Subset types
 ------------
 
-There are total of 12 different ways to select subsets. Note that these apply only in the case that you use subsets (subsets > 1). These are numbered from 0 to 11. In general, types 1-7 are more suitable for PET and 8-11 for CT and SPECT, while 0 is good for list-mode data.
+The concept of subsets means that the measurement data is divided into N segments that are then reconstructed individually, as a sort of "sub-iterations". This means that the reconstruction process is, usually, otherwise quite identical, but only a subset of
+the measurement data is used to reconstruct the current estimate. The exact behavior of subset-based reconstruction depends on the selected algorithm. There are a total of 12 different ways to select subsets. Note that these apply only in the case that 
+you use subsets (subsets > 1). These are numbered from 0 to 11. In general, types 1-7 are more suitable for PET and 8-11 for CT and SPECT, while 0 is good for list-mode data.
 Below is a short description for each and when to use each: In MATLAB/Octave use ``options.subset_type`` to specify the type and in Python ``options.subsetType``. For example ``options.subset_type = 1`` would use type 1. Type 8 is always used as the default.
 
 Type 0
@@ -26,7 +28,7 @@ Type 1
 
 Type 1 divides the measurements by taking every Nth column measurement, i.e. if you have a 2D sinogram of size 10x20 and you use four subsets, then the first one will have measurements 1, 5, and 9 from the first column, 1, 5, and 9 from the
 second column, etc. Second subset will have measurements 2, 6, and 10 from the first column, 2, 6, and 10 from the second column, etc. The third subset measurements 3, 7 from the first column, 3, and 7 from the second column, etc. 
-While 2D or 3D shape is assumed, this works for 1D inputs as well, i.e. listmode data. With 1D cases, it is assumed that only one column exists. Note that the order is always identical with each column.
+While 2D or 3D shape is assumed, this works for 1D inputs as well, i.e. listmode data. With 1D cases, it is assumed that only one column exists. Note that the order is always identical for each column.
 
 Type 2
 ^^^^^^
@@ -38,13 +40,13 @@ Type 3
 
 Selects the subsets randomly. Type 3 will randomly select the measurements for each subset. Works for all data types, but can be slower than any other subset type. Not recommended for CT. Works for listmode data as well.
 
-Each subset has unique measurements and as such there are no repetitions.
+Each subset has unique measurements, and as such there are no repetitions.
 
 Type 4
 ^^^^^^
 
-Takes every Nth column. Type 4 requires 2D or 3D data and is similar to type 1, but rather than taking every Nth measurement along each column, type 4 takes all the measurements along the column. If you want to use measurement-based
-filtering with PET data, this method is recommended. It is also in general as good choice as type 1 for PET data. Does not support listmode data.
+Takes every Nth column. Type 4 requires 2D or 3D data and is similar to type 1, but instead of taking every Nth measurement along each column, type 4 takes all the measurements along the column. If you want to use measurement-based
+filtering with PET data, this method is recommended. It is also generally as good choice as type 1 for PET data. Does not support listmode data.
 
 Type 5
 ^^^^^^
@@ -54,8 +56,8 @@ Same as above but for rows. Not recommended method!
 Type 6
 ^^^^^^
 
-Uses N number of angles to form each subset. First the LORs are sorted according to the angle they create with the (positive) x-axis. Then n_angles angles are grouped together to form one subset. E.g. if n_angles = 2 then 
-angles 0 and 1 form one subset, 2 and 3 another, etc. For 2D slices there will be a total of 180°/nangles subsets and 360°/nangles for 3D. 
+Uses N number of angles to form each subset. First, the LORs are sorted according to the angle they create with the (positive) x-axis. Then n_angles angles are grouped together to form one subset. E.g. if n_angles = 2 then 
+angles 0 and 1 form one subset, 2 and 3 another, etc. For 2D slices, there will be a total of 180°/nangles subsets and 360°/nangles for 3D. 
 
 This method is not recommended!
 
@@ -79,12 +81,12 @@ Listmode reconstruction is not supported.
 Type 9
 ^^^^^^
 
-Selects the sinograms/projections randomly to each subset. Each subset has unique sinograms/projections. Mainly recommended for CT and SPECT. For PET, this method can be unreliable. Listmode reconstruction is not supported.
+Selects the sinograms/projections randomly for each subset. Each subset has unique sinograms/projections. Mainly recommended for CT and SPECT. For PET, this method can be unreliable. Listmode reconstruction is not supported.
 
 Type 10
 ^^^^^^^
 
-Similar to type 7 that type 10 uses golden angle based selection. However, this time full projection images are used. As such this only works for CT and SPECT and is also recommended mainly for 360 degree scans, though 180 should work
+Similarly to type 7, type 10 uses a golden angle-based selection. However, this time full projection images are used. As such, this only works for CT and SPECT and is also recommended mainly for 360 degree scans, though 180 should work
 too. Does not work with PET data. Listmode reconstruction is not supported.
 
 Type 11
@@ -97,18 +99,18 @@ Based on: https://doi.org/10.1109/42.241889
 Stochastic subset selection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-By default the subsets are always used in the same order. However, it is now possible to also select the subsets randomly though it is not completely randomly. The subsets are considered as "groups" that contain a set amount of
+By default, the subsets are always used in the same order. However, it is now possible to also select the subsets randomly, though it is not completely random. The subsets are considered as "groups" that contain a set number of
 measurements, projections, or sinograms. The contents of these groups remain the same even if you use the stochastic subset selection, but the groups themselves are picked randomly. For example, if we have three subsets and 9 measurements,
-the subset 1 always contains the same three measurement, such as 1, 4, and 7. However, instead of using first subset 1, then subset 2, and lastly subset 3, any subset can be used first, second, etc. This means that while a group uses the same
+then subset 1 always contains the same three measurement, such as 1, 4, and 7. However, instead of using first subset 1, then subset 2, and lastly subset 3, any subset can be used first, second, etc. This means that while a group uses the same
 indices, the indices themselves are random.
 
-You can enable the stochastic subset selection by setting ``options.stochasticSubsetSelection = true`` (or ``True`` in Python). Default is false.
+You can enable the stochastic subset selection by setting ``options.stochasticSubsetSelection = true`` (or ``True`` in Python). The default is false.
 
 
 Reconstruction algorithms
 -------------------------
 
-There are mainly two different types of algorithms: Poisson-based and least-squares based. Both also have variations that enable regularization. Below is a list of the algorithms and whether they are supported by specific 
+There are mainly two different types of algorithms: Poisson-based and least-squares based. Both also have variations that enable regularization. Below is a list of the algorithms and whether they are supported by a specific 
 modality. EM refers to emission tomography as many Poisson-based algorithms have different variations for EM and transmission tomography. For transmission tomography versions, see the technical document (soon to be published).
 
 To enable any algorithm, set the parameter defined below (usually their abbreviation) to ``true`` in MATLAB/Octave and to ``True`` in Python. Note that only one algorithm can be enabled at a time!
@@ -119,7 +121,7 @@ To enable any algorithm, set the parameter defined below (usually their abbrevia
 | Recommended algorithms when regularization is not used (CT): LSQR, CGLS, PDHG
 | Recommended algorithms with regularization (CT): PDHG, PKMA
 
-When in doubt, use PDHG, possibly with measurement-based filtering preconditioner.
+When in doubt, use PDHG, possibly with a measurement-based filtering preconditioner.
 
 FDK/FBP
 ^^^^^^^
@@ -128,7 +130,7 @@ Full name: Feldkamp-Davis-Kress algorithm
 
 Enable with ``options.FDK``.
 
-Simple filtered backprojection. Scaling is currently incorrect for PET and SPECT data (CT should be fine) and as such the numerical values are not comparable to iterative methods. However, the image itself looks fine. GPU-based algorithm only. Useful for testing purposes as
+Simple filtered backprojection. Scaling is currently incorrect for PET and SPECT data (CT should be fine) and as such the numerical values are not comparable to iterative methods. However, the image itself looks fine. GPU-based algorithm only. Useful for testing purposes, as
 it is a very fast method. Also useful for very high-dimensional µCT data.
 
 
@@ -140,7 +142,7 @@ Full name(s): Maximum-likelihood expectation maximization/ordered subsets expect
 Enable with ``options.OSEM``.
 
 While only OSEM is selectable, MLEM is enabled if no subsets are used (=``options.subsets = 1``). This method can be used for PET, SPECT or CT data, or any other Poisson-based data. Note that CT uses its own transmission tomography based formula, while
-PET and SPECT use the linear model. Useful algorithm for PET and SPECT, but not particularly recommended for CT. Use OSL_OSEM for regularized version (see below).
+PET and SPECT use the linear model. Useful algorithm for PET and SPECT, but not particularly recommended for CT. Use OSL_OSEM for the regularized version (see below).
 
 | Emission tomography (ET) MLEM based on:  https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
 | ET OSEM: https://doi.org/10.1109/42.363108
@@ -157,17 +159,33 @@ Slower to converge than OSEM. Can be used with or without subsets. Note that the
 the number of iterations, if the variable is omitted or if it's zero. If you wish to enter your own relaxation parameters, make sure that the number of relaxation values equals the number of iterations! 
 Not recommended for CT but has transmission tomography based version implemented. See BSREM for regularized version.
 
+Internally, the relaxation parameters are computed as follows:
+
+.. code-block:: matlab
+
+	if options.stochasticSubsetSelection
+		for i = 1 : options.Niter
+			lambda(i) = 1 / (0.4/options.subsets * i + 1);
+		end
+	else
+		for i = 1 : options.Niter
+			lambda(i) = 1 / ((i - 1)/20 + 1);
+		end
+	end
+	
+For CT, the values are further divided by 10000.
+
 ET version based on: https://doi.org/10.1109/42.538946
 
 MRAMLA
 ^^^^^^
 
-Full name(s): Modified Row-action maximum likelihood algorithm
+Full name(s): Modified Row-action maximum-likelihood algorithm
 
 Enable with ``options.MRAMLA``.
 
 Unregularized version of the MBSREM. Almost identical to `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_, i.e. requires lambda (see above), but supports preconditioners. EM preconditioner is also highly recommended! Has some additional steps to guarantee convergence. 
-Also has dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is not used. The upper bound (see the article) can be optionally set with ``options.U``, if zero, a default value is computed.
+Also has a dedicated transmission tomography version. Useful for any Poisson-based data, if regularization is not used. The upper bound (see the article) can be optionally set with ``options.U``, if zero, a default value is computed.
 
 ET version based on: https://doi.org/10.1109/TMI.2003.812251
 
@@ -178,7 +196,7 @@ Full name(s): Relaxed ordered subsets expectation maximization
 
 Enable with ``options.ROSEM``.
 
-Identical to OSEM except that includes relaxation (lambda, see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ above) as well. Useful for testing/comparison purposes only. See ROSEM-MAP for regularized version.
+Identical to OSEM except that it also includes relaxation (lambda, see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ above) as well. Useful for testing/comparison purposes only. See ROSEM-MAP for the regularized version.
 
 RBI
 ^^^
@@ -187,7 +205,7 @@ Full name(s): Rescaled block-iterative algorithm
 
 Enable with ``options.RBI``.
 
-Subset-based algorithm similar to `OSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#mlem-osem>`_. Convergence is not guaranteed. No transmission tomography version. Useful for testing/comparison purposes only. See OSL-RBI for regularized version.
+Subset-based algorithm similar to `OSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#mlem-osem>`_. Convergence is not guaranteed. No transmission tomography version. Useful for testing/comparison purposes only. See OSL-RBI for the regularized version.
 
 Based on: https://doi.org/10.1109/83.499919
 
@@ -233,7 +251,7 @@ Full name(s): Accelerated complete-data ordered subsets expectation maximization
 
 Enable with ``options.ACOSEM``.
 
-Accelerated version of `COSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#cosem>`_. No transmission tomography version. Useful for non-regularized PET/SPECT reconstructions if converge is required. Regularized version available with OSL-COSEM. Requires the acceleration parameter, see
+Accelerated version of `COSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#cosem>`_. No transmission tomography version. Useful for non-regularized PET/SPECT reconstructions if convergence is required. Regularized version available with OSL-COSEM. Requires the acceleration parameter, see
 ACOSEM PROPERTIES in the examples. The acceleration parameter is defined by ``options.h`` where 2 is the default value.
 
 Based on: https://doi.org/10.1088/0031-9155/55/3/003
@@ -329,7 +347,7 @@ Full name(s): Block-sequential regularized expectation maximization
 Enable with ``options.BSREM``.
 
 Regularized version of `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_. However, unlike MBSREM, BSREM handles the regularization differently. While MBSREM computes the regularization after every subset, BSREM does it only after one full iteration (epoch). This can
-sometimes be useful as less regularization steps might be used. Requires relaxation parameter lambda. Also has dedicated transmission tomography version. Use ``options.beta`` as the regularization parameter.
+sometimes be useful as less regularization steps might be used. Requires the relaxation parameter lambda. Also has a dedicated transmission tomography version. Use ``options.beta`` as the regularization parameter.
 
 ET version based on: https://doi.org/10.1109/42.921477
 
@@ -340,7 +358,7 @@ Full name(s): Relaxed OSEM with maximum a posteriori
 
 Enable with ``options.ROSEM_MAP``.
 
-Regularized version of `ROSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#rosem>`_. Also like BSREM, this performs regularization at full iteration (epoch) level. Requires relaxation parameter lambda (see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ for details). Also has dedicated transmission tomography version. 
+Regularized version of `ROSEM <https://omega-doc.readthedocs.io/en/latest/algorithms.html#rosem>`_. Also like BSREM, this performs regularization at full iteration (epoch) level. Requires the relaxation parameter lambda (see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_ for details). Also has a dedicated transmission tomography version. 
 Use ``options.beta`` as the regularization parameter.
 
 OSL-RBI
@@ -387,7 +405,7 @@ If the values are computed automatically, these values can be adjusted with ``op
 
 
 Note that for PET and SPECT data the relaxation parameter can safely begin at 1, but for CT data this is not the case. Due to this, PKMA is a bit difficult algorithm for CT data as you might need to manually adjust the relaxation parameter
-until it is of the right magnitude. Too high values will cause quick divergence while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use default values). This should work for
+until it is of the right magnitude. Too high values will cause quick divergence, while too low values will cause slow convergence. For CT, the default value of 1 is divided by 10000 (when you use the default values). This should work for
 most CT applications, but it might not be optimal. To fix this, a proper normalization would be required for the backprojection (suggestions are welcome!).
 
 ET version based on: https://doi.org/10.1109/TMI.2019.2898271
@@ -399,7 +417,7 @@ Full name(s): Prima-dual hybrid gradient
 
 Enable with ``options.PDHG``.
 
-PDHG refers to the L2 norm least-squares PDHG. Supports subsets, linear models, regularization and preconditioners. Useful for any data. Measurement-based preconditioners are guaranteed to work unlike with PKMA or MBSREM.
+PDHG refers to the L2 norm least-squares PDHG. Supports subsets, linear models, regularization, and preconditioners. Useful for any data. Measurement-based preconditioners are guaranteed to work unlike with PKMA or MBSREM.
 By default, the primal and dual step-sizes are computed automatically, you can, however, input manual values too, see PDHG PROPERTIES in the examples. Supports also adaptive step-size computations, but it is not recommended with multi-resolution
 reconstruction. Supports both proximal priors as well as regular non-linear convex ones (in the latter case it is actually the Condat-Vu algorithm).
 The primal value is set with ``options.tauCP``, but is computed automatically if empty or zero. If using a filtering-based preconditioner, a specific primal value is set with ``options.tauCPFilt``, and like the previous one, is computed automatically
@@ -428,7 +446,7 @@ Full name(s): Prima-dual hybrid gradient with L1 minimization
 
 Enable with ``options.PDHGL1``.
 
-Same as above but L1 norm. Has exactly the same properties as the L2 norm version.
+Same as above but with L1 norm. Has exactly the same properties as the L2 norm version.
 
 Based on: https://doi.org/10.1088/0031-9155/57/10/3065
 
@@ -464,7 +482,7 @@ Enable with ``options.ASD_POCS``.
 
 Currently not included in any of the examples, but you can enable it with ``options.ASD_POCS = true`` (MATLAB/Octave) or ``options.ASD_POCS = True`` (Python). Adjustable parameters are ``options.POCS_NgradIter`` 
 (number of iterations for the denoising phase), ``options.POCS_alpha``, ``options.POCS_rMax``, ``options.POCS_alphaRed`` and ``options.POCSepps``. Note that ``options.POCSepps`` is the epsilon value in the original article.
-All values have default values which are taken from the original article, except for epsilon value which is 1e-4. Supports subsets, but doesn't support any preconditioners. Note that, like `SART <https://omega-doc.readthedocs.io/en/latest/algorithms.html#sart>`_, this algorithm requires 
+All values have default values, which are taken from the original article, except for epsilon value which is 1e-4. Supports subsets, but doesn't support any preconditioners. Note that, like `SART <https://omega-doc.readthedocs.io/en/latest/algorithms.html#sart>`_, this algorithm requires 
 the relaxation parameters ``options.lambda`` (MATLAB/Octave) or ``options.lambdaN`` (Python), see `RAMLA <https://omega-doc.readthedocs.io/en/latest/algorithms.html#ramla>`_. You can use the default value(s) or input your own values. Implementation 2 only!
 
 Unlike the original article, any non-proximal prior can be used here, though the functionality cannot be guaranteed!
@@ -488,7 +506,7 @@ FISTA acceleration
 ^^^^^^^^^^^^^^^^^^
 
 Not an algorithm but rather an acceleration method for algorithms. You can enable it with ``options.FISTA_acceleration = true``  (MATLAB/Octave) or ``options.FISTA_acceleration = True`` (Python). Can help with convergence speed
-but can also cause artifacts in the reconstructions. Quality might be algorithm dependent.
+but can also cause artifacts in the reconstructions. Quality might be algorithm-dependent.
 
 Based on: https://doi.org/10.1016/j.ultramic.2018.03.022
 
@@ -496,13 +514,13 @@ Priors
 ----------
 
 Many of the priors are dependent on the neighborhood size, i.e. the number of neighboring voxels that are taken into account during regularization. This can be selected for all three dimensions (X/Y/Z) though at the moment
-X and Y should be identical (transaxial dimensions). For example ``options.Ndx = 1``, ``options.Ndy = 1``, ``options.Ndz = 0`` selects all the 8 neighboring transaxial voxels, while with ``options.Ndz = 1`` a total of 27 voxels would
-be included, and so on. The larger the neighborhood, the longer the computation time. If a prior is NOT affected by this, it is specifically mentioned! The regularization strength can always be adjusted with ``options.beta``.
+X and Y should be identical (transaxial dimensions). For example, ``options.Ndx = 1``, ``options.Ndy = 1``, ``options.Ndz = 0`` selects all the 8 neighboring transaxial voxels, while with ``options.Ndz = 1`` a total of 27 voxels would
+be included, etc. The larger the neighborhood, the longer the computation time. If a prior is NOT affected by this, it is specifically mentioned! The regularization strength can always be adjusted with ``options.beta``.
 
 As with algorithms, a regularizer can be selected by setting the specific regularizer to ``true`` or ``True`` (Python). Note that only some algorithms support regularizers, but this should be something the software checks beforehand.
 Only one regularizer can be selected at a time!
 
-Below is another example of the neighborhood. In the below (2D) example we have ``options.Ndx = 2`` and ``options.Ndy = 2``, with the center pixel in white and neighborhood as blue. Note that the NLM patch region works the same way.
+Below is another example of the neighborhood. In the below (2D) example we have ``options.Ndx = 2`` and ``options.Ndy = 2``, with the center pixel in white and the neighborhood as blue. Note that the NLM patch region works the same way.
 
 .. figure:: neighborhood.png
    :scale: 100 %
@@ -518,7 +536,7 @@ Full name(s): Quadratic prior
 Enable with ``options.quad``.
 
 Simple quadratic prior. Define the weights at QP PROPERTIES (see the examples). By default, the distance of each voxel in the neighborhood from the center voxel is used as the weight, with the sum of all weights normalized to one. Custom weights can be input to ``options.weights``.
-The weights vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) and the middle value inf.
+The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) and the middle value inf.
 
 Huber prior
 ^^^^^^^^^^^
@@ -529,7 +547,7 @@ Enable with ``options.Huber``.
 
 Similar to quadratic prior, but can prevent large variations and thus artifacts happening by limiting the values with ``options.huber_delta``. See HP PROPERTIES in the examples. The weighting functions the same ways as quadratic prior, meaning that
 you can input your own weights into ``options.weights_huber`` or leave it empty and use the default ones. By default, the distance of each voxel in the neighborhood from the center voxel is used as the weight, with the sum of all weights normalized to one.
-The weights vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) and the middle value inf, if custom values are input.
+The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) and the middle value inf, if custom values are input.
 
 Based on: https://doi.org/10.1002/9780470434697
 
@@ -552,11 +570,11 @@ Full name(s): L-filter
 
 Enable with ``options.L``.
 
-Custom weights can be input, see L-FILTER PROPERTIES in the examples. The variable to input the weights is ``options.a_L``. The weights vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) (middle value is NOT inf).
+Custom weights can be input, see L-FILTER PROPERTIES in the examples. The variable for entering the weights is ``options.a_L``. The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) (middle value is NOT inf).
 
-If custom weights are not given, the ``options.oneD_weights`` determines whether 1D (true) or 2D (false) weighting scheme is used. In 1D case, if (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) = 3, = 9 or = 25 then the weights are exactly as 
-in literature. Otherwise the pattern follows a Laplace distribution. In 2D case, the weights follow Laplace distribution, but are also weighted based on the distance of the neighboring voxel from the center voxel. 
-For Laplace distribution, the mean value is set to 0 and b = 1/sqrt(2). The weights are normalized such that the sum equals 1.
+If custom weights are not given, the ``options.oneD_weights`` determines whether the 1D (true) or 2D (false) weighting scheme is used. In 1D case, if (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) = 3, = 9 or = 25 then the weights are exactly as 
+in the literature. Otherwise the pattern follows a Laplace distribution. In the 2D case, the weights follow Laplace distribution, but are also weighted based on the distance of the neighboring voxel from the center voxel. 
+For the Laplace distribution, the mean value is set to 0 and b = 1/sqrt(2). The weights are normalized such that the sum equals 1.
 
 Note: L-filter isn't currently supported in Python!
 
@@ -569,10 +587,10 @@ Full name(s): Finite impulse response median hybrid
 
 Enable with ``options.FMH``.
 
-Custom weights can be input into ``options.fmh_weights``, see FMH PROPERTIES in the examples. The weights vector should be of size [Ndx*2+1, 4] if Nz = 1 or Ndz = 0 or [Ndx*2+1, 13] otherwise. The weight for the center pixel should also be the middle value when the weight matrix is in vector form. 
+Custom weights can be input into ``options.fmh_weights``, see FMH PROPERTIES in the examples. The weight vector should be of size [Ndx*2+1, 4] if Nz = 1 or Ndz = 0 or [Ndx*2+1, 13] otherwise. The weight of the center pixel should also be the middle value when the weight matrix is in vector form. 
 The weights are normalized such that the sum equals 1.
 
-If custom weights are not provided, then the ``options.fmh_center_weight`` parameter is needed. Default value is 4 as in the original article. The default weighting scheme is based on the distance from the center voxel and the weights are normalized such that their sum is 1.
+If custom weights are not provided, then the ``options.fmh_center_weight`` parameter is needed. The default value is 4 as in the original article. The default weighting scheme is based on the distance from the center voxel and the weights are normalized such that their sum is 1.
 
 Note: FMH isn't currently supported in Python!
 
@@ -585,11 +603,11 @@ Full name(s): Weighted mean
 
 Enable with ``options.weighted``.
 
-The mean type can be selected to be arithmetic mean (``options.mean_type = 1``), harmonic mean (``options.mean_type = 2``) or geometric mean (``options.mean_type = 3``). See WEIGHTED MEAN PROPERTIES in the example. 
+The mean type can be selected as the arithmetic mean (``options.mean_type = 1``), harmonic mean (``options.mean_type = 2``) or geometric mean (``options.mean_type = 3``). See WEIGHTED MEAN PROPERTIES in the example. 
 
-Custom weights can be input to ``options.weighted_weights``. The weights vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1).
+Custom weights can be input to ``options.weighted_weights``. The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1).
 
-If custom weights are not provided, then the ``options.weighted_center_weight`` parameter is needed. Default value is 4. The default weighting scheme is based on the distance from the center voxel and the weights are normalized such that their sum is 1.
+If custom weights are not provided, then the ``options.weighted_center_weight`` parameter is needed. The default value is 4. The default weighting scheme is based on the distance from the center voxel, and the weights are normalized such that their sum is 1.
 
 Based on: https://doi.org/10.1109/42.61759 and https://doi.org/10.1109/TMI.2002.806415
 
@@ -604,7 +622,7 @@ TV is not affected by the neighborhood size!
 
 TV is "special" since it actually contains several different variations. See TV PROPERTIES in the examples for the parameters. Note that for proximal TV, see Proximal TV. This is the gradient-based TV.
 
-First is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no anatomical weighting is used. Type 3 is the hyperbolic prior if no anatomical weighting is used. Type 6 is a weighted TV prior. TV type 4 is the Lange prior.
+First, is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no anatomical weighting is used. Type 3 is the hyperbolic prior if no anatomical weighting is used. Type 6 is a weighted TV prior. TV type 4 is the Lange prior.
 
 | A complete list and explanation of the TV types:
 | Type 1: Regular isotropic TV if no anatomical weighting is used. Based on: https://doi.org/10.1007/s10851-017-0749-x
@@ -617,7 +635,7 @@ First is the "TV type", ``options.TVtype``. Types 1 and 2 are identical if no an
 Since this applies to the "gradient"-based TV, the smoothing term can be adjusted (``options.TVsmoothing``). This smoothing term should not be zero as it prevents division and square root by zero. Larger values lead to smoother images, but smaller values can
 make the regularization unstable.
 
-Anatomical weighting can be enabled with ``options.TV_use_anatomical``. Reference image can be either a mat-file or a variable. In the former case, input the name and path to ``options.TV_reference_image``, otherwise the variable.
+Anatomical weighting can be enabled with ``options.TV_use_anatomical``. The reference image can be either a mat-file or a variable. In the former case, input the name and path to ``options.TV_reference_image``, otherwise the variable.
 If a mat-file is used, the reference image should be the only variable in the mat-file.
 
 ``options.T`` is the edge threshold parameter in type 1, scale parameter for side information in type 2 and weight parameter for anatomical information in type 3.
@@ -626,9 +644,9 @@ If a mat-file is used, the reference image should be the only variable in the ma
 
 ``options.SATVPhi`` is the adjustable parameter of type 4 (Lange) or the strength of the weighting in type 6.
 
-In the future, Lange will probably be transformed into a separate prior. 
+In the future, Lange will probably become a separate prior. 
 
-Recommended ones are types 1 or 4.
+The recommended ones are types 1 or 4.
 
 Proximal TV
 ^^^^^^^^^^^
@@ -639,7 +657,7 @@ Enable with ``options.ProxTV``.
 
 Proximal TV is not affected by the neighborhood size.
 
-The proximal mapping version of TV. There are no adjustable parameters and this only works with algorithms that support proximal methods (PKMA and PDHG and its variants).
+The proximal mapping version of TV. There are no adjustable parameters, and this only works with algorithms that support proximal methods (PKMA and PDHG and its variants).
 
 Mathematically more correct version of TV.
 
@@ -650,9 +668,9 @@ Full name(s): Anisotropic Diffusion Median Root Prior
 
 Enable with ``options.AD``.
 
-In general this prior is not recommended and is included merely for historical and experimental purposes.
+In general, this prior is not recommended and is included merely for historical and experimental purposes.
 
-It functions same as median root prior, except that rather than use median filtered image, it uses anisotropic diffusion filtered image.
+It functions the same as median root prior, except that, rather than use median filtered image, it uses anisotropic diffusion filtered image.
 
 All the adjustable parameters are from: https://arrayfire.org/docs/group__image__func__anisotropic__diffusion.htm
 
@@ -699,7 +717,7 @@ TGV is not affected by the neighborhood size.
 
 Based on: https://doi.org/10.1137/090769521
 
-Recommended only for proximal supporting methods (PDHG and its variants, PKMA).
+Recommended only for methods that support proximal mappings (PDHG and its variants, PKMA).
 
 ``options.alpha0TGV`` is the first weighting value for the TGV (see parameter α1 in the reference).
 
@@ -720,12 +738,12 @@ it is recommended to use the OpenCL or CUDA versions and not the CPU version.
 RDP with implementation 2 (OpenCL + CUDA) has two different methods. The default is similar to the original RDP, i.e. only the voxels next to the current voxel are taken into account (voxels that share a side with the current voxel). 
 This means that ``options.Ndx/y/z`` are not used with the default method. 
 Second method is enabled by setting ``options.RDPIncludeCorners = true`` (``options.RDPIncludeCorners = True`` for Python). This changes the functionality of the RDP significantly. First of all, the neighborhood size affects RDP
-as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neighborhoods. Second, same weights are used as with quadratic prior, i.e. distance-based weights. You can input your own weights into ``options.weights`` or use the distance-based weights (the distance from the current voxel to
+as well, i.e. the parameters ``options.Ndx/y/z``. This second version thus uses square/rectangular/cubic neighborhoods. Second, the same weights are used as with quadratic prior, i.e. distance-based weights. You can input your own weights into ``options.weights`` or use the distance-based weights (the distance from the current voxel to
 the neighborhood voxel) which is the default option. The default version (i.e. when ``options.RDPIncludeCorners = false``) does not use any weighting. Lastly, this second version supports a "reference image" weighting, based on: https://dx.doi.org/10.1109/TMI.2019.2913889. 
 To enable you need to additionally set ``options.RDP_use_anatomical`` and provide the reference image either as mat-file in ``options.RDP_reference_image`` (MATLAB/Octave) or ``options.RDP_referenceImage`` (Python) or as a vector. 
 You need to manually compute the reference image. The reference image weighting itself is computed automatically, i.e. the kappa values.
 
-When using RDP with implementation 2 and CPU, the functionality is the same as the first, default, method. Second method is not available.
+When using RDP with implementation 2 and CPU, the functionality is the same as in the first, default, method. Second method is not available.
 
 When using other implementations, the functionality is closer to the second method. However, no reference image weighting is supported.
 
@@ -751,7 +769,7 @@ Enable with ``options.NLM``.
 
 Based on: https://doi.org/10.1137/040616024
 
-``options.sigma`` is the filtering parameter/strength. Larger values smooth the image while smaller ones emphasize edges/noise.
+``options.sigma`` is the filtering parameter/strength. Larger values smooth the image, while smaller ones emphasize edges/noise.
 
 The patch region is controlled with parameters ``options.Nlx``, ``options.Nly`` and ``options.Nlz``. The similarity is investigated in this area and the area is formed just like the neighborhood.
 
@@ -759,7 +777,7 @@ The strength of the Gaussian weighting (standard deviation) can be adjusted with
 
 If ``options.NLM_use_anatomical = true`` then an anatomical reference image is used in the similarity search of the neighborhood. Normally the original image is used for this. `options.NLM_reference_image` is either the reference image itself OR is the name of the anatomical reference data file. The reference images need to be the only variable in the file.
 
-NLM, by default, uses the original NLM, but it can also use other potential functions in a non-local fashion. Setting any of the below ones to true, uses the corresponding method. Note that from below options, select only one! All
+NLM, by default, uses the original NLM, but it can also use other potential functions in a non-local fashion. Setting any of the below ones to true, uses the corresponding method. Note that from the options below, select only one! All
 other NLM options affect the below selections as well.
 
 If you wish to use non-local total variation, set ``options.NLTV = true``. 
@@ -783,7 +801,7 @@ The use of preconditioners is slightly easier in Python than in MATLAB/Octave. T
 
 .. note::
 
-	Most of the preconditioners are supported as-is only with built-in algorithms. However, the filtering-based measurement based preconditioner has been implemented as a separate MATLAB/Python function. Some of the preconditioners are also
+	Most of the preconditioners are supported as-is only with built-in algorithms. However, the filtering-based measurement-based preconditioner has been implemented as a separate MATLAB/Python function. Some of the preconditioners are also
 	easy to compute manually.
 
 Image-based preconditioners
@@ -797,10 +815,10 @@ Only certain algorithms support image-based preconditioners. These are: MRAMLA, 
 Diagonal preconditioner
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-The diagonal preconditioner is simply the inverse of image-based sensitivity image, i.e. ``1/(A^T1)``.
+The diagonal preconditioner is simply the inverse of the image-based sensitivity image, i.e. ``1/(A^T1)``.
 
 In MATLAB/Octave, ``options.precondTypeImage = [true;false;false;false;false;false;false];`` enables this preconditioner. For Python, you can simply use ``options.precondTypeImage[0] = True``. Note that this is mutually exclusive with EM and IEM preconditioners!
-This means that you can only select one of these! You can select additionally some of the other preconditioners though.
+This means that you can only select one of these! You can also select some of the other preconditioners though.
 
 EM preconditioner
 ^^^^^^^^^^^^^^^^^
@@ -808,7 +826,7 @@ EM preconditioner
 Similar to above, but the previous estimate ``f`` is included as well ``f/(A^T1)``.
 
 In MATLAB/Octave, ``options.precondTypeImage = [false;true;false;false;false;false;false];`` enables this preconditioner. For Python, you can simply use ``options.precondTypeImage[1] = True``. Note that this is mutually exclusive with diagonal and IEM preconditioners!
-This means that you can only select one of these! You can select additionally some of the other preconditioners though.
+This means that you can only select one of these! You can also select some of the other preconditioners though.
 
 IEM preconditioner
 ^^^^^^^^^^^^^^^^^^
@@ -818,7 +836,7 @@ Based on: https://doi.org/10.1109/TMI.2019.2898271
 Similar to above, but a reference image is needed: ``max(f, fRef, epsilon)/(A^T1)``. epsilon is a small value to prevent too small values. You need to input the reference image beforehand to ``options.referenceImage``. 
 
 In MATLAB/Octave, ``options.precondTypeImage = [false;false;true;false;false;false;false];`` enables this preconditioner. For Python, you can simply use ``options.precondTypeImage[2] = True``. Note that this is mutually exclusive with diagonal and EM preconditioners!
-This means that you can only select one of these! You can select additionally some of the other preconditioners though.
+This means that you can only select one of these! You can also select some of the other preconditioners though.
 
 Momentum-like preconditioner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -833,9 +851,9 @@ In MATLAB/Octave, ``options.precondTypeImage = [false;false;false;true;false;fal
 Gradient-based preconditioner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Uses weighted gradient of the current estimate as a preconditioner. Based on: https://doi.org/10.1109/TMI.2022.3181813
+Uses a weighted gradient of the current estimate as a preconditioner. Based on: https://doi.org/10.1109/TMI.2022.3181813
 
-You need to specify the iteration were the preconditioner is first computed with ``options.gradInitIter``. It is not recommended to use the first iteration due to blurry estimate. Then you need to specify the last iteration
+You need to specify the iteration in which the preconditioner is first computed with ``options.gradInitIter``. It is not recommended to use the first iteration due to the blurry estimate. Then you need to specify the last iteration
 where the gradient is computed with ``options.gradLastIter``. The gradient is no longer computed after this iteration, but the last computed gradient is still used in all the remaining iterations.
 
 You also need to specify the lower and upper bound values with ``options.gradV1`` and ``options.gradV2``. See the paper for details.
