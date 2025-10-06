@@ -23,7 +23,7 @@ set, then ``options.tube_width_xy`` is ignored. ``options.tube_width_z`` always 
 The fastest methods are projector_type = 1 or projector_type = 4. The first one computes the exact line of intersection length in each voxel using an improved version of the Siddon's algorithm. The latter is an interpolation-based
 projector, similar to Joseph's method, i.e. it linearly interpolates values after a pre-determined step-size. This step-size can be adjusted with ``options.dL`` and is the relative size of one voxel. I.e. ``options.dL = 1``
 would use the length of one voxel as the interpolation length. Multi-ray version is also available, though recommended only for projector_type = 1. The number of transaxial rays can be adjusted with ``options.n_rays_transaxial`` and 
-axial with ``options.n_rays_axial``. While projector_types 1 and 4 are the fastest, they produce lower quality images than projector types 2 and 3. However, you can compensate for this somewhat by using PSF blurring. This can be enabled
+axial with ``options.n_rays_axial``. While projector_types 1 and 4 are the fastest, they produce lower quality images than projector types 2 and 3. However, you can compensate for this somewhat by using point spread function (PSF) blurring. This can be enabled
 by setting ``options.use_psf`` to true. The FWHM can be adjusted with ``options.FWHM`` and must include value for all three dimensions. Note that projector type 4 is OpenCL/CUDA only! This means that only implementations 2, 3 and 5 
 support it (note that Python uses only implementation 2!).
 

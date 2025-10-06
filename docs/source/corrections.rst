@@ -33,7 +33,8 @@ See https://doi.org/10.1117/12.618140 for some details on arc correction.
 Randoms correction
 ------------------
 
-This is a PET-only feature. The randoms correction data can be either included in the reconstructions in an "ordinary Poisson" (OP) way, or precorrected. For OP, you must select ``options.corrections_during_reconstruction = true``
+This is a PET-only feature. Randoms correction uses a previously obtained estimate of the randoms either as a precorrection or during the reconstruction. 
+The randoms correction data can be either included in the reconstructions in an "ordinary Poisson" (OP) way, or precorrected. For OP, you must select ``options.corrections_during_reconstruction = true``
 before running the reconstructions. As for the randoms corrections data, you can input it manually into ``options.SinDelayd`` variable (in Python, you need to make sure the data is Fortran-ordered!), have them automatically loaded if using GATE, 
 Inveon, or Biograph data with randoms data, or input a mat-file containing only the randoms data when prompted. If precorrection is used, then the randoms are simply subtracted from the measurement data. Note that you can also use precorrection 
 yourself manually, but in such a case you should set randoms correction as false.
@@ -50,7 +51,7 @@ See https://doi.org/10.1088/0031-9155/44/4/010 for details on variance reduction
 Scatter correction
 ------------------
 
-Scatter correction data cannot be created with OMEGA at the moment, though you can extract GATE scatter data from PET simulations (GATE 9.X or earlier). However, you can add your own scatter correction data by inputting it into ``options.ScatterC`` 
+Scatter correction data cannot be created with OMEGA at the moment, though you can extract GATE scatter data from PET simulations (GATE 9.X or earlier). However, you can add your own scatter correction (estimate) data by inputting it into ``options.ScatterC`` 
 variable. The same variance reduction (``options.scatter_variance_reduction``) and smoothing operations (``options.scatter_smoothing``) as with randoms can be applied to the scatter data as well. You can also normalize PET scatter data with 
 ``options.normalize_scatter`` if you use the normalization correction. In Python, you need to make sure that the data is Fortran-ordered!
 
@@ -66,7 +67,7 @@ Attenuation correction
 ----------------------
 
 This is PET and SPECT only feature. Adjust the state of the correction with ``options.attenuation_correction``. The attenuation data HAS to be input by the user. Two different attenuation data are accepted: images and sinograms.
-This means that the correction can be applied either by using attenuation images or by using attenuation sinograms. Note that for the attenuation images, the images HAVE to be scaled to the corresponding energy! The default is attenuation
+This means that the correction can be applied either by using attenuation images or by using attenuation sinograms. Note that for both cases, the images/sinograms HAVE to be scaled to the corresponding energy! The default is attenuation
 images, but this can be adjusted with ``options.CT_attenuation``, where ``false`` uses sinograms. Input the, preferable full, path of the attenuation data into ``options.attenuation_datafile`` OR input the attenuation data itself into ``options.vaimennus``. 
 If your attenuation data is oriented 
 different to the reconstruction, you can rotate the attenuation image with ``options.rotateAttImage``, where the image is rotated as N * 90 degrees, where N = ``options.rotateAttImage``. Similarly, you can also flip the transaxial and/or
@@ -78,13 +79,13 @@ scale the image beforehand.
 
 .. note::
 
-	The units in OMEGA are in millimeters! This feature works the same whether you use the built-in algorithms or compute custom algorithms with the projector operators.
+	The units in OMEGA are in millimeters! Make sure the attenuation image is scaled to mm. This feature works the same whether you use the built-in algorithms or compute custom algorithms with the projector operators.
 
 Normalization correction
 ------------------------
 
-This is PET and SPECT only feature and enabled with ``options.normalization_correction``. There are two options, either you can input precomputed normalization correction sinogram/projections or then you can use a specific normalization measurement
-and compute the normalization coefficients with OMEGA (PET only!). 
+This is PET and SPECT only feature and enabled with ``options.normalization_correction``. Normalization correction corrects for variations between different detector elements. 
+There are two options, either you can input precomputed normalization correction sinogram/projections or then you can use a specific normalization measurement and compute the normalization coefficients with OMEGA (PET only!). 
 
 If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the normalization coefficient data, either input the data into ``options.normalization`` or select it when running the code
 and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable) when using the prompt. Normalization data computed with OMEGA are saved
@@ -156,8 +157,8 @@ When using built-in algorithms, not all algorithms support multi-resolution reco
 Offset correction
 -----------------
 
-This is a CT only feature and can be enabled with ``options.offsetCorrection``. If you have an offset imaging case, setting this to true should remove any offset artifacts. This is often called redundancy weighting. The weighting should
-be done automatically.
+This is a CT only feature and can be enabled with ``options.offsetCorrection``. If you have an offset imaging case, i.e. the center of rotation is not in the origin, setting this to true should remove any offset artifacts. This is often called redundancy weighting. 
+The weighting should be done automatically.
 
 Examples of offset papers include https://dx.doi.org/10.1109/nssmic.2010.5874179 and https://dx.doi.org/10.1088/0031-9155/58/2/205 and https://dx.doi.org/10.1118/1.1489043 and https://dx.doi.org/10.1088/1361-6560/ac16bc. Note that
 although they present different weights, the results are the same.
@@ -169,10 +170,16 @@ although they present different weights, the results are the same.
 Resolution recovery
 -------------------
 
-In SPECT, modeling the response of the collimator is commonly referred to as resolution recovery. Also known as the collimator-detector response correction, full modeling of the collimator includes considering the geometry of the collimator, the septal penetration and the collimator scatter. However, the built-in resolution recovery in OMEGA accounts only for the geometrical response, which is the most significant component in the collimator-detector response. Thus, this is a SPECT only feature, and supported by projector models 1, 2 and 6. Resolution recovery parameters can be determined automatically using the collimator dimensions or manually by setting the relative variables. The geometry of the collimator is input into the variables ``options.colL``, ``options.colR``, ``options.colD``, ``options.colFxy`` and ``options.colFz``. These define the hole length, radius, separation from detector surface, focal distance in XY direction, and focal distance in Z direction, respectively. Currently focal distances of zero and Inf are supported, these represent pinhole and parallel-hole collimators respectively.
+In SPECT, modeling the response of the collimator is commonly referred to as resolution recovery. Also known as the collimator-detector response correction, full modeling of the collimator includes considering the geometry of the collimator, the septal penetration and the collimator 
+scatter. However, the built-in resolution recovery in OMEGA accounts only for the geometrical response, which is the most significant component in the collimator-detector response. Thus, this is a SPECT only feature, and supported by projector models 1, 2 and 6. Resolution recovery 
+parameters can be determined automatically using the collimator dimensions or manually by setting the relative variables. The geometry of the collimator is input into the variables ``options.colL``, ``options.colR``, ``options.colD``, ``options.colFxy`` and ``options.colFz``. These 
+define the hole length, radius, separation from detector surface, focal distance in XY direction, and focal distance in Z direction, respectively. Currently focal distances of zero and Inf are supported, these represent pinhole and parallel-hole collimators respectively.
 
-With projector type 1, resolution recovery is performed by tracing multiple rays for each detector pixel / data point. The collimator is thus modeled by the relative shifts of the traced rays. The shifts for each detector element can be input into the variables ``options.rayShiftsSource`` and ``options.rayShiftsDetector``. The former encodes the shifts at the detector-collimator interface, and the latter encodes the shifts at the middle of the collimator.  The variables should be of the size ``2*options.nRays * options.nRowsD * options.nColsD * options.nProjections``, with the elements ``[x0, y0, x1, y1]`` depicting the shifts in detector coordinate system in millimeters.
+With projector type 1, resolution recovery is performed by tracing multiple rays for each detector pixel / data point. The collimator is thus modeled by the relative shifts of the traced rays. The shifts for each detector element can be input into the variables ``options.rayShiftsSource`` 
+and ``options.rayShiftsDetector``. The former encodes the shifts at the detector-collimator interface, and the latter encodes the shifts at the middle of the collimator.  The variables should be of the size ``2*options.nRays * options.nRowsD * options.nColsD * options.nProjections``, 
+with the elements ``[x0, y0, x1, y1]`` depicting the shifts in detector coordinate system in millimeters.
 
-The orthogonal distance ray tracer weighs voxels by a Gaussian distribution, the variance of which is defined by the variables ``options.coneOfResponseStdCoeffA``, ``options.coneOfResponseStdCoeffB`` and ``options.coneOfResponseStdCoeffC``. The characters A, B and C refer to the collimator-detector response model, where the Gaussian FWHM is sqrt((az+b)^2+c^2), z being  the distance along the normal vector of the detector element in question.
+The orthogonal distance ray tracer weighs voxels by a Gaussian distribution, the variance of which is defined by the variables ``options.coneOfResponseStdCoeffA``, ``options.coneOfResponseStdCoeffB`` and ``options.coneOfResponseStdCoeffC``. The characters A, B and C refer to the 
+collimator-detector response model, where the Gaussian FWHM is sqrt((az+b)^2+c^2), z being  the distance along the normal vector of the detector element in question.
 
 Projector type 6, the rotate-and-sum method, considers the detector response by convolving the image volume with ``options.gFilter`` during projection.

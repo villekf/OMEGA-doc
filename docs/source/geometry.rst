@@ -16,9 +16,10 @@ Transaxial
 ^^^^^^^^^^
 
 The figure below outlines the geometry of PET in the transaxial (XY) direction. One thing to note is that, if you're using GATE data,
-if you have sub-blocks in one block, you'll need set this to ``options.transaxial_multip``. In the figure below, the top right block
+if you have sub-blocks in one block, you'll need set number of them to ``options.transaxial_multip``. In the figure below, the top right block
 has two sub-blocks, but it is still considered as one single block. However, in this case ``options.transaxial_multip = 2``. If you 
-don't have sub-blocks, you only need the total number of blocks per ring. Ring means the transaxial view in this. For example, the figure
+don't have sub-blocks, you only need the total number of blocks per ring. Note that this is required only when loading GATE data with OMEGA. 
+Ring means the transaxial view in this. For example, the figure
 below has 3 blocks. When inputting your own sinograms, the row axis should have the radial distance, and the column axis the angles.
 This means that you should get a horizontal "sine" curve. For Python, note that the data needs to use Fortran data ordering, i.e. column 
 major ordering.
@@ -40,8 +41,9 @@ Axial
 The figure below outlines the geometry of PET in the axial (XZ) direction. If you have more than one bucket axially, you'll need to specify
 ``options.linear_multip``. The ``options.cryst_per_block_axial`` multiplied with ``options.linear_multip`` should equal the number of crystal
 rings. In the below figure ``options.linear_multip = 2`` and ``options.blocks_per_ring = 8``. If the blocks have gaps between them, you can take
-these into account automatically by setting ``options.ringGaps`` such that it contains the crystal rings after which there is a gap. For example, 
-if blocks would have ``options.cryst_per_block_axial = 20`` then ``options.ringGaps = 20``.
+these into account automatically by setting ``options.ringGaps`` such that it contains the gaps between each ring (in millimeters). For example, 
+if you would have ``options.linear_multip = 4`` then ``options.ringGaps`` should contain three gap values if there are gaps. The gaps are always
+assumed to be zero by default.
 
 Again, if you use your own coordinates, you only need to input them. None of the above are needed when using custom detector coordinates.
 
@@ -75,7 +77,8 @@ except for FOV size and the number of voxels per axis.
    CT/SPECT geometry in the transaxial view.
    
 For CT, it is also possible that the panel rotates in the transaxial plane with respect to the center of the panel. The figure below outlines 
-such a case. You can take this into account by inputting α as the first column of ``options.pitchRoll``. It can be either a scalar or a vector.
+such a case. You can take this into account by inputting α as the first column of ``options.pitchRoll``. It can be either a scalar or a vector, where
+a vector should contain a value for ALL projections. A scalar uses the same value for all projections.
 
 .. figure:: OMEGA_ct_coordinateXY_rot.svg
    :scale: 100 %
@@ -88,7 +91,8 @@ Axial
 
 Again, CT and SPECT geometries don't differ here except that CT supports panel rotation along the angle β, as outlined in the below figure.
 You can include this angle as the second column of ``options.pitchRoll``. Note that if you have non-zero α but zero β, then the second column
-of ``options.pitchRoll`` has to be zeros. The same applies the other way around.
+of ``options.pitchRoll`` has to be zeros. The same applies the other way around. ``options.nColsD`` should contain the number of 
+columns in each projection.
 
 .. figure:: OMEGA_ct_coordinateXZ.svg
    :scale: 100 %
