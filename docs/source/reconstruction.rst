@@ -13,17 +13,18 @@ Built-in reconstruction
 The built-in reconstruction handles the entire reconstruction process in one process using the selected algorithm (see :doc:`algorithms`). The necessary selections are the number of iterations with ``options.Niter`` and the algorithm.
 Optionally, subsets and/or regularization and/or preconditioners can be used if the algorithm supports them. You can enforce the positivity of most algorithms with ``options.enforcePositivity`` set to true.
 
-At minimum, you only need to select a single algorithm. This will then use one iteration, with no subsets, by default. By default, projector type 1 is used except for CT-type data (i.e. when ``options.CT = true``) in which case projector type 4 is used.
+At minimum, you only need to select a single algorithm. This will then use four iterations, with no subsets, by default. By default, projector type 1 is used except for CT-type data (i.e. when ``options.CT = true``) in which case projector type 4 is used.
 
 The number of subsets is selected with ``options.subsets`` and projector with ``options.projector_type``.
 
-The reconstruction is performed in ``reconstructions_main`` for PET, ``reconstructions_mainCT`` for CT, and ``reconstructions_mainSPECT`` for SPECT.
+The reconstruction is performed in ``reconstructions_main`` for PET, ``reconstructions_mainCT`` for CT, and ``reconstructions_mainSPECT`` for SPECT. However, both CT and SPECT eventually end up using ``reconstructions_main`` also.
 
 Using the forward and/or backward projection operators
 ------------------------------------------------------
 
-Alternatively, the user can manually compute any and all algorithms and simply call the OMEGA forward (Ax) and/or backward (A^Ty) projection operators. In such cases, the user is responsible for the number of iterations and any and all algorithm-
-specific settings. Note that by default emission tomography is assumed! You can switch to CT-style (intersection length, not probability) with ``options.CT`` as true. This should be applied even if you don't use CT data, but are not using emission
+Alternatively, the user can manually compute any and all algorithms and simply call the OMEGA forward (Ax) and/or backward (A^Ty) projection operators. 
+In such cases, the user is responsible for the number of iterations and any and all algorithm-specific settings. The name of the operator itself can be anything, but here either ``options`` or ``A`` is assumed. 
+Note that by default emission tomography is assumed! You can switch to CT-style (intersection length, not probability) with ``options.CT`` as true. This should be applied even if you don't use CT data, but are not using emission
 tomography either. Note that when using subsets handled by OMEGA with the forward and/or backward projection operators, you need to manually make sure that the data is ordered into the subsets correctly. OMEGA can provide the indices, but the user has
 to perform the actual sorting operation using the indices. The examples include several subset cases. Note that when using subsets, you need to input the current subset number with ``A.subset = currentSubset`` before you compute the forward and/or backward 
 projection, with zero-based numbering in Python and one-based in MATLAB/Octave. Below is an example of subset use in Python:
