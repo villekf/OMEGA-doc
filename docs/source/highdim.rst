@@ -12,8 +12,8 @@ High-dimensional measurement data
 
 This is especially relevant for PET TOF data, but it can be used with any other data too. By default, all measurement data is transferred to the GPU before the reconstruction. However, it is possible to limit only the current subset to the GPU. This is
 achieved by setting ``options.loadTOF`` to false. Although the name suggests TOF-only, it works with any measurement data. However, this only works if subsets are used. This also works with list-mode/custom coordinate data, where the coordinates are
-also split according to the subset. The measurement data still has to fit into the host RAM. Note that you can further reduce memory usage by using unsigned 16-bit integer input data whenever applicable. There are no restrictions when using this mode, 
-it can only lead to slower reconstructions if there is sufficient memory on the GPU and the data is transferred on-the-fly.
+also split according to the subset. The measurement data still has to fit into the host RAM. Note that you can further reduce memory usage by using unsigned 16-bit or 8-bit integer input data whenever applicable. There are no restrictions when using this mode, 
+it can only lead to slower reconstructions if there is sufficient memory on the GPU and the data is transferred on-the-fly instead.
 
 High-dimensional CT data
 ------------------------
