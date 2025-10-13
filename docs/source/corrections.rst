@@ -84,8 +84,9 @@ scale the image beforehand.
 Normalization correction
 ------------------------
 
-This is PET and SPECT only feature and enabled with ``options.normalization_correction``. Normalization correction corrects for variations between different detector elements. 
-There are two options, either you can input precomputed normalization correction sinogram/projections or then you can use a specific normalization measurement and compute the normalization coefficients with OMEGA (PET only!). 
+This is enabled with ``options.normalization_correction``. Normalization correction corrects for variations between different detector (measurement) elements and can be used with any modality, though in general this is only used for PET and SPECT.
+There are two options, either you can input precomputed normalization correction sinogram/projections or then you can use a specific normalization measurement and compute the normalization coefficients with OMEGA (PET only!). The general functionality is that
+the value in this normalization vector/matrix is multiplied with the corresponding forward projection element or the input element for backprojection, i.e. it's always in the measurement-space.
 
 If you use normalization data NOT computed by OMEGA, you need to set ``options.use_user_normalization`` to true. To insert the normalization coefficient data, either input the data into ``options.normalization`` or select it when running the code
 and getting the prompt for the data. The normalization data has to be either nrm-file (Inveon normalization) or mat-file (has to be the only variable, or at least the first variable) when using the prompt. Normalization data computed with OMEGA are saved
