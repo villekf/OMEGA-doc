@@ -1,7 +1,9 @@
 Choosing the optimal implementation
 ===================================
 
-This page explains the details of the different implementations and their different advantages. This does not apply to custom reconstructions in Python! Custom reconstructions in Python directly call the OpenCL or CUDA kernels.
+This page explains the details of the different implementations and their different advantages. This does not apply to custom reconstructions (i.e. the class object) in Python! Custom reconstructions in Python directly call the OpenCL or CUDA kernels.
+
+If you are using Python built-in reconstructions, then you'll always use implementation 2 and cannot change it. Thus, this document mainly applies only to MATLAB/Octave although you can see some technical details of implementation 2 below.
 
 In short, use implementation 2 with OpenCL as it is the most feature-rich and tested. This is the only implementation available when using Python as well (CUDA and CPU are available too). For details, see below. If you cannot use implementation 2, use implementation 5 if you have a discrete GPU. If not, use implementation 4.
 
@@ -25,6 +27,6 @@ implementation 4 is not recommended. Can also be used for custom algorithm compu
 as extensively tested as implementation 2 and some features may not work correctly. Most PET and SPECT features, such as OSEM reconstruction, work fine though.
 
 Implementation 5 is a pure OpenCL-based implementation. The difference from implementation 3 is that only the forward and backward projections are computed on the OpenCL device (e.g. GPU). The rest of the computations are performed
-on MATLAB/Octave. Supports branchless distance-driven projector and other GPU-based projectors. Thus, it supports more features than implementation 3 or 4. However, implementation 5 is only recommended if implementation 2 cannot
+in MATLAB/Octave. Supports branchless distance-driven projector and other GPU-based projectors. Thus, it supports more features than implementation 3 or 4. However, implementation 5 is only recommended if implementation 2 cannot
 be used. For custom reconstructions (in MATLAB/Octave), implementation 5 is the recommended method, though it is used even if implementation 2 or 3 are selected. The same things apply to implementation 5 as to 4, i.e. it is not as extensively tested 
 and some features might not work correctly.
