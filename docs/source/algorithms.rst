@@ -535,7 +535,7 @@ Full name(s): Quadratic prior
 
 Enable with ``options.quad``.
 
-Simple quadratic prior. Define the weights at QP PROPERTIES (see the examples). By default, the distance of each voxel in the neighborhood from the center voxel is used as the weight, with the sum of all weights normalized to one. Custom weights can be input to ``options.weights``.
+Simple quadratic prior. Define the weights at QP PROPERTIES (see the examples). By default, the distance of each voxel in the neighborhood from the center voxel is used as the weight, normalized such that the sum of the weights equals one. Custom weights can be input to ``options.weights``.
 The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) and the middle value inf.
 
 Huber prior
@@ -546,7 +546,7 @@ Full name(s): Huber prior
 Enable with ``options.Huber``.
 
 Similar to quadratic prior, but can prevent large variations and thus artifacts happening by limiting the values with ``options.huber_delta``. See HP PROPERTIES in the examples. The weighting functions the same ways as quadratic prior, meaning that
-you can input your own weights into ``options.weights_huber`` or leave it empty and use the default ones. By default, the distance of each voxel in the neighborhood from the center voxel is used as the weight, with the sum of all weights normalized to one.
+you can input your own weights into ``options.weights_huber`` or leave it empty and use the default ones. By default, the distance of each voxel in the neighborhood from the center voxel is used as the weight, normalized such that the sum of the weights equals one.
 The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1) and the middle value inf, if custom values are input.
 
 Based on: https://doi.org/10.1002/9780470434697
@@ -590,7 +590,7 @@ Enable with ``options.FMH``.
 Custom weights can be input into ``options.fmh_weights``, see FMH PROPERTIES in the examples. The weight vector should be of size [Ndx*2+1, 4] if Nz = 1 or Ndz = 0 or [Ndx*2+1, 13] otherwise. The weight of the center pixel should also be the middle value when the weight matrix is in vector form. 
 The weights are normalized such that the sum equals 1.
 
-If custom weights are not provided, then the ``options.fmh_center_weight`` parameter is needed. The default value is 4 as in the original article. The default weighting scheme is based on the distance from the center voxel and the weights are normalized such that their sum is 1.
+If custom weights are not provided, then the ``options.fmh_center_weight`` parameter is needed. The default value is 4 as in the original article. The default weighting scheme is based on the distance from the center voxel and normalized such that the sum of the weights equals one.
 
 Note: FMH isn't currently supported in Python!
 
@@ -607,7 +607,7 @@ The mean type can be selected as the arithmetic mean (``options.mean_type = 1``)
 
 Custom weights can be input to ``options.weighted_weights``. The weight vector should be of size (Ndx*2+1) * (Ndy*2+1) * (Ndz*2+1).
 
-If custom weights are not provided, then the ``options.weighted_center_weight`` parameter is needed. The default value is 4. The default weighting scheme is based on the distance from the center voxel, and the weights are normalized such that their sum is 1.
+If custom weights are not provided, then the ``options.weighted_center_weight`` parameter is needed. The default value is 4. The default weighting scheme is based on the distance from the center voxel, and normalized such that the sum of the weights equals one.
 
 Based on: https://doi.org/10.1109/42.61759 and https://doi.org/10.1109/TMI.2002.806415
 
