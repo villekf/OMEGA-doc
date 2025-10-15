@@ -18,8 +18,8 @@ it can only lead to slower reconstructions if there is sufficient memory on the 
 High-dimensional CT/image data
 ------------------------------
 
-This is specifically designed for CT data and especially for µCT. This is similar to the above, but the image (estimate) is also reconstructed in subsets, i.e. the full image/estimate is not transfered to the GPU. Like above, this depends on the number of subsets as well. 
+This is specifically designed for CT data and especially for µCT. This is similar to the above, but the image (estimate) is also reconstructed in subsets, i.e. the full image/estimate is not transferred to the GPU. Like above, this depends on the number of subsets as well. 
 Unlike above, which supports any reconstruction algorithm, this method only supports FDK, PDHG, and its variants, and PKMA. Note that FDK still computes only a single backprojection despite using subsets. The rest divide the reconstruction into the subsets as normal. 
 This feature is enabled by setting ``options.largeDim`` to true. The setting of ``loadTOF`` is irrelevant if ``largeDim`` is true. For regularization, only non-local methods, RDP, GGMRF, gradient-based TV, and hyperbolic prior are supported. Diagonal and EM image-based 
-preconditioners are supported as well as filtering-based measurement-based preconditioner. With a sufficient number of subsets, any type of data can be reconstructed with any type of GPU. However, the input measurement data and output reconstruction has to
+preconditioners are supported as well as filtering-based measurement-based preconditioner. With a sufficient number of subsets, any type of data can be reconstructed with any type of GPU. However, the input measurement data and output reconstruction have to
 fit to the computer RAM. For PDHG, the intermediate variables, such as the dual estimate, need to fit, too. 

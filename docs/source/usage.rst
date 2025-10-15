@@ -8,10 +8,10 @@ Geometry information
 
 For more details on the geometry, see :doc:`geometry`.
 
-For all data and modalities, there are two different ways to set up the geometry. One is a built-in method that is different for each modality and requires specific type of scanner(s). Another is user-input coordinates for each measurement. 
+For all data and modalities, there are two different ways to set up the geometry. One is a built-in method that is different for each modality and requires a specific type of scanner(s). Another is user-input coordinates for each measurement. 
 This page details the built-in features, but any type of data can be used if the geometry is defined completely manually through source-detector (or detector-detector) coordinate pairs. For the manual case, see :doc:`customcoordinates`.
 
-Whenever inputing your own values, make sure the data is Fortran-ordered in Python!
+Whenever inputting your own values, make sure the data is Fortran-ordered in Python!
 
 .. note::
 
@@ -22,21 +22,21 @@ PET data
 
 Built-in support is available for cylindrical PET scanners with block/bucket type setting (as shown in :doc:`geometry`). If the below parameters are specified correctly, the coordinates are computed automatically.
 
-A necessary parameter to input is ``options.blocks_per_ring``, which is the number of blocks/buckets in the transaxial direction. This is the total number of blocks/buckets as shown in the geometry page in the transaxial direction, 
+A necessary parameter to input is ``options.blocks_per_ring``, which is the number of blocks/buckets in the transaxial direction. This is the total number of blocks/buckets as shown on the geometry page in the transaxial direction, 
 i.e. when looking to the bore. 
 
-This is not necessary parameter and is only necessary if there are gaps between adjacent rings. ``options.linear_multip`` is the number of blocks/buckets in the axial direction, i.e. when moving along the bore direction. 
+This is not a necessary parameter and is only necessary if there are gaps between adjacent rings. ``options.linear_multip`` is the number of blocks/buckets in the axial direction, i.e. when moving along the bore direction. 
 
-Instead of using the above, it is also possible to use ``options.cryst_per_block_axial`` instead, IF there are no gaps between the rings. Otherwise, this should be number of crystals per block in the axial direction. Multiplying this
+Instead of using the above, it is also possible to use ``options.cryst_per_block_axial`` instead, IF there are no gaps between the rings. Otherwise, this should be the number of crystals per block in the axial direction. Multiplying this
 with the above ``linear_multip`` has to be the total number of rings!
 
-A necessary parameter is also ``options.cryst_per_block`` which is the number of crystals per block in the transaxial direction. This multiplied with ``options.blocks_per_ring`` has to equal the number of crystals per ring!
+A necessary parameter is also ``options.cryst_per_block``, which is the number of crystals per block in the transaxial direction. This multiplied with ``options.blocks_per_ring`` has to equal the number of crystals per ring!
 
-If there are gaps between the rings, these can be input into ``options.ringGaps`` and the number of elements should equal to ``options.linear_multip`` - 1. The gaps are the size of the gap in mm. This is required ONLY if there are gaps! Default assumption is no gaps!
+If there are gaps between the rings, these can be input into ``options.ringGaps`` and the number of elements should equal ``options.linear_multip`` - 1. The gaps are the size of the gap in mm. This is required ONLY if there are gaps! Default assumption is no gaps!
 
 ``options.diameter`` is a compulsory parameter that is the distance diameter of the bore.
 
-The crystal pitch in mm (size) is compulsory and is defined for transaxial direction with ``options.cr_p`` and for axial with ``options.cr_pz``.
+The crystal pitch in mm (size) is compulsory and is defined for the transaxial direction with ``options.cr_p`` and for axial with ``options.cr_pz``.
 
 The transaxial FOV is defined by ``options.FOVa_x`` for the vertical/row size and ``options.FOVa_y`` for the horizontal/column. ``options.FOVa_y`` can be omitted, but ``options.FOVa_x`` has to be input!
 
@@ -46,22 +46,22 @@ If the scanner has pseudo-rings, the number of those can be input with ``options
 
 ``options.det_per_ring``, ``options.rings`` and ``options.detectors`` can be omitted, but ``options.det_w_pseudo`` has to be included if, and only if, pseudo-rings are included.
 
-``options.machine_name`` is important if loading previously saved data or saving measurement, such as GATE, data. If you preload the measurement data into ``options.SinM``, you can omit this, otherwise include some name.
+``options.machine_name`` is important if loading previously saved data or saving measurement, such as GATE, data. If you preload the measurement data into ``options.SinM``, you can omit this; otherwise, include some name.
 
 PET data also needs the following sinogram properties, if using sinogram data:
 
 ``options.span`` is the span factor/axial compression (default value is 3). ``options.ring_difference`` maximum ring difference (default is number of rings - 1). ``options.Ndist`` number of radial positions/views/rows in the sinogram (default value is 400). 
 ``options.Nang`` number of angles/columns (tangential positions) in sinogram (can be omitted, in which case it is assumed to be half the number of detectors per ring).
-``options.segment_table`` the amount of sinograms contained on each segment. Note that this is only required if ``options.span`` > 1 and is computed automatically if omitted. ``options.TotSinos`` the total number of sinograms.
-``options.NSinos`` the total number of sinograms used in the reconstructions, if smaller than ``options.TotSinos`` only the first ``options.NSinos`` sinograms are taken. It is possible to omit ``options.TotSinos``. 
-``options.ndist_side`` is an optional value that is used only if the sinogram is created by OMEGA. If Ndist value is even, take one extra out of the negative side (+1) or from the positive side (-1). If you have sinogram data with pseudo 
+``options.segment_table`` the amount of sinograms contained in each segment. Note that this is only required if ``options.span`` > 1 and is computed automatically if omitted. ``options.TotSinos`` the total number of sinograms.
+``options.NSinos`` the total number of sinograms used in the reconstructions; if smaller than ``options.TotSinos`` only the first ``options.NSinos`` sinograms are taken. It is possible to omit ``options.TotSinos``. 
+``options.ndist_side`` is an optional value that is used only if the sinogram is created by OMEGA. If the Ndist value is even, take one extra out of the negative side (+1) or from the positive side (-1). If you have sinogram data with pseudo 
 detectors, you can interpolate the gaps by setting ``options.fill_sinogram_gaps = true``, note that this is MATLAB/Octave only! See the ``Biograph_mCT_main.m`` for more details on the gap filling.
 
 For TOF data, see :doc:`tof`.
 
-Note that the origin is assumed to be in the center of the scanner and by default that is also the origin of the FOV/image. If you want to move the FOV, use ``options.oOffsetX`` (row), ``options.oOffsetY`` (column) and ``options.oOffsetZ`` (slice) values.
+Note that the origin is assumed to be in the center of the scanner and by default that is also the origin of the FOV/image. If you want to move the FOV, use ``options.oOffsetX`` (row), ``options.oOffsetY`` (column), and ``options.oOffsetZ`` (slice) values.
 
-Depth of interaction (DOI) effect can be somewhat included with ``options.DOI`` parameter. This simply assumes that the absorption point is not at the edge of the crystal but the specified depth (in mm) from the surface. This is a constant
+Depth of interaction (DOI) effect can be somewhat included with the ``options.DOI`` parameter. This simply assumes that the absorption point is not at the edge of the crystal but the specified depth (in mm) from the surface. This is a constant
 value.
 
 For dual, or multi, layer data, you should use index-based reconstruction, see :doc:`customcoordinates`. It is possible to use dual-layer data by setting ``options.nLayers = 2``, but this is not a recommended method. The sinogram parameters need to be modified
@@ -70,33 +70,33 @@ accordingly. If the size of the layers is different, you need to use pseudo dete
 CT data
 ^^^^^^^
 
-For CT data, the built-in geometry allows the use of cone beam CT data with flat panel. However, there are many ways to define the geometry of the source and/or detector.
+For CT data, the built-in geometry allows the use of cone beam CT data with a flat panel. However, there are many ways to define the geometry of the source and/or detector.
 
 In all cases, regardless of the source-detector geometry, the following variables are needed:
 
-``options.nRowsD`` is the number of rows in the projection image. ``options.nColsD`` the number of columns. ``options.nProjections`` is the total number of projections. ``options.dPitchX`` is the size of single detector pixel in the row direction and 
-``options.dPitchY`´ in the column direction. ``options.sourceToDetector`` is the source-to-detector distance. ``options.sourceToCRot`` is the source-to-center-of-rotation distance.
+``options.nRowsD`` is the number of rows in the projection image. ``options.nColsD`` is the number of columns. ``options.nProjections`` is the total number of projections. ``options.dPitchX`` is the size of a single detector pixel in the row direction and 
+``options.dPitchY`` in the column direction. ``options.sourceToDetector`` is the source-to-detector distance. ``options.sourceToCRot`` is the source-to-center-of-rotation distance.
 
 The transaxial FOV is defined by ``options.FOVa_x`` for the vertical/row size and ``options.FOVa_y`` for the horizontal/column. ``options.FOVa_y`` can be omitted, but ``options.FOVa_x`` has to be input! Axial FOV is defined with ``options.axial_fov`` 
 and has to be input, even if you have only one column/row!
 
 To input the source-detector geometry, there are multiple ways to achieve that. One is to let OMEGA handle as much as possible. If the source and detector are not shifted at all, then only the projection angles are needed: ``options.angles`` in either
-degrees or radians. You can move the source in the row direction with ``options.sourceOffsetRow`` and in the column direction with ``options.sourceOffsetCol``. For detector, the same is possible with ``options.detOffsetRow`` and
-``options.detOffsetCol``. In both shift cases, the variable can be either a scalar or vector. If vector, the number of elements has to equal the number of projections.
+degrees or radians. You can move the source in the row direction with ``options.sourceOffsetRow`` and in the column direction with ``options.sourceOffsetCol``. For the detector, the same is possible with ``options.detOffsetRow`` and
+``options.detOffsetCol``. In both shift cases, the variable can be either a scalar or vector. If a vector, the number of elements has to equal the number of projections.
 
-You can also input the coordinates of the source and center of the detector for each projection. These are input as pairs into ``options.x``, ``options.y`` and ``options.z``, i.e. first source then detector center. These correspond to row (x), column (y) and slice directions (z). 
+You can also input the coordinates of the source and center of the detector for each projection. These are input as pairs into ``options.x``, ``options.y``, and ``options.z``, i.e. first source then detector center. These correspond to row (x), column (y), and slice directions (z). 
 In case the panel rotates in other directions at each projection, you can input these into ``options.pitchRoll``, which is again in pairs. Alternatively, you can input the direction vectors of the panel at each projection to ``options.uV``. With either 2 or 6 elements per projection,
 depending on the extent of the rotation. For example, if the panel doesn't rotate on its own axis then ``options.uV`` should have 2 elements per projection.
 See :doc:`geometry` for more details on the ``pitchRoll``.
 
 SPECT data
 ^^^^^^^^^^
-SPECT data is input as CT/PET data regarding the variables ``options.SinM``, ``options.nRowsD``, ``options.nColsD``, ``options.nProjections``, ``options.FOVa_x``, ``options.FOVa_y``, ``options.axial_fov``, ``options.angles``, ``options.x``, ``options.z``, ``options.dPitchX`` and ``options.dPitchY``. However, if reconstructing the image from sinograms, the distance between detector surface and FOV center is required in ``options.radiusPerProj``. The crystal thickness is read from ``options.cr_p`` and the intrinsic resolution from ``options.iR``.
+SPECT data is input as CT/PET data regarding the variables ``options.SinM``, ``options.nRowsD``, ``options.nColsD``, ``options.nProjections``, ``options.FOVa_x``, ``options.FOVa_y``, ``options.axial_fov``, ``options.angles``, ``options.x``, ``options.z``, ``options.dPitchX``, and ``options.dPitchY``. However, if reconstructing the image from sinograms, the distance between detector surface and FOV center is required in ``options.radiusPerProj``. The crystal thickness is read from ``options.cr_p`` and the intrinsic resolution from ``options.iR``.
 
-Modern full-ring 360° SPECT imaging devices, such as the Veriton-CT or StarGuide, have one additional detector swivel angle. That swivel angle can be input to ``options.swivelAngles`` and the distance from detector surface to swivel centre of rotation to  ``options.CORtoDetectorSurface``. 
+Modern full-ring 360° SPECT imaging devices, such as the Veriton-CT or StarGuide, have one additional detector swivel angle. That swivel angle can be input to ``options.swivelAngles`` and the distance from detector surface to swivel center of rotation to  ``options.CORtoDetectorSurface``. 
 
-Any data
-^^^^^^^^
+Other data
+^^^^^^^^^^
 
 The number of voxels per dimension is defined with ``options.Nx``, ``options.Ny``, and ``options.Nz``. The image volume can be rotated in the measurement space by using ``options.offangle``. The behavior is slightly different depending on modality.
 With PET, this is the number of detector elements, for CT it is the angle in radians and for SPECT it is the angle in radians. The direction is counter-clockwise in PET and CT and clockwise in SPECT.
@@ -105,8 +105,8 @@ Verbosity
 ---------
 
 This largely applies only to built-in reconstruction, but the verbosity can be adjusted with ``options.verbose``, where 1 is the default value. This gives timing information for the whole reconstruction and shows when a sub-iteration and/or iteration
-has been computed. Verbosity of 0 gives no messages and will be largely silent reconstruction. Verbosity of 2 gives more accurate timing information, such as time taken per sub-iteration and iteration, the estimated time left and the total time 
-taken for the reconstruction process itself. Verbosity 3 increases the timing messages to be even more specific, but will also output some debugging messages. Verbosity of 1 or 2 is recommended.
+has been computed. Verbosity of 0 gives no messages and will make for a largely silent reconstruction. Verbosity of 2 gives more accurate timing information, such as time taken per sub-iteration and iteration, the estimated time left and the total time 
+taken for the reconstruction process itself. Verbosity 3 increases the timing messages to be even more specific but will also output some debugging messages. Verbosity of 1 or 2 is recommended.
 
 Adjustable parameters
 ---------------------

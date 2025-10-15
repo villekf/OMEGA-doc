@@ -16,15 +16,15 @@ The following parameters can and need to be set to use TOF data:
 
 ``options.TOF_bins`` this variable determines both the number of TOF bins and also whether TOF data is used at all. Setting it to 1 will disable the use of TOF data, however, it will not convert TOF data into non-TOF data (for that see options.TOF_bins_used below). This value needs to correspond to the number of TOF bins you have (or want to have when using GATE data).
 
-``options.TOF_width`` this is the width of each TOF time bin (in seconds). Currently each bin needs to have identical lengths.
+``options.TOF_width`` this is the width of each TOF time bin (in seconds). Currently, each bin needs to have identical lengths.
 
-``options.TOF_offset`` this value specifies possible offset in the TOF data (in seconds). What this means is that if your TOF bins are not centered in zero (center of FOV) you can specify the offset here. Offset is applied to Biograph mCT and Vision data obtained from the scanner.
+``options.TOF_offset`` this value specifies possible offset in the TOF data (in seconds). What this means is that if your TOF bins are not centered at zero (center of FOV) you can specify the offset here. Offset is applied to Biograph mCT and Vision data obtained from the scanner.
 
 ``options.TOF_noise_FWHM`` This parameter has two properties. The first one applies to any TOF data that is saved by OMEGA (GATE, Inveon/Biograph list-mode), the second only to GATE data. The first use of this parameter is in naming purposes as this value is included in the filename. If you use Biograph data it is recommended to set this to the actual time resolution of the scanner although it is not necessary. This variable is ignored if you manually load the measurement data. The second use of this variable is to add temporal noise to the GATE data with the specified full width at half maximum (FWHM, in seconds). For more information on creating GATE TOF data see the next section.
 
 ``options.TOF_FWHM`` the FWHM of the TOF time resolution used in image reconstruction (in seconds). This variable is used solely for image reconstruction purposes and as such can be different from the above options.TOF_noise_FWHM. This is the actual time resolution of the device that is used when computing the TOF weighted reconstruction.
 
-``options.TOF_bins_used`` the number of TOF bins used. Currently this value has to either be the same as options.TOF_bins or 1. In the latter case the TOF data set is converted (summed) into a non-TOF data set before the reconstruction. In the future this will allow TOF mashing.
+``options.TOF_bins_used`` the number of TOF bins used. Currently, this value has to either be the same as options.TOF_bins or 1. In the latter case the TOF data set is converted (summed) into a non-TOF data set before the reconstruction. In the future, this will allow TOF mashing.
 
 Enabling TOF
 ------------
@@ -33,15 +33,15 @@ TOF data can be enabled simply by adding more TOF bins than 1, i.e. ``options.TO
 
 TOF in GATE data can either be included directly in GATE by setting the `temporal resolution module <https://opengate.readthedocs.io/en/latest/digitizer_and_detector_modeling.html#time-resolution>`_ or by simply adding the preferred temporal noise in OMEGA. In the first case, you will only be able to use the one temporal resolution that you set in GATE, but in the latter case you will be able to choose any temporal resolution and use the same simulated data to create different TOF data sets each with different temporal resolution.
 
-If you are using TOF data with the temporal resolution module, you should set ``options.TOF_noise_FWHM = 0`` such that no additional noise is included. ``options.TOF_FWHM`` on the other should be the FWHM of the added temporal noise multiplied with sqrt(2).
+If you are using TOF data with the temporal resolution module, you should set ``options.TOF_noise_FWHM = 0`` such that no additional noise is included. ``options.TOF_FWHM`` on the other hand should be the FWHM of the added temporal noise multiplied with sqrt(2).
 
-When using GATE data, the actual temporal resolution will most likely differ from the one specified by ``options.TOF_noise_FWHM``. If you want to know the actual time resolution with the specified added noise you should run a simulation with a point source. Alternative, multiplying with sqrt(2) should be relatively accurate in most cases.
+When using GATE data, the actual temporal resolution will most likely differ from the one specified by ``options.TOF_noise_FWHM``. If you want to know the actual time resolution with the specified added noise, you should run a simulation with a point source. Alternatively, multiplying with sqrt(2) should be relatively accurate in most cases.
 
 Inputing custom TOF values
 --------------------------
 
 Instead of using the above, you can also enable TOF data by simply inputting ``options.TOF_bins`` and ``options.TOFCenter`` values. ``options.TOFCenter`` are the distances of each bin from the center in millimeters thus the number of elements 
-needs to be same as the number of bins. In addition to that, you need to input the standard deviation (in millimeters, usually derived from the FWHM) of the TOF data into ``options.sigma_x``.
+needs to be the same as the number of bins. In addition to that, you need to input the standard deviation (in millimeters, usually derived from the FWHM) of the TOF data into ``options.sigma_x``.
 
 Internally both values are computed (in MATLAB/Octave) as:
 

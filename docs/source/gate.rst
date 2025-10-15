@@ -8,21 +8,21 @@ GATE 9 and earlier PET data
 
 When using GATE data (ASCII or ROOT, Python supports only ROOT) the only requirements are that any of the options that you have selected are actually present and that volume IDs have been stored. For example, if you wish to obtain the original 
 source image, you need to select all the source coordinates in the coincidence mask, and trues require both event IDs as well as scatter numbers. It is also recommended to select the time stamp for the first single. More information on the necessary 
-variables in the coincidence mask below.
+variables in the coincidence mask is below.
 
 Data produced through clusters, e.g. files with name1.dat/root, name2.dat/root, etc. do not need to be combined. Neither is there any need to adjust the time slice, i.e. it can be the same as the total duration as time step/slices can be adjusted freely 
 as long as the time tag is included in the coincidence mask. Having a different time slice will cause all the data to be combined in the case of static reconstruction. ALL files present in the folder specified by ``options.fpath`` will be loaded and included. 
 Different simulations should thus be in different folders.
 
-OMEGA has been tested mainly with cylindricalPET system, but it does also work with CPET, ECAT and scanner (OPET is untested, but should also work). This, however, applies only to ASCII data and in the case of scanner, the number of levels should be five as 
+OMEGA has been tested mainly with cylindricalPET systems, but it does also work with CPET, ECAT, and scanner (OPET is untested, but should also work). This, however, applies only to ASCII data, and in the case of scanner, the number of levels should be five as 
 in cylindricalPET. ROOT data, currently, only supports cylindricalPET and, most likely, the similar OPET. CPET, on the other hand, cannot be used without modifications as it uses continuous detectors. The only way to reconstruct CPET data is to use it in 
-list-mode mode, see :doc:`customcoordinates` for details. This means that you need to extract the absorption coordinates (e.g. ``[coincidences, ~, ~, ~, ~, x, y, z] = load_data(options);``) and then input those coordinates to the options struct (e.g. ``options.x = x; options.y = y; options.z = z;``). 
+list-mode mode; see :doc:`customcoordinates` for details. This means that you need to extract the absorption coordinates (e.g. ``[coincidences, ~, ~, ~, ~, x, y, z] = load_data(options);``) and then input those coordinates to the options struct (e.g. ``options.x = x; options.y = y; options.z = z;``). 
 This will enable a list-mode reconstruction. The reconstructed results may, however, be more unreliable than with other PET systems. Corrections are not available on CPET systems.
 
-Coincidences are loaded from files including the string "Coincidences" (ASCII) or from tree named Coincidences (ROOT). Delays are loaded similarly ("delay" and delay tree).
+Coincidences are loaded from files including the string "Coincidences" (ASCII) or from a tree named Coincidences (ROOT). Delays are loaded similarly ("delay" and delay tree).
 
 If you wish to easily view the GATE data in matrix form, ASCII is the recommended format. If you wish to use ROOT format, you can control the data saved with the coincidence mask just as with ASCII or binary 
-(unsupported) data (undocumented in GATE), this also means that the coincidence mask of ASCII affects ROOT data as well.
+(unsupported) data (undocumented in GATE); this also means that the coincidence mask of ASCII affects ROOT data as well.
 
 Coincidence mask
 ^^^^^^^^^^^^^^^^
@@ -41,9 +41,9 @@ Trues and scatter require event IDs as well as the number of Compton and Rayleig
 Extracting GATE scatter, randoms and trues data from GATE 9 data
 ----------------------------------------------------------------
 
-OMEGA allows the import of GATE scatter, randoms and trues data into MATLAB, Octave or Python either in the raw data format, as a sinogram or as a "true" image depicting the number of counts emanating from each coordinate (this is converted into same pixel 
+OMEGA allows the import of GATE scatter, randoms and trues data into MATLAB, Octave or Python either in the raw data format, as a sinogram or as a "true" image depicting the number of counts emanating from each coordinate (this is converted into the same pixel 
 resolution as the reconstructed image). All three components (trues, scatter and randoms) are stored separately along with the actual coincidence (prompts) data. The import can be done either by using ``PET_main_gateExample.m``, ``PET_main_gateExampleSimple.m``, or any 
-scanner specific main-file. ``PET_main_gateExampleSimple.m`` supports only OSEM reconstruction. If you only need data import, ``PET_main_gateExampleSimple.m`` is recommended for better readability. Note that Python supports ROOT only! Similar examples exist for Python.
+scanner-specific main-file. ``PET_main_gateExampleSimple.m`` supports only OSEM reconstruction. If you only need data import, ``PET_main_gateExampleSimple.m`` is recommended for better readability. Note that Python supports ROOT only! Similar examples exist for Python.
 
 Randoms are supported in two formats (ASCII, and ROOT, ASCII only in MATLAB/Octave). ASCII and ROOT support Compton scattering in the detector and phantom, Rayleigh scattering in the phantom, and Rayleigh scattering in the detector. 
 You can select any one of these in the main-files (``options.scatter_components``). For example ``options.scatter_components = [1 1 0 0];`` in MATLAB and ``options.scatter_components = np.array([True, True, False, False])`` in Python, stores the Compton
@@ -51,10 +51,10 @@ interactions separately in the scatter component. Both detector and phantom are 
 
 .. note::
 
-	Using ROOT data, as mentioned in readme, will cause MATLAB R2018b and EARLIER to crash during GUI activity. This can be prevented by using MATLAB in the -nojvm mode (i.e. matlab -nojvm), which means without any GUIs. It is recommended to use this 
+	Using ROOT data, as mentioned in the readme, will cause MATLAB R2018b and EARLIER to crash during GUI activity. This can be prevented by using MATLAB in the -nojvm mode (i.e. matlab -nojvm), which means without any GUIs. It is recommended to use this 
 	only for data extraction (set options.only_sinos = true and run PET_main_gateExampleSimple.m or other main-file with GATE support). This issue is not present on Octave or MATLAB R2019a and up. Python is not affected.
 
-Extracting the trues, randoms and/or scatter has no effect on the actual coincidences (prompts). I.e. they will also be extracted same regardless if any of the trues, randoms or scatter is extracted.
+Extracting the trues, randoms and/or scatter has no effect on the actual coincidences (prompts); i.e. they will also be extracted the same regardless if any of the trues, randoms or scatter is extracted.
 
 All coincidences that are from different events (i.e. not from the same annihilation) will be considered as randoms. All coincidences that come from the same event but have scattered in at least one of the four possibilities are considered to be scatter. 
 For trues, it is possible to control which coincidences are considered trues. Randoms and Compton scattered events in the phantom are ALWAYS excluded from trues, but the other three are excluded ONLY if they are selected in ``options.scatter_components``. 
@@ -83,7 +83,7 @@ trues are stored. As with trues data, you can optionally choose to reconstruct t
 Randoms can be obtained by putting ``options.store_randoms = true``. The randoms obtained like this will not be used for randoms correction if it is selected. Both the actual randoms and delayed coincidences (if selected in GATE) can be extracted 
 at the same time and in separate variables.
 
-The "true"(ground truth) image can also be optionally stored by setting ``options.source = true``. This will create a separate mat-file named machine_name 'Ideal_image_coordinates' name '_ASCII.mat', where machine_name is the name of the 
+The "true" (ground truth) image can also be optionally stored by setting ``options.source = true``. This will create a separate mat-file named machine_name 'Ideal_image_coordinates' name '_ASCII.mat', where machine_name is the name of the 
 scanner you’ve specified and name the name of the examination you’ve specified. The last elements of C contains the trues (e.g. ``C{end}``), RA contains randoms and SC scatter. Randoms and scatter are stored as singles in the true images.
 
 Only ONE of the below output data can be used at a time.
@@ -118,7 +118,7 @@ You need to run ``install_mex`` or ``compile.py`` before ROOT support is availab
 Loading and saving data
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Sinograms are automatically created during data load regardless of the type of data used. Raw data is stored if options.store_raw_data = true. These are also automatically saved into a mat-file in the current working directory. If you are using TOF 
+Sinograms are automatically created during data load regardless of the type of data used. Raw data is stored if ``options.store_raw_data = true``. These are also automatically saved into a mat-file in the current working directory. If you are using TOF 
 data, all the trues, scatter and randoms sinograms will be TOF as well.
 
 
@@ -128,9 +128,9 @@ Reconstruction
 If you wish to reconstruct any data, run the next section (Reconstructions). The selected data (trues, scatter, coincidences [default]) will be automatically selected.
 
 If you want to reconstruct e.g. trues (without any scattered coincidences) + Compton scatter in phantom, you should load the saved sinogram/raw data and sum the trues and Compton scatter together (i.e. if ``options.scatter_components = [1 0 0 0]`` then 
-``SinScatter`` contains only the Compton scatter in phantom and you can perform them reconstructions with the following code ``options.SinM = SinTrues + SinScatter``). If ``options.SinM`` already exists, it will not be loaded from the saved mat-files. That way you 
+``SinScatter`` contains only the Compton scatter in phantom and you can perform the reconstructions with the following code ``options.SinM = SinTrues + SinScatter``). If ``options.SinM`` already exists, it will not be loaded from the saved mat-files. That way you 
 can input any data combinations, but unless you want exclusively trues or scatter, they need to be performed manually now. Note that in this example case you need to obtain 
-the scatter data and trues data separately since the trues will include the other scattered components if the scatter components is ``options.scatter_components = [1 0 0 0]``, i.e. trues should be obtained with ``options.scatter_components = [1 1 1 1]``.
+the scatter data and trues data separately since the trues will include the other scattered components if the scatter components are ``options.scatter_components = [1 0 0 0]``, i.e. trues should be obtained with ``options.scatter_components = [1 1 1 1]``.
 
 Currently the user also has to individually extract each scatter component (i.e. you can't extract Compton scatter in phantom or in detector simultaneously in separate variables/data files, but rather need to extract each component on its own and rename 
 the output data accordingly).
