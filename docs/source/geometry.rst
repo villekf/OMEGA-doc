@@ -122,6 +122,22 @@ pixel. If there is variation in the shifts, that cannot be taken into account at
 projection. There can be a difference in the row and/or column directions though.
 
 Use parallel beam setup by setting ``options.useParallelBeam`` to true.
+
+Helical CT data
+^^^^^^^^^^^^^^^
+
+Helical CT is supported for curved cylindrical scanners. Spherical scanners are not supported at the moment, but they can be easily supported if necessary.
+For helical CT data, the format is almost identical to cone beam case. The axial coordinates simply move with helical data, but the transaxial and axial
+coordinates are input the same as with cone beam data. α and β are not supported with helical CT. For helical CT data, the rotation angles θ have to be 
+given. Flying focal spot can be freely used as long as it is taken into account in the source coordinates.
+
+For helical data, you might need to increase the number of subsets to get everything working, especially if you are using AMD or Intel hardware. 
+
+Use helical setup by setting ``options.useHelical`` to true.
+
+.. note::
+
+	Current support for curved detector helical CT is still preliminary and is suboptimal.
    
    
 Other data

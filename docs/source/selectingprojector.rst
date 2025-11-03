@@ -47,7 +47,8 @@ All optimal CT projectors are OpenCL/CUDA only! This means that only implementat
 For CT data, the most optimal choice is generally the branchless distance-driven (BDD) projector, i.e. projector_type = 5. However, this method is slow and can be practically useless in certain cases (depending on the scanner geometry). 
 It has reduced usefulness when using regularization. BDD is the branchless version of the distance-driven projector. In general, the DD methods compute the area of the intersection. For forward projection, we project rays from the 
 source to the four corners of a detector pixel. The area inside these four points in the image volume is then computed for each slice. Backprojection works similarly, but we project the lines to the corners of each voxel and then 
-compute the area on the detector. In general, backprojection tends to have a greater beneficial effect compared to the other projectors than forward projection. See below for hybrid projectors.
+compute the area on the detector. In general, backprojection tends to have a greater beneficial effect compared to the other projectors than forward projection. See below for hybrid projectors. Note that BDD is not yet supported with
+helical CT data with a curved panel.
 
 Projector type 4 is a method that should work well in most cases. It is a ray-based interpolation-based projector in the forward projection and a voxel-based projector in the backprojection. The forward projection is identical to the
 PET version, i.e. it linearly interpolates values after a pre-determined step size. This step size can be adjusted with ``options.dL`` and is the relative size of one voxel. I.e. ``options.dL = 1``
