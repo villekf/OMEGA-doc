@@ -117,20 +117,25 @@ This is mainly for CT, but might work with other modalities as well. Out-of-FOV 
    Left: No correction. Right: Projection extrapolation and extended FOV with multi-resolution.
    
 This correction is a bit more complicated than the others as there isn't a single option to turn on. There are two main options: projection extrapolation and extended FOV. For projection extrapolation, the projection images
-can be extrapolated in the transaxial and/or axial directions, essentially top/bottom and left/right. The default extrapolation length is 20% (0.2) of the original size per direction, but this can be optionally adjusted with ``options.extrapLength``.
-The extrapolation is a simple next/previous extrapolation, i.e. depending on the side, either the previous or next value is used. The extrapolated data can also be optionally scaled logarithmically so that the very edge is air and the values scale
+can be extrapolated in the transaxial and/or axial directions, essentially top/bottom and left/right. The default extrapolation length is 25% (0.25) of the original size per direction (so a total of 1.5 increase in size), but this can be optionally adjusted with 
+``options.extrapLength``. This is, however, a global adjustment so it adjust both the transaxial and axial directions. You can specify a more specific extrapolation lengths with ``options.extrapLengthTransaxial`` and ``options.extrapLengthAxial``. 
+If you specify one, but not the other, and you have chosen both extrapolation directions, then the default value of 0.25 is used.
+The extrapolation is a simple next/previous extrapolation, i.e. depending on the side, either the previous or next value is used (i.e. the border value is reused). The extrapolated data can also be optionally scaled logarithmically so that the very edge is air and the values scale
 towards this air value from the original value taken from the edge of the original projection. Note that this step involves linearization of the data and then transforming it back into Poisson-based count data, which can cause some numerical inaccuracy 
 in the extrapolated regions. Currently, this weighting is off by default, but you can enable it by setting ``options.useExtrapolationWeighting`` to true before the ``CTEFOVCorrection`` function is called. The original data is not affected by this. 
 You can separately select the transaxial and axial extrapolations with ``options.transaxialExtrapolation`` and ``options.axialExtrapolation``, respectively. The extrapolation itself is enabled with 
 ``options.useExtrapolation``.
 
 In addition to, or alternatively, you can use extended FOV. This simply extends the FOV, but has some additional advantages over doing this manually. First, the image is automatically cropped to the original size, second, 
-regularization is generally only applied to the main FOV and third, you can select multi-resolution reconstruction. As with extrapolation, the extended FOV can be applied only to the transaxial direction (XY) and/or the axial direction (Z) with 
+regularization is generally only applied to the main FOV and third, you can select multi-resolution reconstruction. As with extrapolation, the extended FOV can be applied to the transaxial direction (XY) and/or the axial direction (Z) with 
 ``options.transaxialEFOV`` and ``options.axialEFOV``, respectively. You can enable extended FOV with ``options.useEFOV``. Normally, the extended FOV uses the same voxel size, but you can use increased voxel size with the multi-resolution
 reconstruction, enabled with ``options.useMultiResolutionVolumes``. The extended volume is divided into separate volumes, where the amount depends on whether transaxial and/or axial directions are included. If both are included, there
 will be 6 multi-resolution volumes plus the main volume. The multi-resolution volumes can have a larger voxel size than the main volume. This can be controlled with ``options.multiResolutionScale``, where the default value of 1/4 means
-that the original size is divided by this value, i.e. the resolution is 1/4 of the original and the voxel size four times larger. The default extended FOV extension length is 40% (0.4) of the original size per side. With 1/4 scale, this is
-essentially reduced to a 10% increase in voxel count. You can adjust this manually with ``options.eFOVLength``. With multi-resolution volumes, the mask image and regularization are only used for the main volume!
+that the original size is divided by this value, i.e. the resolution is 1/4 of the original and the voxel size four times larger. The default extended FOV extension length is 40% (0.4) in transaxial direction of the original size per side (for a total of 1.8 times the original FOV). 
+For axial direction, by default the code tries to compute the optimal axial extension such that the X-ray cone is just within the volume (this also includes extrapolation if selected) but this requires that ``sourceToDetector`` and 
+``sourceToCRot`` variables are present in the input class object (``options``). If these are not present, a default value of 30% (0.3) is used.
+With 1/4 scale, this is essentially reduced to a 10% increase (transaxial) in voxel count. You can adjust this globally with ``options.eFOVLength`` or specifically with ``options.eFOVLengthTransaxial`` and ``options.eFOVLengthAxial``. 
+Note that if ``options.eFOVLengthAxial`` is manually set, it is ALWAYS used. With multi-resolution volumes, the mask image and regularization are only used for the main volume!
 
 See https://doi.org/10.1088/1361-6560/aa52b8 for details on the multi-resolution method. Note that the OMEGA implementation does not match the paper.
 
@@ -139,7 +144,7 @@ See https://dx.doi.org/10.1118/1.1776673 for another example of projection extra
 Multi-resolution
 ^^^^^^^^^^^^^^^^
 
-It is possible to use multi-resolution reconstruction without any extended FOV. However, this requires you to use a smaller "effective" FOV and then extend the FOV to the original size using ``options.eFOVLength``. 
+It is possible to use multi-resolution reconstruction without any extended FOV. However, this requires you to use a smaller "effective" FOV and then extend the FOV to the original size using ``options.eFOVLength`` (or specific values for transaxial and axial). 
 Note that by default the image volume is always cropped to the "effective" FOV. To save the multi-resolution volumes, you need to set ``CELL`` to true in:
 https://github.com/villekf/OMEGA/blob/master/source/cpp/structs.h#L10 and recompile the files. This outputs a cell matrix in MATLAB/Octave. The first element is the main volume. For Python, you also need to set ``options.storeMultiResolution = True`` before
 reconstruction in addition to the above. The image is then output as a vector that contains all the volumes in one vector. You need to manually separate them.
