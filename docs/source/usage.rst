@@ -78,7 +78,7 @@ In all cases, regardless of the source-detector geometry, the following variable
 ``options.dPitchY`` in the column direction. ``options.sourceToDetector`` is the source-to-detector distance. ``options.sourceToCRot`` is the source-to-center-of-rotation distance.
 
 The transaxial FOV is defined by ``options.FOVa_x`` for the vertical/row size and ``options.FOVa_y`` for the horizontal/column. ``options.FOVa_y`` can be omitted, but ``options.FOVa_x`` has to be input! Axial FOV is defined with ``options.axial_fov`` 
-and has to be input, even if you have only one column/row!
+and has to be input, even if you have only one slice (2D case)!
 
 To input the source-detector geometry, there are multiple ways to achieve that. One is to let OMEGA handle as much as possible. If the source and detector are not shifted at all, then only the projection angles are needed: ``options.angles`` in either
 degrees or radians. You can move the source in the row direction with ``options.sourceOffsetRow`` and in the column direction with ``options.sourceOffsetCol``. For the detector, the same is possible with ``options.detOffsetRow`` and
@@ -138,6 +138,8 @@ PET scanner variables
 CT scanner variables
 ^^^^^^^^^^^^^^^^^^^^
 | ``options.CT = false;``, if true computes the exact intersection length instead of probability. Also, when using built-in algorithms, uses the transmission tomography equivalents.
+| ``options.useHelical = false;``, if true assumes the data to be curved detector helical CT. Default is false (i.e. flat panel). Note that if you have flat panel with helical movement, you only need to specify the z-coordinates of the source/detector, leave this one as false.
+| ``options.useParallelBeam = false;``, if true assumes parallel beam CT. Currently slow and not 100% accurate.
 | ``options.dPitchX = 0;``, detector pitch (size, mm) in row dimension.
 | ``options.dPitchY = 0;``, detector pitch (size, mm) in column dimension. If you omit this, ``dPitchX`` will be used for column direction as well.
 | ``options.sourceOffsetRow = 0;``, the row offset (in mm) of the source location. Either a vector for all projections or a scalar.
@@ -145,7 +147,7 @@ CT scanner variables
 | ``options.detOffsetRow = [];``, same as above, but for detector.
 | ``options.detOffsetCol = [];``, you know the drill.
 | ``options.pitchRoll = [];``, the pitch/yaw/roll values of the detector panel. See :doc:`geometry`.
-| ``options.sourceToCRot = 0;``, source to center-of-rotation-distance (mm).
+| ``options.sourceToCRot = 1;``, source to center-of-rotation-distance (mm).
 | ``options.sourceToDetector = 1;``, source to detector distance (mm).
 | ``options.nProjections = 1;``, total number of projections.
 | ``options.binning = 1;``, binning value for CT projections when loading data. Only used when loading data with the built-in functions! If > 1, then the data is binned.
@@ -153,6 +155,7 @@ CT scanner variables
 | ``options.nColsD = 1``, the number of detector pixels in the column direction. If using extrapolation, this becomes the extrapolated number.
 | ``options.nRowsDOrig``, if using extrapolation, this is the original number of pixels.
 | ``options.nColsDOrig``, if using extrapolation, this is the original number of pixels.
+| ``options.helicalRadius = 0``, the radius of the circle created by the circular helical detector panel. Essentially the distance from the detector to the focal spot.
 
 SPECT scanner variables
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -278,9 +281,13 @@ Correction settings
 | ``options.global_correction_factor = [];`` a global constant that is applied to all forward/backward projection computations.
 | ``options.corrections_during_reconstruction = true;``, if true, all corrections are applied during reconstruction. If false, randoms, scatter, and/or normalization correction is/are done as a precorrection. Attenuation correction is always applied during the reconstruction.
 | ``options.useEFOV = false;``, use extended FOV.
-| ``options.eFOVLength = 0.4;``, the extended FOV size, per side. I.e. the total size is increased by 80% with this value.
+| ``options.eFOVLength = 0.4;``, the extended FOV size, per side. I.e. the total size is increased by 80% with this value. This is a global value that affects both the transaxial and axial sides. For more specific adjustment, see below.
+| ``options.eFOVLengthTransaxial = 0.4;`` the extension length for the transaxial side ONLY.
+| ``options.eFOVLengthAxial = 0.3;`` the extension length for the axial side ONLY. Note that by default, the optimal extension is actually computed based on the source to detector and source to center of rotation distances, in addition to the panel size, such that the X-ray cone just fits inside the volume. If the source to ... distances are not input, the 0.3 value is used.
 | ``options.useExtrapolation = false;``, use projection extrapolation if true.
-| ``options.extrapLength = 0.2;``, the extrapolated projection amount per side. I.e. the total size is increased by 40% with this value.
+| ``options.extrapLength = 0.25;``, the extrapolated projection amount per side. I.e. the total size is increased by 50% with this value. This is a global value that affects both the transaxial and axial sides. For more specific adjustment, see below.
+| ``options.extrapLengthTransaxial = 0.25;``, the extrapolation length for the transaxial side ONLY.
+| ``options.extrapLengthAxial = 0.25;``, the extrapolation length for the axial side ONLY.
 | ``options.useExtrapolationWeighting = false;``, if true, uses a log-based weighting on the extrapolated projection parts. This means that the values will "fade" into air values using logarithmic weighting. Can be useful if the regions in the projections should not continue for the whole extrapolated length.
 | ``options.useInpaint = false;``, if true, uses the MATLAB file exchange function ``inpaint_nans`` to perform the extrapolation of the projections. Not recommended. Requires ``inpaint_nans``. MATLAB only!
 | ``options.useMultiResolutionVolumes = false;``, use multi-resolution reconstruction. Replaces the extended FOV region with a region with different voxel size. See below for the parameter to adjust.

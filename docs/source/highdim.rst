@@ -23,3 +23,8 @@ Unlike above, which supports any reconstruction algorithm, this method only supp
 This feature is enabled by setting ``options.largeDim`` to true. The setting of ``loadTOF`` is irrelevant if ``largeDim`` is true. For regularization, only non-local methods, RDP, GGMRF, gradient-based TV, and hyperbolic prior are supported. Diagonal and EM image-based 
 preconditioners are supported as well as filtering-based measurement-based preconditioner. With a sufficient number of subsets, any type of data can be reconstructed with any type of GPU. However, the input measurement data and output reconstruction have to
 fit to the computer RAM. For PDHG, the intermediate variables, such as the dual estimate, need to fit, too. 
+
+.. note::
+
+	High-dimensional support is only for projectors 1, 4 and 14, though you should never use 1 for CT data. Power method also works slightly differently with ``largeDim`` when using extended FOV. The forward projections of only the extended regions are summed together, while
+	normally the main volume is included as well. This should still work, but the primal values might differ from the non-large dimensional case in the extended region (main volume is unaffected).
