@@ -69,11 +69,21 @@ SPECT data
 ----------
 
 For SPECT, currently only projector types 1, 2, and 6 are supported. Projector type 1 is a ray-based projector algorithmically identical to the PET version, i.e. the exact intersection length between a voxel and the ray is computed and 
-converted to probability. The pattern of the rays traced is similar for all detector pixels and can be selected either arbitrarily or from a cone determined by the collimator geometry. This serves as an approximation for the collimator 
-cone of response in the case that the collimator holes do not align with the detector pixels. However, practical tests have shown that this approximation has a minimal effect on image quality. Projector type 6, on the other hand, is a 
-rotation-based projector where the image is rotated and then reconstructed as a parallel beam case with a point spread function.
+converted to probability. This projector can use either one or more rays. However, at the moment the number of rays has to be such that the square root of the total number of rays is an integer. This means that ``options.nRays = 9`` is accepted, but ``options.nRays = 7`` is not. 
+The pattern of the rays traced is similar for all detector pixels and can be selected either arbitrarily or from a cone determined by the collimator geometry. This serves as an approximation for the collimator 
+cone of response in the case that the collimator holes do not align with the detector pixels. However, practical tests have shown that this approximation has a minimal effect on image quality. If the number of rays is 1, no collimator correction is
+applied.
+
+Projector type 6, on the other hand, is a rotation-based (rotate-and-sum) projector where the image is rotated and then reconstructed as a parallel beam case with a point spread function. This works with any "traditional" SPECT scanner with rotating panels.
+This projector always applies the resolution recovery/collimator response function to the reconstruction. The intrinsic resolution of the scanner is required for this projector.
+
+Alternatively, projector type 2 is an orthogonal distance-based projector. The basic principle is the same as in the PET version and in projector type 1: each ray is traced from the "source" to the detector. This projector, however, also "spreads" the ray along the
+cone of the SPECT collimator. This means that at each distance from the point to the collimator, the length of this spread is computed and the voxel weighted accordingly. This means that the spread is larger the further we are from the collimator and more voxels
+are taken into account. The weighting is applied as a Gaussian weighting, where the standard deviation is determined by the cone (collimator).
 
 The Siddon ray tracing projector is usable for any parallel hole or pinhole collimator. Any other type of collimator such as converging or diverging hole requires additional detector coordinate and/or sinogram manipulation. Orthogonal distance ray tracer and the rotate-and-sum projector support only parallel-hole collimators.
+
+If you use traditional SPECT scanners with rotating flat-panels, projector type 6 is both high-quality and very fast. If you want to reconstruct data without collimator effect, use projector type 1 with one ray. Otherwise, use projector type 2.
 
 Other data
 ----------
