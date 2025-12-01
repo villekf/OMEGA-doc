@@ -798,6 +798,7 @@ Preconditioners
 ===============
 
 The use of preconditioners is slightly easier in Python than in MATLAB/Octave. This is because in MATLAB/Octave you need to input the whole vector that specifies the selected preconditioners, in Python you only need to set the desired one to ``True``.
+All preconditioners are off by default.
 
 .. note::
 
@@ -866,7 +867,10 @@ In MATLAB/Octave, ``options.precondTypeImage = [false;false;false;false;true;fal
 Filtering-based preconditioner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD.
+This preconditioner is not particularly recommended. If possible, the measurement-based filtering preconditioner should be used instead. The behavior is very similar to that of the measurement-based one (see below), but
+the filtering is instead applied to the backprojection. This, however, tends to make the reconstruction quite unstable and usually filters the image too much. Currently, there is no particular way to adjust the filtering
+amount except to try other windows. For this, the Gaussian window (``options.filterWindow = 'gaussian'``) is probably the best as you can adjust the strength of the filtering with ``options.normalFilterSigma``. The cut-off
+frequency can be adjusted, if necessary, with ``options.cutoffFrequency``. Available windows are: hamming, hann, blackman, nuttal, parzen, cosine, gaussian, shepp-logan and none.
 
 In MATLAB/Octave, ``options.precondTypeImage = [false;false;false;false;false;true;false];`` enables this preconditioner. For Python, you can simply use ``options.precondTypeImage[5] = True``. 
 
@@ -898,6 +902,16 @@ In MATLAB/Octave, ``options.precondTypeMeas = [true;false];`` enables this preco
 Filtering-based preconditioner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD.
+Based on: https://doi.org/10.1007/s10851-025-01276-4
 
-In MATLAB/Octave, ``options.precondTypeMeas = [false;true];`` enables this preconditioner. For Python, you can simply use ``options.precondTypeMeas[1] = True``. 
+This preconditioner applies a high-pass filtering to the forward projection. The behavior can be slightly different depending on the algorithm. For example, PDHG, and its variants, use a special reconstruction method when this preconditioner
+is selected. The convergence of PDHG, and its variants, are also guaranteed with this preconditioner. This should also work fine with FISTA, but other algorithms may or may not work optimally. Since this preconditioner emphasizes high-frequency
+regions, it can also emphasize noise faster than contrast. Due to this, it can be beneficial to use this filtering in N initial iterations and then turn it off. This is possible by modifying ``options.filteringIterations``. Note that this
+includes subiterations (subsets) as well so if you want to turn off the filtering after 2 iterations and you have in total 5 iterations with 20 subsets, then you should set ``options.filteringIterations = 40``. You can also turn off the filtering 
+in the middle of subiterations. The functionality of this preconditioner is very similar to that of the filtered backprojection or FDK, but it is instead applies as a preconditioner. By default, the preconditioner uses Hamming windowing, but other
+types of windows are also available: hamming, hann, blackman, nuttal, parzen, cosine, gaussian, shepp-logan and none (e.g. ``options.filterWindow = 'hann'``). The cut-off
+frequency can be adjusted, if necessary, with ``options.cutoffFrequency``.
+
+In CT, it is highly recommended to include this preconditioner as it significantly speeds up the reconstructions. It also works for other modalities, though TOF-PET data might not see any benefit.
+
+In MATLAB/Octave, ``options.precondTypeMeas = [false;true];`` enables this preconditioner (while turning off the diagonal preconditioner). For Python, you can simply use ``options.precondTypeMeas[1] = True``. 
