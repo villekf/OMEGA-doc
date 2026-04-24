@@ -1,7 +1,7 @@
 Features
 ========
 
-(Almost) Full list of features for OMEGA v2.1.
+(Almost) Full list of features for OMEGA v2.2.
 
 .. note::
 
@@ -18,12 +18,13 @@ Any data
  * Has been tested with GPUs from all three (AMD in Windows, Intel in Linux, Nvidia in Linux)
  * Possibly also works with mobile device GPUs such as Qualcomm
 * Supports any data that uses ray-tracing
- * Only the source and detector coordinates need to be input
+ * Only the source and detector coordinates need to be input (and the measurements)
  * Source and/or detector can be inside the FOV
 * In addition to supporting coordinates for each measurement, supports also index-based reconstruction
  * Separate 16-bit index-vectors can be input for transaxial and axial dimensions
  * Each index corresponds to a coordinate in separate coordinate vectors (transaxial and axial)
  * Useful for symmetric systems where same coordinates (transaxial and/or axial) are repeated, such as cylindrical or "cubic" PET.
+ * Can be dynamic time-varying data.
 * Supported projectors include:
  * Improved Siddon's ray tracer
   * Also multi-ray version available
@@ -44,7 +45,8 @@ Any data
  * Several different non-local variations such as NLTV and NLRDP
  * TV, NL-methods and APLS support anatomic/prior image weighting
 * Supports time-varying dynamic data
- * Reconstruct dynamic data with static algorithms
+ * Reconstruct dynamic data
+ * Temporal smoothness prior and temporal TV regularization available
 * Point spread function blurring
  * Optional deblurring available
 * Save the last iteration or specific iterations
@@ -81,11 +83,10 @@ Any data
  * Extended FOV can have reduced resolution
  * Resolution can be manually set
  * Can be set only for axial, only for transaxial or for both directions
- * Should work with all non-SPECT data (tested with CT data only)
+ * Should work with all data
 * Allows the use of extended FOV without multi-resolution as well
  * Priors/regularization computed only in the main volume
  * Automatic cropping of the image
-* Dynamic reconstruction with static algorithms
 * Supports randoms/scatter smoothing
 * Supports pre-correcting the sinogram
 
@@ -98,11 +99,12 @@ PET features
   * Rayleigh or Compton scatter in the detector and/or phantom can be separately selected
  * Form and reconstruct dynamic sinograms
  * Obtain a ground truth image from the GATE ROOT data
-* Reconstruct GATE 10 simulations in the same Python script
+* Reconstruct GATE 10 simulations in the same Python script or offline
 * Load Inveon PET list-mode data 
 * Automatically convert any of the above PET data into sinograms
 * Supports orthogonal distance-based ray tracer
 * All projectors automatically use probabilities rather than the length of the line of intersection
+ * Probability can be determined either from the full length of the ray (detector to detector distance) or the distance in the FOV
 * Automatically compute detector/source coordinates for cylindrical PET data (both GATE and non-GATE data)
 * Several other subset selection methods
  * Use every Nth column sinogram bin
@@ -144,6 +146,7 @@ CT features
 * Supports projection image extrapolation
  * Automatically extrapolate and weight projections to fix out-of-FOV artifacts
  * Optional log-based weighting
+* Supports Parker weighting with FDK
 * Supports offset correction
  * Offset weights can be automatically computed
  * Each projection has their own weight
@@ -173,6 +176,7 @@ SPECT features
 * Supports attenuation correction during reconstruction, either image-based or sinogram-based
 * Supports normalization correction during reconstruction
 * Supports easy inclusion of GATE attenuation maps as the attenuation correction images
+* Supports parallel hole and pinhole collimators
 
 MATLAB/GNU Octave only
 ----------------------

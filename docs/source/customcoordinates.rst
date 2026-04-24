@@ -33,8 +33,8 @@ thus 0 in trIndex would point to 1.5 in x, 2 to 1, and so on. Note that the orde
 ordering and thus in Python you should use Fortran-ordered arrays or simply vectors. ``Inveon_PET_main_listmode_example`` contains a list-mode example of index-based reconstruction, but it is suitable for other types of data
 as well. Since index-based reconstruction has both the index vectors and coordinate vectors, it is suitable only when the coordinate vectors are small. The index vectors are 16-bit unsigned integers and thus can have a value of
 65535 at most, but use less memory than the pure coordinate-based reconstruction showcased below. Note that ``options.trIndex`` and ``options.axIndex`` should have twice the number of elements than in ``options.SinM``, due to the 
-pair nature of indices. In general, the indices are used to point to specific coordinates in each measurement. The order of the measurements and indices has to be the same! For example, the above indices 0 and 2 should refer to the 
-coordinates of the first measurement, 0 and 3 to the second measurement, and so on. 
+pair nature of indices (store measurement data into ``options.SinM``). In general, the indices are used to point to specific coordinates in each measurement. The order of the measurements and indices has to be the same! For example, the above indices 0 and 2 should refer to the 
+coordinates of the first measurement in ``options.SinM``, 0 and 3 to the second measurement, and so on. 
 
 Here is also the same text as in the list-mode example: If true, requires ``options.trIndex`` and ``options.axIndex`` variables. These should include the transaxial and axial detector
 coordinate indices. Two indices are required per measurement, i.e. source-detector or detector-detector pairs. The indexing has to be zero-based! The transaxial coordinates should be stored in ``options.x`` and
@@ -76,3 +76,9 @@ in the PET examples to automatically create the ``TOFCenter`` variable. If you i
 of measurements, and the order must be the same! This means that the first TOF index should correspond to the first measurement, the second to the second measurement, etc.
 
 For more information on TOF data, see :doc:`tof`.
+
+Corrections
+-----------
+
+List-mode reconstruction fully supports attenuation correction. Normalization correction is possible, but needs to be input manually input into ``options.normalization``. Each element corresponds to one element in ``options.SinM``, i.e. the measurements. 
+So one normalization coefficient per measurement. As noted above, randoms should be input as negative measurements (make sure the measurements are in single precision/32-bit floats in such a case). 

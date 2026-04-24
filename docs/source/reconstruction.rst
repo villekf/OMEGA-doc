@@ -26,7 +26,8 @@ Alternatively, the user can manually compute any and all algorithms and simply c
 In such cases, the user is responsible for the number of iterations and any and all algorithm-specific settings. The name of the operator itself can be anything, but here either ``options`` or ``A`` is assumed. 
 Note that by default emission tomography is assumed! You can switch to CT-style (intersection length, not probability) with ``options.CT`` as true. This should be applied even if you don't use CT data, but are not using emission
 tomography either. Note that when using subsets handled by OMEGA with the forward and/or backward projection operators, you need to manually make sure that the data is ordered into the subsets correctly. OMEGA can provide the indices, but the user has
-to perform the actual sorting operation using the indices. The examples include several subset cases. Note that when using subsets, you need to input the current subset number with ``A.subset = currentSubset`` before you compute the forward and/or backward 
+to perform the actual sorting operation using the indices. Note that measurement data is handled (largely) automatically, as long as it's input into ``A.SinM`` before the class object is created (see below for details on the class object creation). 
+The examples include several subset cases. Note that when using subsets, you need to input the current subset number with ``A.subset = currentSubset`` before you compute the forward and/or backward 
 projection, with zero-based numbering in Python and one-based in MATLAB/Octave. Below is an example of subset use in Python:
 
 .. code-block:: python

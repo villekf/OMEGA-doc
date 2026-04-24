@@ -79,7 +79,7 @@ scale the image beforehand.
 
 .. note::
 
-	The units in OMEGA are in millimeters! Make sure the attenuation image is scaled to mm. This feature works the same whether you use the built-in algorithms or compute custom algorithms with the projector operators.
+	The units in OMEGA are in millimeters! Attenuation correction works with centimeters, too, if you put ``options.attIncm`` to true before reconstruction. This feature works the same whether you use the built-in algorithms or compute custom algorithms with the projector operators.
 
 Normalization correction
 ------------------------

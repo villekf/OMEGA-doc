@@ -126,12 +126,17 @@ When in doubt, use PDHG, possibly with a measurement-based filtering preconditio
 FDK/FBP
 ^^^^^^^
 
-Full name: Feldkamp-Davis-Kress algorithm
+Full name: Feldkamp-Davis-Kress/Filtered backprojection algorithm
 
 Enable with ``options.FDK``.
 
 Simple filtered backprojection. Scaling is currently incorrect for PET and SPECT data (CT should be fine) and as such the numerical values are not comparable to iterative methods. However, the image itself looks fine. GPU-based algorithm only. Useful for testing purposes, as
 it is a very fast method. Also useful for very high-dimensional µCT data.
+
+For FDK reconstructions, you can optionally enable Parker weighting. By default this is off in all cases at the moment, but you can enable it by setting ``options.useParkerWeights`` to true. This method also allows additional tuning with the "q" parameter present in the original article 
+(see below). This is defined by ``options.ParkerWeight`` and is 0.25 by default. Using 1 enables the "original" Parker weights. Parker weighting can potentially improve the HU-value accuracy and improve image quality.
+
+| Parker weights based on: https://doi.org/10.1118/1.1450132
 
 
 MLEM/OSEM
@@ -144,7 +149,7 @@ Enable with ``options.OSEM``.
 While only OSEM is selectable, MLEM is enabled if no subsets are used (=``options.subsets = 1``). This method can be used for PET, SPECT or CT data, or any other Poisson-based data. Note that CT uses its own transmission tomography based formula, while
 PET and SPECT use the linear model. Useful algorithm for PET and SPECT, but not particularly recommended for CT. Use OSL_OSEM for the regularized version (see below).
 
-| Emission tomography (ET) MLEM based on:  https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
+| Emission tomography (ET) MLEM based on: https://doi.org/10.1111/j.2517-6161.1977.tb01600.x
 | ET OSEM: https://doi.org/10.1109/42.363108
 
 RAMLA

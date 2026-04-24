@@ -63,6 +63,8 @@ Older raw ASCII data obtained from the GATE simulation (not normalization) can b
 Example preclinical Inveon data is available at: https://doi.org/10.5281/zenodo.3528056 or https://doi.org/10.5281/zenodo.4646897. The ``PET_main_genericExample.m/py`` or ``Inveon_PET_main_listmode_example`` 
 files can be used automatically for this data.
 
+An example for dynamic reconstruction is shown in ``PET_dynamic_reconstruction_example.m/py``. You can select sinogram, index-based, or coordinate-based reconstruction. Both spatial and temporal regularization are on by default.
+
 CT data
 -------
 
@@ -90,6 +92,8 @@ features are limited though as only FDK, PKMA, and PDHG algorithms work. Regular
 For custom algorithms, see ``CT_main_generic_custom_algorithms_example`` or ``Planmeca_CT_main_generic_custom_algorithms``.
 
 Note that in helical CT cases the curvature of the panel is NOT taken into account at the moment.
+
+For an example of FDK reconstruction, see ``CBCT_exampleFig4FDK.m/py`` in the article folder: https://github.com/villekf/OMEGA/tree/master/article
 
 SPECT data
 ----------
