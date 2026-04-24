@@ -6,8 +6,8 @@ project = 'OMEGA'
 copyright = '2024'
 author = 'V-V Wettenhovi'
 
-release = '2.1'
-version = '2.1.0'
+release = '2.2'
+version = '2.2.0'
 
 # -- General configuration
 
